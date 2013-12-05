@@ -1,0 +1,12 @@
+#nodes: 20( singletons: 0)
+#edges: 17
+Good PCR: 8
+Breakpoints: 4
+Nulli: 0
+#scaffolds: 8(singletons= 4)
+Total length: 1460
+Total weight: 1550.0
+0-1-4-7or9-10-@360
+2-3-@200
+19-18-13-14-15-16-20-@700
+21-22-@200

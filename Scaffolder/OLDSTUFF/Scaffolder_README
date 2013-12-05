@@ -1,0 +1,23 @@
+Opzioni di Scaffolder.jar
+
+
+-st <gexfName><sigma><omega><deduplicate>*<infoFileName>* (si aspetta di essere seguita da -output)
+Legge un grafo in formato gexf.
+Setta il peso degli archi leggendo weight se c'e'(contorlla!) oppure calcolando sigma*synteny+omega*homology.
+se deduplicate e' 1 deduplica gli archi rinominandoli _i
+se orderFileName non e' nullo legge da tale file l'ordine dei contigui e la lunghezza e li salva rispettivamente nella label
+e nel campo contigLength del nodo.
+ Nota: se tale informazione non e' stata settata la lunghezza del contiguo e' 1.
+In tal modo la lunghezza di uno scaffold e' pari al numero di contigui in esso contenuti.
+Stampa un gexf file con il nome contenuto in -ouput
+-pt<gexfST>
+
+-ch<gexfST> RIMOSSO
+
+-enum<gexfGraph><sigma><omega><thresholdFactor><deduplicate>*<infoFileName>*
+
+-cover <gexfTree> Crea un file (con l'opzione output) o stampa su console, un path cover pesato e la sua analisi in termini di
+scaffolds.
+
+-output <nomeFile>
+

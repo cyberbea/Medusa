@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="utf-8"?><gexf version="1.1" xmlns="http://www.gexf.net/1.1draft" xmlns:viz="http://www.gexf.net/1.1draft/viz" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2001/XMLSchema-instance">
+  <graph defaultedgetype="undirected" mode="static">
+    <attributes class="edge" mode="static">
+      <attribute id="0" title="homology" type="integer" />
+      <attribute id="1" title="distance" type="double" />
+    </attributes>
+    <nodes>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_73" label="44TAC125_vecchio_ray31.fasta_!contig_73" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_19" label="44TAC125_vecchio_ray31.fasta_!contig_19" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_68" label="44TAC125_vecchio_ray31.fasta_!contig_68" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_27" label="44TAC125_vecchio_ray31.fasta_!contig_27" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_16" label="44TAC125_vecchio_ray31.fasta_!contig_16" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_45" label="44TAC125_vecchio_ray31.fasta_!contig_45" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_43" label="44TAC125_vecchio_ray31.fasta_!contig_43" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_6" label="44TAC125_vecchio_ray31.fasta_!contig_6" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_11" label="44TAC125_vecchio_ray31.fasta_!contig_11" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_23" label="44TAC125_vecchio_ray31.fasta_!contig_23" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_74" label="44TAC125_vecchio_ray31.fasta_!contig_74" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_34" label="44TAC125_vecchio_ray31.fasta_!contig_34" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_10" label="44TAC125_vecchio_ray31.fasta_!contig_10" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_24" label="44TAC125_vecchio_ray31.fasta_!contig_24" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_55" label="44TAC125_vecchio_ray31.fasta_!contig_55" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_38" label="44TAC125_vecchio_ray31.fasta_!contig_38" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_57" label="44TAC125_vecchio_ray31.fasta_!contig_57" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_78" label="44TAC125_vecchio_ray31.fasta_!contig_78" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_81" label="44TAC125_vecchio_ray31.fasta_!contig_81" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_1" label="44TAC125_vecchio_ray31.fasta_!contig_1" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_3" label="44TAC125_vecchio_ray31.fasta_!contig_3" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_33" label="44TAC125_vecchio_ray31.fasta_!contig_33" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_49" label="44TAC125_vecchio_ray31.fasta_!contig_49" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_71" label="44TAC125_vecchio_ray31.fasta_!contig_71" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_9" label="44TAC125_vecchio_ray31.fasta_!contig_9" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_51" label="44TAC125_vecchio_ray31.fasta_!contig_51" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_42" label="44TAC125_vecchio_ray31.fasta_!contig_42" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_21" label="44TAC125_vecchio_ray31.fasta_!contig_21" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_25" label="44TAC125_vecchio_ray31.fasta_!contig_25" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_5" label="44TAC125_vecchio_ray31.fasta_!contig_5" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_60" label="44TAC125_vecchio_ray31.fasta_!contig_60" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_80" label="44TAC125_vecchio_ray31.fasta_!contig_80" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_72" label="44TAC125_vecchio_ray31.fasta_!contig_72" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_66" label="44TAC125_vecchio_ray31.fasta_!contig_66" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_84" label="44TAC125_vecchio_ray31.fasta_!contig_84" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_8" label="44TAC125_vecchio_ray31.fasta_!contig_8" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_44" label="44TAC125_vecchio_ray31.fasta_!contig_44" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_13" label="44TAC125_vecchio_ray31.fasta_!contig_13" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_50" label="44TAC125_vecchio_ray31.fasta_!contig_50" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_18" label="44TAC125_vecchio_ray31.fasta_!contig_18" />
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_39" label="44TAC125_vecchio_ray31.fasta_!contig_39" />
+    </nodes>
+    <edges>
+      <edge id="0" source="44TAC125_vecchio_ray31.fasta_!contig_73" target="44TAC125_vecchio_ray31.fasta_!contig_24">
+        <attvalues>
+          <attvalue for="0" value="1" />
+          <attvalue for="1" value="54677.0" />
+        </attvalues>
+      </edge>
+      <edge id="1" source="44TAC125_vecchio_ray31.fasta_!contig_73" target="44TAC125_vecchio_ray31.fasta_!contig_5">
+        <attvalues>
+          <attvalue for="0" value="1" />
+          <attvalue for="1" value="45435.0" />
+        </attvalues>
+      </edge>
+      <edge id="2" source="44TAC125_vecchio_ray31.fasta_!contig_73" target="44TAC125_vecchio_ray31.fasta_!contig_71">
+        <attvalues>
+          <attvalue for="0" value="12" />
+          <attvalue for="1" value="85.5833333333" />
+        </attvalues>
+      </edge>
+      <edge id="3" source="44TAC125_vecchio_ray31.fasta_!contig_19" target="44TAC125_vecchio_ray31.fasta_!contig_33">
+        <attvalues>
+          <attvalue for="0" value="1" />
+          <attvalue for="1" value="74.0" />
+        </attvalues>
+      </edge>
+      <edge id="4" source="44TAC125_vecchio_ray31.fasta_!contig_19" target="44TAC125_vecchio_ray31.fasta_!contig_8">
+        <attvalues>
+          <attvalue for="0" value="9" />
+          <attvalue for="1" value="0.0" />
+        </attvalues>
+      </edge>
+      <edge id="5" source="44TAC125_vecchio_ray31.fasta_!contig_19" target="44TAC125_vecchio_ray31.fasta_!contig_27">
+        <attvalues>
+          <attvalue for="0" value="6" />
+          <attvalue for="1" value="0.0" />
+        </attvalues>
+      </edge>
+      <edge id="6" source="44TAC125_vecchio_ray31.fasta_!contig_19" target="44TAC125_vecchio_ray31.fasta_!contig_45">
+        <attvalues>
+          <attvalue for="0" value="1" />
+          <attvalue for="1" value="64058.0" />
+        </attvalues>
+      </edge>
+      <edge id="7" source="44TAC125_vecchio_ray31.fasta_!contig_19" target="44TAC125_vecchio_ray31.fasta_!contig_18">
+        <attvalues>
+          <attvalue for="0" value="8" />
+          <attvalue for="1" value="0.0" />
+        </attvalues>
+      </edge>
+      <edge id="8" source="44TAC125_vecchio_ray31.fasta_!contig_19" target="44TAC125_vecchio_ray31.fasta_!contig_13">
+        <attvalues>
+          <attvalue for="0" value="9" />
+          <attvalue for="1" value="0.0" />
+        </attvalues>
+      </edge>
+      <edge id="9" source="44TAC125_vecchio_ray31.fasta_!contig_19" target="44TAC125_vecchio_ray31.fasta_!contig_39">
+        <attvalues>
+          <attvalue for="0" value="3" />
+          <attvalue for="1" value="43529.3333333" />
+        </attvalues>
+      </edge>
+      <edge id="10" source="44TAC125_vecchio_ray31.fasta_!contig_68" target="44TAC125_vecchio_ray31.fasta_!contig_34">
+        <attvalues>
+          <attvalue for="0" value="7" />
+          <attvalue for="1" value="0.0" />
+        </attvalues>
+      </edge>
+      <edge id="11" source="44TAC125_vecchio_ray31.fasta_!contig_68" target="44TAC125_vecchio_ray31.fasta_!contig_24">
+        <attvalues>
+          <attvalue for="0" value="2" />
+          <attvalue for="1" value="258.0" />
+        </attvalues>
+      </edge>
+      <edge id="12" source="44TAC125_vecchio_ray31.fasta_!contig_68" target="44TAC125_vecchio_ray31.fasta_!contig_51">
+        <attvalues>
+          <attvalue for="0" value="1" />
+          <attvalue for="1" value="90.0" />
+        </attvalues>
+      </edge>
+      <edge id="13" source="44TAC125_vecchio_ray31.fasta_!contig_68" target="44TAC125_vecchio_ray31.fasta_!contig_5">
+        <attvalues>
+          <attvalue for="0" value="7" />
+          <attvalue for="1" value="0.0" />
+        </attvalues>
+      </edge>
+      <edge id="14" source="44TAC125_vecchio_ray31.fasta_!contig_68" target="44TAC125_vecchio_ray31.fasta_!contig_57">
+        <attvalues>
+          <attvalue for="0" value="2" />
+          <attvalue for="1" value="0.0" />
+        </attvalues>
+      </edge>
+      <edge id="15" source="44TAC125_vecchio_ray31.fasta_!contig_68" target="44TAC125_vecchio_ray31.fasta_!contig_80">
+        <attvalues>
+          <attvalue for="0" value="7" />
+          <attvalue for="1" value="0.0" />
+        </attvalues>
+      </edge>
+      <edge id="16" source="44TAC125_vecchio_ray31.fasta_!contig_27" target="44TAC125_vecchio_ray31.fasta_!contig_33">
+        <attvalues>
+          <attvalue for="0" value="1" />
+          <attvalue for="1" value="0.0" />
+        </attvalues>
+      </edge>
+      <edge id="17" source="44TAC125_vecchio_ray31.fasta_!contig_27" target="44TAC125_vecchio_ray31.fasta_!contig_8">
+        <attvalues>
+          <attvalue for="0" value="6" />
+          <attvalue for="1" value="0.0" />
+        </attvalues>
+      </edge>
+      <edge id="18" source="44TAC125_vecchio_ray31.fasta_!contig_27" target="44TAC125_vecchio_ray31.fasta_!contig_13">
+        <attvalues>
+          <attvalue for="0" value="7" />
+          <attvalue for="1" value="0.0" />
+        </attvalues>
+      </edge>
+      <edge id="19" source="44TAC125_vecchio_ray31.fasta_!contig_16" target="44TAC125_vecchio_ray31.fasta_!contig_84">
+        <attvalues>
+          <attvalue for="0" value="2" />
+          <attvalue for="1" value="0.0" />
+        </attvalues>
+      </edge>
+      <edge id="20" source="44TAC125_vecchio_ray31.fasta_!contig_16" target="44TAC125_vecchio_ray31.fasta_!contig_78">
+        <attvalues>
+          <attvalue for="0" value="2" />
+          <attvalue for="1" value="0.0" />
+        </attvalues>
+      </edge>
+      <edge id="21" source="44TAC125_vecchio_ray31.fasta_!contig_45" target="44TAC125_vecchio_ray31.fasta_!contig_9">
+        <attvalues>
+          <attvalue for="0" value="2" />
+          <attvalue for="1" value="47745.5" />
+        </attvalues>
+      </edge>
+      <edge id="22" source="44TAC125_vecchio_ray31.fasta_!contig_45" target="44TAC125_vecchio_ray31.fasta_!contig_18">
+        <attvalues>
+          <attvalue for="0" value="1" />
+          <attvalue for="1" value="64271.0" />
+        </attvalues>
+      </edge>
+      <edge id="23" source="44TAC125_vecchio_ray31.fasta_!contig_45" target="44TAC125_vecchio_ray31.fasta_!contig_11">
+        <attvalues>
+          <attvalue for="0" value="1" />
+          <attvalue for="1" value="42290.0" />
+        </attvalues>
+      </edge>
+      <edge id="24" source="44TAC125_vecchio_ray31.fasta_!contig_45" target="44TAC125_vecchio_ray31.fasta_!contig_10">
+        <attvalues>
+          <attvalue for="0" value="2" />
+          <attvalue for="1" value="47608.5" />
+        </attvalues>
+      </edge>
+      <edge id="25" source="44TAC125_vecchio_ray31.fasta_!contig_45" target="44TAC125_vecchio_ray31.fasta_!contig_3">
+        <attvalues>
+          <attvalue for="0" value="7" />
+          <attvalue for="1" value="0.0" />
+        </attvalues>
+      </edge>
+      <edge id="26" source="44TAC125_vecchio_ray31.fasta_!contig_43" target="44TAC125_vecchio_ray31.fasta_!contig_3">
+        <attvalues>
+          <attvalue for="0" value="7" />
+          <attvalue for="1" value="61.7142857143" />
+        </attvalues>
+      </edge>
+      <edge id="27" source="44TAC125_vecchio_ray31.fasta_!contig_6" target="44TAC125_vecchio_ray31.fasta_!contig_72">
+        <attvalues>
+          <attvalue for="0" value="4" />
+          <attvalue for="1" value="0.0" />
+        </attvalues>
+      </edge>
+      <edge id="28" source="44TAC125_vecchio_ray31.fasta_!contig_11" target="44TAC125_vecchio_ray31.fasta_!contig_10">
+        <attvalues>
+          <attvalue for="0" value="4" />
+          <attvalue for="1" value="120.5" />
+        </attvalues>
+      </edge>
+      <edge id="29" source="44TAC125_vecchio_ray31.fasta_!contig_11" target="44TAC125_vecchio_ray31.fasta_!contig_21">
+        <attvalues>
+          <attvalue for="0" value="2" />
+          <attvalue for="1" value="23.0" />
+        </attvalues>
+      </edge>
+      <edge id="30" source="44TAC125_vecchio_ray31.fasta_!contig_11" target="44TAC125_vecchio_ray31.fasta_!contig_44">
+        <attvalues>
+          <attvalue for="0" value="1" />
+          <attvalue for="1" value="78750.0" />
+        </attvalues>
+      </edge>
+      <edge id="31" source="44TAC125_vecchio_ray31.fasta_!contig_11" target="44TAC125_vecchio_ray31.fasta_!contig_9">
+        <attvalues>
+          <attvalue for="0" value="4" />
+          <attvalue for="1" value="15.0" />
+        </attvalues>
+      </edge>
+      <edge id="32" source="44TAC125_vecchio_ray31.fasta_!contig_23" target="44TAC125_vecchio_ray31.fasta_!contig_50">
+        <attvalues>
+          <attvalue for="0" value="4" />
+          <attvalue for="1" value="49.0" />
+        </attvalues>
+      </edge>
+      <edge id="33" source="44TAC125_vecchio_ray31.fasta_!contig_23" target="44TAC125_vecchio_ray31.fasta_!contig_81">
+        <attvalues>
+          <attvalue for="0" value="4" />
+          <attvalue for="1" value="49.0" />
+        </attvalues>
+      </edge>
+      <edge id="34" source="44TAC125_vecchio_ray31.fasta_!contig_23" target="44TAC125_vecchio_ray31.fasta_!contig_60">
+        <attvalues>
+          <attvalue for="0" value="1" />
+          <attvalue for="1" value="0.0" />
+        </attvalues>
+      </edge>
+      <edge id="35" source="44TAC125_vecchio_ray31.fasta_!contig_23" target="44TAC125_vecchio_ray31.fasta_!contig_74">
+        <attvalues>
+          <attvalue for="0" value="1" />
+          <attvalue for="1" value="0.0" />
+        </attvalues>
+      </edge>
+      <edge id="36" source="44TAC125_vecchio_ray31.fasta_!contig_74" target="44TAC125_vecchio_ray31.fasta_!contig_50">
+        <attvalues>
+          <attvalue for="0" value="1" />
+          <attvalue for="1" value="337.0" />
+        </attvalues>
+      </edge>
+      <edge id="37" source="44TAC125_vecchio_ray31.fasta_!contig_74" target="44TAC125_vecchio_ray31.fasta_!contig_81">
+        <attvalues>
+          <attvalue for="0" value="1" />
+          <attvalue for="1" value="337.0" />
+        </attvalues>
+      </edge>
+      <edge id="38" source="44TAC125_vecchio_ray31.fasta_!contig_74" target="44TAC125_vecchio_ray31.fasta_!contig_60">
+        <attvalues>
+          <attvalue for="0" value="1" />
+          <attvalue for="1" value="0.0" />
+        </attvalues>
+      </edge>
+      <edge id="39" source="44TAC125_vecchio_ray31.fasta_!contig_34" target="44TAC125_vecchio_ray31.fasta_!contig_24">
+        <attvalues>
+          <attvalue for="0" value="2" />
+          <attvalue for="1" value="258.0" />
+        </attvalues>
+      </edge>
+      <edge id="40" source="44TAC125_vecchio_ray31.fasta_!contig_34" target="44TAC125_vecchio_ray31.fasta_!contig_80">
+        <attvalues>
+          <attvalue for="0" value="7" />
+          <attvalue for="1" value="0.0" />
+        </attvalues>
+      </edge>
+      <edge id="41" source="44TAC125_vecchio_ray31.fasta_!contig_34" target="44TAC125_vecchio_ray31.fasta_!contig_5">
+        <attvalues>
+          <attvalue for="0" value="7" />
+          <attvalue for="1" value="0.0" />
+        </attvalues>
+      </edge>
+      <edge id="42" source="44TAC125_vecchio_ray31.fasta_!contig_34" target="44TAC125_vecchio_ray31.fasta_!contig_51">
+        <attvalues>
+          <attvalue for="0" value="1" />
+          <attvalue for="1" value="90.0" />
+        </attvalues>
+      </edge>
+      <edge id="43" source="44TAC125_vecchio_ray31.fasta_!contig_10" target="44TAC125_vecchio_ray31.fasta_!contig_21">
+        <attvalues>
+          <attvalue for="0" value="23" />
+          <attvalue for="1" value="48.347826087" />
+        </attvalues>
+      </edge>
+      <edge id="44" source="44TAC125_vecchio_ray31.fasta_!contig_10" target="44TAC125_vecchio_ray31.fasta_!contig_9">
+        <attvalues>
+          <attvalue for="0" value="31" />
+          <attvalue for="1" value="33.2903225806" />
+        </attvalues>
+      </edge>
+      <edge id="45" source="44TAC125_vecchio_ray31.fasta_!contig_10" target="44TAC125_vecchio_ray31.fasta_!contig_3">
+        <attvalues>
+          <attvalue for="0" value="2" />
+          <attvalue for="1" value="47717.0" />
+        </attvalues>
+      </edge>
+      <edge id="46" source="44TAC125_vecchio_ray31.fasta_!contig_24" target="44TAC125_vecchio_ray31.fasta_!contig_25">
+        <attvalues>
+          <attvalue for="0" value="4" />
+          <attvalue for="1" value="8.5" />
+        </attvalues>
+      </edge>
+      <edge id="47" source="44TAC125_vecchio_ray31.fasta_!contig_24" target="44TAC125_vecchio_ray31.fasta_!contig_5">
+        <attvalues>
+          <attvalue for="0" value="2" />
+          <attvalue for="1" value="87.0" />
+        </attvalues>
+      </edge>
+      <edge id="48" source="44TAC125_vecchio_ray31.fasta_!contig_24" target="44TAC125_vecchio_ray31.fasta_!contig_80">
+        <attvalues>
+          <attvalue for="0" value="2" />
+          <attvalue for="1" value="258.0" />
+        </attvalues>
+      </edge>
+      <edge id="49" source="44TAC125_vecchio_ray31.fasta_!contig_55" target="44TAC125_vecchio_ray31.fasta_!contig_8">
+        <attvalues>
+          <attvalue for="0" value="1" />
+          <attvalue for="1" value="0.0" />
+        </attvalues>
+      </edge>
+      <edge id="50" source="44TAC125_vecchio_ray31.fasta_!contig_38" target="44TAC125_vecchio_ray31.fasta_!contig_33">
+        <attvalues>
+          <attvalue for="0" value="4" />
+          <attvalue for="1" value="0.0" />
+        </attvalues>
+      </edge>
+      <edge id="51" source="44TAC125_vecchio_ray31.fasta_!contig_38" target="44TAC125_vecchio_ray31.fasta_!contig_18">
+        <attvalues>
+          <attvalue for="0" value="8" />
+          <attvalue for="1" value="0.0" />
+        </attvalues>
+      </edge>
+      <edge id="52" source="44TAC125_vecchio_ray31.fasta_!contig_38" target="44TAC125_vecchio_ray31.fasta_!contig_13">
+        <attvalues>
+          <attvalue for="0" value="4" />
+          <attvalue for="1" value="0.0" />
+        </attvalues>
+      </edge>
+      <edge id="53" source="44TAC125_vecchio_ray31.fasta_!contig_78" target="44TAC125_vecchio_ray31.fasta_!contig_84">
+        <attvalues>
+          <attvalue for="0" value="2" />
+          <attvalue for="1" value="83.0" />
+        </attvalues>
+      </edge>
+      <edge id="54" source="44TAC125_vecchio_ray31.fasta_!contig_78" target="44TAC125_vecchio_ray31.fasta_!contig_1">
+        <attvalues>
+          <attvalue for="0" value="1" />
+          <attvalue for="1" value="0.0" />
+        </attvalues>
+      </edge>
+      <edge id="55" source="44TAC125_vecchio_ray31.fasta_!contig_81" target="44TAC125_vecchio_ray31.fasta_!contig_50">
+        <attvalues>
+          <attvalue for="0" value="6" />
+          <attvalue for="1" value="0.0" />
+        </attvalues>
+      </edge>
+      <edge id="56" source="44TAC125_vecchio_ray31.fasta_!contig_81" target="44TAC125_vecchio_ray31.fasta_!contig_60">
+        <attvalues>
+          <attvalue for="0" value="1" />
+          <attvalue for="1" value="337.0" />
+        </attvalues>
+      </edge>
+      <edge id="57" source="44TAC125_vecchio_ray31.fasta_!contig_3" target="44TAC125_vecchio_ray31.fasta_!contig_9">
+        <attvalues>
+          <attvalue for="0" value="2" />
+          <attvalue for="1" value="47854.0" />
+        </attvalues>
+      </edge>
+      <edge id="58" source="44TAC125_vecchio_ray31.fasta_!contig_33" target="44TAC125_vecchio_ray31.fasta_!contig_8">
+        <attvalues>
+          <attvalue for="0" value="1" />
+          <attvalue for="1" value="81.0" />
+        </attvalues>
+      </edge>
+      <edge id="59" source="44TAC125_vecchio_ray31.fasta_!contig_33" target="44TAC125_vecchio_ray31.fasta_!contig_18">
+        <attvalues>
+          <attvalue for="0" value="4" />
+          <attvalue for="1" value="0.0" />
+        </attvalues>
+      </edge>
+      <edge id="60" source="44TAC125_vecchio_ray31.fasta_!contig_33" target="44TAC125_vecchio_ray31.fasta_!contig_13">
+        <attvalues>
+          <attvalue for="0" value="13" />
+          <attvalue for="1" value="6.23076923077" />
+        </attvalues>
+      </edge>
+      <edge id="61" source="44TAC125_vecchio_ray31.fasta_!contig_49" target="44TAC125_vecchio_ray31.fasta_!contig_66">
+        <attvalues>
+          <attvalue for="0" value="1" />
+          <attvalue for="1" value="46627.0" />
+        </attvalues>
+      </edge>
+      <edge id="62" source="44TAC125_vecchio_ray31.fasta_!contig_9" target="44TAC125_vecchio_ray31.fasta_!contig_21">
+        <attvalues>
+          <attvalue for="0" value="23" />
+          <attvalue for="1" value="57.5217391304" />
+        </attvalues>
+      </edge>
+      <edge id="63" source="44TAC125_vecchio_ray31.fasta_!contig_51" target="44TAC125_vecchio_ray31.fasta_!contig_5">
+        <attvalues>
+          <attvalue for="0" value="1" />
+          <attvalue for="1" value="99.0" />
+        </attvalues>
+      </edge>
+      <edge id="64" source="44TAC125_vecchio_ray31.fasta_!contig_51" target="44TAC125_vecchio_ray31.fasta_!contig_80">
+        <attvalues>
+          <attvalue for="0" value="1" />
+          <attvalue for="1" value="90.0" />
+        </attvalues>
+      </edge>
+      <edge id="65" source="44TAC125_vecchio_ray31.fasta_!contig_42" target="44TAC125_vecchio_ray31.fasta_!contig_50">
+        <attvalues>
+          <attvalue for="0" value="5" />
+          <attvalue for="1" value="0.0" />
+        </attvalues>
+      </edge>
+      <edge id="66" source="44TAC125_vecchio_ray31.fasta_!contig_5" target="44TAC125_vecchio_ray31.fasta_!contig_80">
+        <attvalues>
+          <attvalue for="0" value="7" />
+          <attvalue for="1" value="0.0" />
+        </attvalues>
+      </edge>
+      <edge id="67" source="44TAC125_vecchio_ray31.fasta_!contig_60" target="44TAC125_vecchio_ray31.fasta_!contig_50">
+        <attvalues>
+          <attvalue for="0" value="1" />
+          <attvalue for="1" value="337.0" />
+        </attvalues>
+      </edge>
+      <edge id="68" source="44TAC125_vecchio_ray31.fasta_!contig_8" target="44TAC125_vecchio_ray31.fasta_!contig_18">
+        <attvalues>
+          <attvalue for="0" value="2" />
+          <attvalue for="1" value="0.0" />
+        </attvalues>
+      </edge>
+      <edge id="69" source="44TAC125_vecchio_ray31.fasta_!contig_8" target="44TAC125_vecchio_ray31.fasta_!contig_13">
+        <attvalues>
+          <attvalue for="0" value="9" />
+          <attvalue for="1" value="0.0" />
+        </attvalues>
+      </edge>
+      <edge id="70" source="44TAC125_vecchio_ray31.fasta_!contig_8" target="44TAC125_vecchio_ray31.fasta_!contig_39">
+        <attvalues>
+          <attvalue for="0" value="1" />
+          <attvalue for="1" value="45750.0" />
+        </attvalues>
+      </edge>
+      <edge id="71" source="44TAC125_vecchio_ray31.fasta_!contig_13" target="44TAC125_vecchio_ray31.fasta_!contig_18">
+        <attvalues>
+          <attvalue for="0" value="6" />
+          <attvalue for="1" value="0.0" />
+        </attvalues>
+      </edge>
+      <edge id="72" source="44TAC125_vecchio_ray31.fasta_!contig_13" target="44TAC125_vecchio_ray31.fasta_!contig_39">
+        <attvalues>
+          <attvalue for="0" value="1" />
+          <attvalue for="1" value="45750.0" />
+        </attvalues>
+      </edge>
+      <edge id="73" source="44TAC125_vecchio_ray31.fasta_!contig_18" target="44TAC125_vecchio_ray31.fasta_!contig_39">
+        <attvalues>
+          <attvalue for="0" value="4" />
+          <attvalue for="1" value="43795.25" />
+        </attvalues>
+      </edge>
+    </edges>
+  </graph>
+</gexf>

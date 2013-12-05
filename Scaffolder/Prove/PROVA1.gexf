@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?><gexf version="1.1" xmlns="http://www.gexf.net/1.1draft" xmlns:viz="http://www.gexf.net/1.1draft/viz" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2001/XMLSchema-instance">
+  <graph defaultedgetype="undirected" mode="static">
+    <attributes class="edge" mode="static">
+      <attribute id="3" title="weight" type="integer" />
+      <attribute id="0" title="homology" type="integer" />
+      <attribute id="2" title="synteny" type="integer" />
+    </attributes>
+    <nodes>
+      <node id="uno" label="1" />
+      <node id="due" label="2" />
+      <node id="tre" label="3" />
+      <node id="quattro" label="4" />
+      <node id="cinque" label="5" />
+      <node id="sei" label="6" />
+      <node id="sette" label="7" />
+      <node id="otto" label="8" />
+      <node id="nove" label="9" />
+      <node id="dieci" label="10" />
+    </nodes>
+    <edges>
+       <edge id="e12" source="uno" target="due">
+        <attvalues>
+          <attvalue for="3" value="100" />
+        </attvalues>
+      </edge>
+       <edge id="e23" source="due" target="tre">
+        <attvalues>
+          <attvalue for="3" value="1000" />
+        </attvalues>
+      </edge>
+      <edge id="e24" source="due" target="quattro">
+        <attvalues>
+          <attvalue for="3" value="50" />
+        </attvalues>
+      </edge>
+      
+      <edge id="e43" source="quattro" target="tre">
+        <attvalues>
+          <attvalue for="3" value="100" />
+        </attvalues>
+      </edge>
+      <edge id="e48" source="quattro" target="otto">
+        <attvalues>
+          <attvalue for="3" value="50" />
+        </attvalues>
+      </edge>
+            <edge id="e89" source="otto" target="nove">
+        <attvalues>
+          <attvalue for="3" value="100" />
+        </attvalues>
+      </edge>
+            <edge id="e810" source="otto" target="dieci">
+        <attvalues>
+          <attvalue for="3" value="50" />
+        </attvalues>
+      </edge>
+            <edge id="e45" source="quattro" target="cinque">
+        <attvalues>
+          <attvalue for="3" value="100" />
+        </attvalues>
+      </edge>
+            <edge id="e56" source="cinque" target="sei">
+        <attvalues>
+          <attvalue for="3" value="100" />
+        </attvalues>
+      </edge>
+            <edge id="e57" source="cinque" target="sette">
+        <attvalues>
+          <attvalue for="3" value="50" />
+        </attvalues>
+      </edge>
+            <edge id="e58" source="cinque" target="otto">
+        <attvalues>
+          <attvalue for="3" value="50" />
+        </attvalues>
+      </edge>
+            <edge id="e52" source="cinque" target="due">
+        <attvalues>
+          <attvalue for="3" value="50" />
+        </attvalues>
+      </edge>
+    </edges>
+  </graph>
+</gexf>

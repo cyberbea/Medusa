@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<gexf xmlns:viz="http://www.gexf.net/1.1draft/viz" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.1" xsi:schemaLocation="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.gexf.net/1.1draft">
+  <graph>
+    <attributes class="edge" mode="static">
+      <attribute id="0" title="weight" type="integer"/>
+    </attributes>
+    <nodes>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_73" label="46"/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_19" label="51"/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_68" label="64"/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_27" label="15"/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_16" label=""/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_45" label="25"/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_43" label="27"/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_6" label="67"/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_11" label="31"/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_23" label=""/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_74" label="2"/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_34" label="3"/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_10" label="29"/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_24" label=""/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_55" label="0"/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_38" label="53"/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_57" label="61"/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_78" label=""/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_81" label="1"/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_1" label=""/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_3" label="26"/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_33" label="14"/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_49" label="36"/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_71" label="47"/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_9" label="30"/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_51" label="50"/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_42" label="21"/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_21" label="28"/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_25" label=""/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_5" label="60"/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_60" label="65"/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_80" label="18"/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_72" label="20"/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_66" label="33"/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_84" label=""/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_8" label="17"/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_44" label="34"/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_13" label="16"/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_50" label="66"/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_18" label="52"/>
+      <node id="44TAC125_vecchio_ray31.fasta_!contig_39" label="54"/>
+    </nodes>
+    <edges>
+      <edge id="44'" source="44TAC125_vecchio_ray31.fasta_!contig_10" target="44TAC125_vecchio_ray31.fasta_!contig_9">
+        <attvalues>
+          <attvalue for="0" value="31.0"/>
+        </attvalues>
+      </edge>
+      <edge id="62'" source="44TAC125_vecchio_ray31.fasta_!contig_9" target="44TAC125_vecchio_ray31.fasta_!contig_21">
+        <attvalues>
+          <attvalue for="0" value="23.0"/>
+        </attvalues>
+      </edge>
+      <edge id="60'" source="44TAC125_vecchio_ray31.fasta_!contig_33" target="44TAC125_vecchio_ray31.fasta_!contig_13">
+        <attvalues>
+          <attvalue for="0" value="13.0"/>
+        </attvalues>
+      </edge>
+      <edge id="2'" source="44TAC125_vecchio_ray31.fasta_!contig_73" target="44TAC125_vecchio_ray31.fasta_!contig_71">
+        <attvalues>
+          <attvalue for="0" value="12.0"/>
+        </attvalues>
+      </edge>
+      <edge id="69'" source="44TAC125_vecchio_ray31.fasta_!contig_8" target="44TAC125_vecchio_ray31.fasta_!contig_13">
+        <attvalues>
+          <attvalue for="0" value="9.0"/>
+        </attvalues>
+      </edge>
+      <edge id="8'" source="44TAC125_vecchio_ray31.fasta_!contig_19" target="44TAC125_vecchio_ray31.fasta_!contig_13">
+        <attvalues>
+          <attvalue for="0" value="9.0"/>
+        </attvalues>
+      </edge>
+      <edge id="51'" source="44TAC125_vecchio_ray31.fasta_!contig_38" target="44TAC125_vecchio_ray31.fasta_!contig_18">
+        <attvalues>
+          <attvalue for="0" value="8.0"/>
+        </attvalues>
+      </edge>
+      <edge id="7'" source="44TAC125_vecchio_ray31.fasta_!contig_19" target="44TAC125_vecchio_ray31.fasta_!contig_18">
+        <attvalues>
+          <attvalue for="0" value="8.0"/>
+        </attvalues>
+      </edge>
+      <edge id="66'" source="44TAC125_vecchio_ray31.fasta_!contig_5" target="44TAC125_vecchio_ray31.fasta_!contig_80">
+        <attvalues>
+          <attvalue for="0" value="7.0"/>
+        </attvalues>
+      </edge>
+      <edge id="41'" source="44TAC125_vecchio_ray31.fasta_!contig_34" target="44TAC125_vecchio_ray31.fasta_!contig_5">
+        <attvalues>
+          <attvalue for="0" value="7.0"/>
+        </attvalues>
+      </edge>
+      <edge id="26'" source="44TAC125_vecchio_ray31.fasta_!contig_43" target="44TAC125_vecchio_ray31.fasta_!contig_3">
+        <attvalues>
+          <attvalue for="0" value="7.0"/>
+        </attvalues>
+      </edge>
+      <edge id="25'" source="44TAC125_vecchio_ray31.fasta_!contig_45" target="44TAC125_vecchio_ray31.fasta_!contig_3">
+        <attvalues>
+          <attvalue for="0" value="7.0"/>
+        </attvalues>
+      </edge>
+      <edge id="18'" source="44TAC125_vecchio_ray31.fasta_!contig_27" target="44TAC125_vecchio_ray31.fasta_!contig_13">
+        <attvalues>
+          <attvalue for="0" value="7.0"/>
+        </attvalues>
+      </edge>
+      <edge id="15'" source="44TAC125_vecchio_ray31.fasta_!contig_68" target="44TAC125_vecchio_ray31.fasta_!contig_80">
+        <attvalues>
+          <attvalue for="0" value="7.0"/>
+        </attvalues>
+      </edge>
+      <edge id="55'" source="44TAC125_vecchio_ray31.fasta_!contig_81" target="44TAC125_vecchio_ray31.fasta_!contig_50">
+        <attvalues>
+          <attvalue for="0" value="6.0"/>
+        </attvalues>
+      </edge>
+      <edge id="65'" source="44TAC125_vecchio_ray31.fasta_!contig_42" target="44TAC125_vecchio_ray31.fasta_!contig_50">
+        <attvalues>
+          <attvalue for="0" value="5.0"/>
+        </attvalues>
+      </edge>
+      <edge id="73'" source="44TAC125_vecchio_ray31.fasta_!contig_18" target="44TAC125_vecchio_ray31.fasta_!contig_39">
+        <attvalues>
+          <attvalue for="0" value="4.0"/>
+        </attvalues>
+      </edge>
+      <edge id="46'" source="44TAC125_vecchio_ray31.fasta_!contig_24" target="44TAC125_vecchio_ray31.fasta_!contig_25">
+        <attvalues>
+          <attvalue for="0" value="4.0"/>
+        </attvalues>
+      </edge>
+      <edge id="33'" source="44TAC125_vecchio_ray31.fasta_!contig_23" target="44TAC125_vecchio_ray31.fasta_!contig_81">
+        <attvalues>
+          <attvalue for="0" value="4.0"/>
+        </attvalues>
+      </edge>
+      <edge id="31'" source="44TAC125_vecchio_ray31.fasta_!contig_11" target="44TAC125_vecchio_ray31.fasta_!contig_9">
+        <attvalues>
+          <attvalue for="0" value="4.0"/>
+        </attvalues>
+      </edge>
+      <edge id="27'" source="44TAC125_vecchio_ray31.fasta_!contig_6" target="44TAC125_vecchio_ray31.fasta_!contig_72">
+        <attvalues>
+          <attvalue for="0" value="4.0"/>
+        </attvalues>
+      </edge>
+      <edge id="57'" source="44TAC125_vecchio_ray31.fasta_!contig_3" target="44TAC125_vecchio_ray31.fasta_!contig_9">
+        <attvalues>
+          <attvalue for="0" value="2.0"/>
+        </attvalues>
+      </edge>
+      <edge id="53'" source="44TAC125_vecchio_ray31.fasta_!contig_78" target="44TAC125_vecchio_ray31.fasta_!contig_84">
+        <attvalues>
+          <attvalue for="0" value="2.0"/>
+        </attvalues>
+      </edge>
+      <edge id="48'" source="44TAC125_vecchio_ray31.fasta_!contig_24" target="44TAC125_vecchio_ray31.fasta_!contig_80">
+        <attvalues>
+          <attvalue for="0" value="2.0"/>
+        </attvalues>
+      </edge>
+      <edge id="20'" source="44TAC125_vecchio_ray31.fasta_!contig_16" target="44TAC125_vecchio_ray31.fasta_!contig_78">
+        <attvalues>
+          <attvalue for="0" value="2.0"/>
+        </attvalues>
+      </edge>
+      <edge id="14'" source="44TAC125_vecchio_ray31.fasta_!contig_68" target="44TAC125_vecchio_ray31.fasta_!contig_57">
+        <attvalues>
+          <attvalue for="0" value="2.0"/>
+        </attvalues>
+      </edge>
+      <edge id="67'" source="44TAC125_vecchio_ray31.fasta_!contig_60" target="44TAC125_vecchio_ray31.fasta_!contig_50">
+        <attvalues>
+          <attvalue for="0" value="1.0"/>
+        </attvalues>
+      </edge>
+      <edge id="64'" source="44TAC125_vecchio_ray31.fasta_!contig_51" target="44TAC125_vecchio_ray31.fasta_!contig_80">
+        <attvalues>
+          <attvalue for="0" value="1.0"/>
+        </attvalues>
+      </edge>
+      <edge id="61'" source="44TAC125_vecchio_ray31.fasta_!contig_49" target="44TAC125_vecchio_ray31.fasta_!contig_66">
+        <attvalues>
+          <attvalue for="0" value="1.0"/>
+        </attvalues>
+      </edge>
+      <edge id="54'" source="44TAC125_vecchio_ray31.fasta_!contig_78" target="44TAC125_vecchio_ray31.fasta_!contig_1">
+        <attvalues>
+          <attvalue for="0" value="1.0"/>
+        </attvalues>
+      </edge>
+      <edge id="49'" source="44TAC125_vecchio_ray31.fasta_!contig_55" target="44TAC125_vecchio_ray31.fasta_!contig_8">
+        <attvalues>
+          <attvalue for="0" value="1.0"/>
+        </attvalues>
+      </edge>
+      <edge id="38'" source="44TAC125_vecchio_ray31.fasta_!contig_74" target="44TAC125_vecchio_ray31.fasta_!contig_60">
+        <attvalues>
+          <attvalue for="0" value="1.0"/>
+        </attvalues>
+      </edge>
+      <edge id="30'" source="44TAC125_vecchio_ray31.fasta_!contig_11" target="44TAC125_vecchio_ray31.fasta_!contig_44">
+        <attvalues>
+          <attvalue for="0" value="1.0"/>
+        </attvalues>
+      </edge>
+      <edge id="22'" source="44TAC125_vecchio_ray31.fasta_!contig_45" target="44TAC125_vecchio_ray31.fasta_!contig_18">
+        <attvalues>
+          <attvalue for="0" value="1.0"/>
+        </attvalues>
+      </edge>
+      <edge id="1'" source="44TAC125_vecchio_ray31.fasta_!contig_73" target="44TAC125_vecchio_ray31.fasta_!contig_5">
+        <attvalues>
+          <attvalue for="0" value="1.0"/>
+        </attvalues>
+      </edge>
+    </edges>
+  </graph>
+</gexf>

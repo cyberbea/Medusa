@@ -1,0 +1,32 @@
+Network: RetiFinte/ReteCorretta.gexf
+Nodes: 100
+Edges: 193
+Info File: RetiFinte/finteInfo_random
+Synteny factor: 1.0
+Homology factor: 1.0
+#nodes: 100( singletons: 0)
+#edges: 99
+
+Good PCR: 5
+Breakpoints: 76
+Nulli: 0
+#scaffolds: 19(singletons= 2)
+Total length: 98
+Total weight: 8678.0
+66-26-40-16-83-58-87-49-@8
+68-38-7-@3
+55-59-60-11-73-56-@6
+79-54-63-75-@4
+10-51-45-78-41-77-@6
+2-0-99-21-76-65-17-18-50-14-@10
+88-85-47-@3
+81-96-32-23-86-42-69-19-@8
+48-98-43-61-@4
+29-90-89-20-@4
+70-82-@2
+46-64-4-94-52-1-84-28-@8
+93-13-33-@3
+92-91-53-15-62-80-71-95-97-@9
+25-36-34-3-9-35-72-12-5-@9
+74-22-44-24-6-30-31-37-@8
+57-27-8-@3
