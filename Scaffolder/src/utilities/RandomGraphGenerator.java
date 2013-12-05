@@ -5,7 +5,7 @@ import graphs.MyGraph;
 import graphs.MyNode;
 
 public class RandomGraphGenerator {
-	
+	//aggiungo un commento solo per provare...
 	public static MyGraph GenerateRandomGraph(int n, double p) {
 		MyGraph g = new MyGraph();
 		for (int i = 0; i < n; i++) {
