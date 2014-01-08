@@ -83,7 +83,6 @@ public class Kruskal {
 			MyNode source = maxST.nodeFromId(e.getSource().getId());
 			MyNode target = maxST.nodeFromId(e.getTarget().getId());
 			MyEdge e1 = new MyEdge(e.getId(), source, target);
-			//TODO: aggiunto e1.setweight
 			e1.setWeight(e.getWeight());
 			pq.add(e1);
 		}

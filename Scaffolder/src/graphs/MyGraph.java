@@ -157,8 +157,8 @@ public class MyGraph {
 	}
 
 	public String toString() {
-		String s = "Nodes(" + nodes.size() + ")="// + nodes.toString() + "\n"
-				+ "Edges(" + edges.size() + ")=";// + edges.toString();
+		String s = "Nodes(" + nodes.size() + ")"// + nodes.toString() + "\n"
+				+ "Edges(" + edges.size() + ")=" + edges.toString();
 		return s;
 
 	}
@@ -280,13 +280,22 @@ public class MyGraph {
 	}
 
 	public void setInfo(HashMap<String, String[]> info) {
+		int j=0;
 		for (MyNode n : nodes) {
 			String[] nodeInfo = info.get(n.getId());
 			if (nodeInfo == null) {
-				n.setLabel(null);
+				//n.setLabel(null);
+				n.setLabel("label"+String.valueOf(j));
+				j++;
+				//just debug--------
+				System.out.println(n.getId()+"--->"+n.getLabel());
+				//-------------
 			} else {
 				n.setLabel(nodeInfo[0]);
 				n.setContiglength(Integer.valueOf(nodeInfo[1]));
+				//just debug--------
+				System.out.println(n.getId()+"--->"+nodeInfo[0]);
+				//-------------
 			}
 
 		}

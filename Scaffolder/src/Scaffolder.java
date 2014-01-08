@@ -65,6 +65,16 @@ public class Scaffolder {
 						"The whole process: Graph--> ST ---> COVER. He produces three more files: _ST, _COVER, _RESULTS")
 				.create("scaff");
 		opts.addOption(scaffolder);
+		
+		Option multiple = OptionBuilder
+				.withArgName(
+						"<originalTree> <syntenyFactor> <homologyFactor> <numberTrees> <deduplicate> <infoFile>")
+				.hasArgs(6)
+				.withValueSeparator()
+				.withDescription(
+						"The whole process: Graph--> ST ---> COVER. For a given number of maxST")
+				.create("multiple");
+		opts.addOption(multiple);
 
 		Option spanningTree = OptionBuilder
 				.withArgName(
@@ -240,7 +250,7 @@ public class Scaffolder {
 			String ls = e.getSource().getLabel();
 			String lt = e.getTarget().getLabel();
 
-			if (ls.length() != 0 & lt.length() != 0) {
+				if (!ls.contains("label") && !lt.contains("label")) {
 				boolean found = false;
 				if (ls.contains("or")) {
 					String[] lss = ls.split("or");

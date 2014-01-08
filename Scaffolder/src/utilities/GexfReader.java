@@ -106,6 +106,7 @@ public class GexfReader {
 		BufferedReader br = new BufferedReader(fr);
 		String currentLine = br.readLine();
 		int i = 0;
+		
 		while (currentLine != null) {
 			String contigPosition = String.valueOf(i);
 			String[] split = currentLine.split("\t");
@@ -197,9 +198,11 @@ public class GexfReader {
 			String id = current.getAttribute("id");
 			String source = current.getAttribute("source");
 			String target = current.getAttribute("target");
+			Double weight = Double.parseDouble(current.getAttribute("weight"));
 			MyNode ns = graph.nodeFromId(source);
 			MyNode nt = graph.nodeFromId(target);
 			MyEdge e = new MyEdge(id, ns, nt);
+			if(weight == null){
 			NodeList edgeAttributes = ((Element) current.getElementsByTagName(
 					"attvalues").item(0)).getElementsByTagName("attvalue");
 			double s = 0;
@@ -228,9 +231,13 @@ public class GexfReader {
 						h = Double.parseDouble(ea.getAttribute("value"));
 						double w = e.getWeight();
 						e.setWeight((omega * h) + w);
-					}
+					}	
+			}
+			
 
 				}
+			} else{
+				e.setWeight(weight);
 			}
 
 			graph.addEdge(e);
