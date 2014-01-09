@@ -118,7 +118,7 @@ public class GexfWriter {
 		StreamResult result = new StreamResult(new File(fileName));
 		// StreamResult result = new StreamResult(System.out);
 		transformer.transform(source, result);
-		System.out.println("File saved");
+		System.out.println("File saved: "+fileName);
 	}
 
 }

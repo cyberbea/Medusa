@@ -557,17 +557,21 @@ public class Scaffolder {
 			grafo.setInfo(info);
 		}
 		grafo.removeSingletons();
+		//DEBUG
+		System.out.println("PESI: ");
+		for(MyEdge e : grafo.getEdges()){
+			System.out.println(e.toStringVerbose());
+		}
+		//
+		GexfWriter.write(grafo, gexfFileName+"_LABELLED");
 		MyGraph maxST = Kruskal.maxST(grafo);
 		GexfWriter.write(maxST, StFileName);
-		System.out.println("Created file: " + StFileName);
 
 		MyGraph cover = maxST.computeCover();
 		GexfWriter.write(cover, gexfFileName + "_COVER");
 		ArrayList<String> paths = cover.subPaths();
-		System.out.println("Created file: " + gexfFileName + "_COVER");
 
 		File outputFile = new File(gexfFileName + "_RESULTS");
-		System.out.println("Create file: " + outputFile.toString());
 		PrintWriter writerOutput = new PrintWriter(new FileWriter(outputFile));
 		writerOutput.write("Network: " + gexfFileName + "\n");
 		writerOutput.write("Nodes: " + grafo.getNodes().size() + "\n");
@@ -599,6 +603,7 @@ public class Scaffolder {
 			writerOutput.println(a);
 		}
 		writerOutput.flush();
+		System.out.println("File saved: "+outputFile);
 
 	}
 
