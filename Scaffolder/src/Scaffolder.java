@@ -3,6 +3,7 @@ import graphs.MyGraph;
 import graphs.MyNode;
 import graphs.spanningTree.Kruskal;
 import graphs.spanningTree.StEnumerator;
+import hs.HSP.Element;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -11,6 +12,7 @@ import java.io.PrintWriter;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -26,6 +28,7 @@ import org.xml.sax.SAXException;
 
 import utilities.GexfReader;
 import utilities.GexfWriter;
+import utilities.GraphHSPadapter;
 
 public class Scaffolder {
 
@@ -65,6 +68,16 @@ public class Scaffolder {
 						"The whole process: Graph--> ST ---> COVER. He produces three more files: _ST, _COVER, _RESULTS")
 				.create("scaff");
 		opts.addOption(scaffolder);
+		
+		Option scaffolderHS = OptionBuilder
+				.withArgName(
+						"<originalTree> <syntenyFactor> <homologyFactor> <deduplicate> <infoFile>")
+				.hasArgs(5)
+				.withValueSeparator()
+				.withDescription(
+						"The whole process: Graph--> HS ---> MINIMAL HS AS COVER")
+				.create("scaffHS");
+		opts.addOption(scaffolderHS);
 		
 		Option multiple = OptionBuilder
 				.withArgName(
@@ -155,6 +168,9 @@ public class Scaffolder {
 				amplifier(cl);
 			} else if (cl.hasOption("scaff")) {
 				scaffolder(cl);
+			}
+			else if (cl.hasOption("scaffHS")) {
+				scaffolderHS(cl);
 			}
 
 		} catch (UnrecognizedOptionException uoe) {
@@ -593,6 +609,83 @@ public class Scaffolder {
 				+ "( singletons: " + (maxST.getNodes().size() - placedNodes)
 				+ ")");
 		writerOutput.println("#edges: " + maxST.getEdges().size() + "\n"
+				+ "\nGood PCR: " + goodPCR + "\n" + "Breakpoints: "
+				+ breakpoints + "\n" + "Nulli: " + nullLabelsedges);
+		writerOutput.println("#scaffolds: " + numberOfScaffolds
+				+ "(singletons= " + finalSingletons + ")");
+		writerOutput.println("Total length: " + totalLength);
+		writerOutput.println("Total weight: " + cost);
+		for (String a : paths) {
+			writerOutput.println(a);
+		}
+		writerOutput.flush();
+		System.out.println("File saved: "+outputFile);
+
+	}
+	
+	
+	
+	private void scaffolderHS(CommandLine cl)
+			throws ParserConfigurationException, SAXException, IOException,
+			TransformerException {
+		String gexfFileName = cl.getOptionValues("scaffHS")[0];
+		double sigma = Double.parseDouble(cl.getOptionValues("scaffHS")[1]);
+		double omega = Double.parseDouble(cl.getOptionValues("scaffHS")[2]);
+
+		String orderFileName = null;
+
+		if (cl.getOptionValues("scaffHS").length > 3) {
+			orderFileName = cl.getOptionValues("scaffHS")[3];
+		}
+		MyGraph grafo = GexfReader.read(gexfFileName, sigma, omega);
+
+		if (orderFileName != null) {
+			HashMap<String, String[]> info = GexfReader
+					.readContigInfo(orderFileName);
+			grafo.setInfo(info);
+		}
+		grafo.removeSingletons();
+		//DEBUG
+		System.out.println("PESI: ");
+		for(MyEdge e : grafo.getEdges()){
+			System.out.println(e.toStringVerbose());
+		}
+		//
+		GexfWriter.write(grafo, gexfFileName+"_LABELLED");
+		GraphHSPadapter structure = new GraphHSPadapter(grafo);
+		MyGraph cover = structure.createGraphFromSet(structure.getHs().findMinimalHs());
+	
+		
+		GexfWriter.write(cover, gexfFileName + "_COVER");
+		//debug
+		for(MyNode n :cover.getNodes()){
+		System.out.println(n.getDegree());
+		}
+		//
+		ArrayList<String> paths = cover.subPaths();
+
+		File outputFile = new File(gexfFileName + "_RESULTS");
+		PrintWriter writerOutput = new PrintWriter(new FileWriter(outputFile));
+		writerOutput.write("Network: " + gexfFileName + "\n");
+		writerOutput.write("Nodes: " + grafo.getNodes().size() + "\n");
+		writerOutput.write("Edges: " + grafo.getEdges().size() + "\n");
+		writerOutput.write("Info File: " + orderFileName + "\n");
+		writerOutput.write("Synteny factor: " + sigma + "\n");
+		writerOutput.write("Homology factor: " + omega + "\n");
+
+		Evaluation evaluation = evaluator(cover);
+		double cost = evaluation.getCost();
+		int goodPCR = evaluation.getGood();
+		int placedNodes = cover.notSingletons();
+		int nullLabelsedges = evaluation.getNullLabel();
+		int totalLength = computeLenght(paths);
+		int finalSingletons = cover.getNodes().size() - cover.notSingletons();
+		int numberOfScaffolds = paths.size() + finalSingletons;
+		String breakpoints = String.valueOf(evaluation.getErrors());
+		writerOutput.println("#nodes: " + grafo.getNodes().size()
+				+ "( singletons: " + (grafo.getNodes().size() - placedNodes)
+				+ ")");
+		writerOutput.println("#edges: " + grafo.getEdges().size() + "\n"
 				+ "\nGood PCR: " + goodPCR + "\n" + "Breakpoints: "
 				+ breakpoints + "\n" + "Nulli: " + nullLabelsedges);
 		writerOutput.println("#scaffolds: " + numberOfScaffolds
