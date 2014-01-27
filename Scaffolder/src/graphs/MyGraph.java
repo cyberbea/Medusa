@@ -204,8 +204,13 @@ public class MyGraph {
 					break;
 				}
 			}
+			if(root==null){
+			System.out.println("non c'e' una root in "+ copy.toStringVerbose());
+			}
 			String p = copy.clearPrintSB(root, originalDegrees);
-			subPaths.add(p);
+			subPaths.add(p);	
+			
+			
 
 		}
 
@@ -223,6 +228,62 @@ public class MyGraph {
 		for (MyNode r : toRemove) {
 			this.removeNode(r);
 		}
+	}
+	
+	/*Serve per eliminare da una serie di paths quelli ciclici rimuovendo l'arco piu' leggero */
+	public void removeCiclicChains() {
+		ArrayList<MyEdge> toRemove = new ArrayList<MyEdge>();
+		ArrayList<MyNode> toVisit = new ArrayList<MyNode>(this.nodes);
+		while(!toVisit.isEmpty()){
+			MyNode n = toVisit.remove(0);
+			if(n.getDegree()>1){
+			MyEdge candidate = findCycle(n);
+		if(n.getDegree()==2 && candidate!=null){
+				toRemove.add(candidate);
+			}	
+			}
+			
+			
+		}
+		for(MyEdge e : toRemove){
+			this.removeEdge(e);
+		}
+	}
+ /*controlla se il path e' un ciclo e ritorna l'arco di peso minore*/
+	private MyEdge findCycle(MyNode n) {	
+		MyNode current = n;
+		MyNode next;
+		
+		MyEdge e= this.outEdges(current).get(0);//sceglie una direzione a caso da seguire.
+		MyEdge min = e;
+		MyEdge candidateEdge =e;
+		if(current.equals(e.getSource())){
+			next=e.getTarget();
+		}else{
+			next=e.getSource();
+		}
+		MyNode previous=current;
+		
+		while(next.getDegree()==2 && next!=n){
+		ArrayList<MyNode> tmp = new ArrayList<MyNode>(next.getAdj());
+		tmp.remove(previous);
+		previous=next;
+		next=tmp.get(0); 
+		candidateEdge = this.getEdgeByST(previous, next);
+		if(candidateEdge.getWeight() < min.getWeight()){
+			min=candidateEdge;
+		}
+		}
+		if(next.getDegree()==1){
+			//ero in un path semplice
+			return null;	
+		}else{
+			//ero in un circolo
+			return min;
+		}
+
+		
+		
 	}
 
 	/* questa versione stampa le label e la lunghezza */
@@ -259,7 +320,11 @@ public class MyGraph {
 		for (MyNode v : nodes) {
 			if (v.getDegree() != 0) {
 				n = n + 1;
-			}
+			}//debug-------
+			//else{
+			//	System.out.println(v.toStringVErbose()+ " nuovo singoletto");
+				
+			//}//----------------
 		}
 
 		return n;
@@ -288,13 +353,13 @@ public class MyGraph {
 				n.setLabel("label"+String.valueOf(j));
 				j++;
 				//just debug--------
-				System.out.println(n.getId()+"--->"+n.getLabel());
+				//System.out.println(n.getId()+"--->"+n.getLabel());
 				//-------------
 			} else {
 				n.setLabel(nodeInfo[0]);
 				n.setContiglength(Integer.valueOf(nodeInfo[1]));
 				//just debug--------
-				System.out.println(n.getId()+"--->"+nodeInfo[0]);
+				//System.out.println(n.getId()+"--->"+nodeInfo[0]);
 				//-------------
 			}
 

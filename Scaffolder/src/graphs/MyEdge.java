@@ -14,7 +14,7 @@ public class MyEdge implements Comparable<MyEdge> {
 	}
 
 	public String toStringVerbose() {
-		String s = id //+ "<" + source.getLabel() + ";" + target.getLabel() + ">"
+		String s = id + "<" + source.getLabel() + ";" + target.getLabel() + ">"
 				+ "[" + weight + "]";
 		return s;
 	}

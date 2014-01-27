@@ -605,10 +605,10 @@ public class Scaffolder {
 		int finalSingletons = cover.getNodes().size() - cover.notSingletons();
 		int numberOfScaffolds = paths.size() + finalSingletons;
 		String breakpoints = String.valueOf(evaluation.getErrors());
-		writerOutput.println("#nodes: " + maxST.getNodes().size()
-				+ "( singletons: " + (maxST.getNodes().size() - placedNodes)
+		writerOutput.println("#nodes: " + grafo.getNodes().size()
+				+ "( singletons: " + (grafo.getNodes().size() - placedNodes)
 				+ ")");
-		writerOutput.println("#edges: " + maxST.getEdges().size() + "\n"
+		writerOutput.println("#edges: " + grafo.getEdges().size() + "\n"
 				+ "\nGood PCR: " + goodPCR + "\n" + "Breakpoints: "
 				+ breakpoints + "\n" + "Nulli: " + nullLabelsedges);
 		writerOutput.println("#scaffolds: " + numberOfScaffolds
@@ -646,37 +646,48 @@ public class Scaffolder {
 		}
 		grafo.removeSingletons();
 		//DEBUG
-		System.out.println("PESI: ");
-		for(MyEdge e : grafo.getEdges()){
-			System.out.println(e.toStringVerbose());
-		}
+		//System.out.println("PESI: ");
+		//for(MyEdge e : grafo.getEdges()){
+		//	System.out.println(e.toStringVerbose());
+		//}
 		//
 		GexfWriter.write(grafo, gexfFileName+"_LABELLED");
 		GraphHSPadapter structure = new GraphHSPadapter(grafo);
-		MyGraph cover = structure.createGraphFromSet(structure.getHs().findMinimalHs());
-	
-		
-		GexfWriter.write(cover, gexfFileName + "_COVER");
+		HashSet<Element> minimalHS = structure.getHs().findMinimalHs();
+		MyGraph cover = structure.createGraphFromSet(minimalHS);	
 		//debug
-		for(MyNode n :cover.getNodes()){
-		System.out.println(n.getDegree());
+		for(MyNode n : cover.getNodes()){
+			if(n.getDegree()>2){
+				System.out.println("Error: "+n.toStringVErbose());
+			}
 		}
 		//
+		//debug stampa il gefo restante
+		System.out.println("ARCHI RESTANTI:");
+		for(MyEdge e : cover.getEdges()){
+			System.out.println(e.toStringVerbose());
+		}
+		System.out.println("SIZE IN:"+cover.getEdges().size());
+		
+		cover.removeCiclicChains();
+		System.out.println("SIZE AFTER CLEANING:"+cover.getEdges().size());
+		
+	
+		//---------------------------------------
+		
 		ArrayList<String> paths = cover.subPaths();
-
+		GexfWriter.write(cover, gexfFileName + "_COVER");
+		
 		File outputFile = new File(gexfFileName + "_RESULTS");
 		PrintWriter writerOutput = new PrintWriter(new FileWriter(outputFile));
 		writerOutput.write("Network: " + gexfFileName + "\n");
-		writerOutput.write("Nodes: " + grafo.getNodes().size() + "\n");
-		writerOutput.write("Edges: " + grafo.getEdges().size() + "\n");
 		writerOutput.write("Info File: " + orderFileName + "\n");
-		writerOutput.write("Synteny factor: " + sigma + "\n");
-		writerOutput.write("Homology factor: " + omega + "\n");
-
+		//writerOutput.write("Synteny factor: " + sigma + "\n"); ??????
+		//writerOutput.write("Homology factor: " + omega + "\n");?????
 		Evaluation evaluation = evaluator(cover);
 		double cost = evaluation.getCost();
 		int goodPCR = evaluation.getGood();
-		int placedNodes = cover.notSingletons();
+		int placedNodes = grafo.notSingletons();
 		int nullLabelsedges = evaluation.getNullLabel();
 		int totalLength = computeLenght(paths);
 		int finalSingletons = cover.getNodes().size() - cover.notSingletons();
@@ -697,7 +708,6 @@ public class Scaffolder {
 		}
 		writerOutput.flush();
 		System.out.println("File saved: "+outputFile);
-
 	}
 
 }
