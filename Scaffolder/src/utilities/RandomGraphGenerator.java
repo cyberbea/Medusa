@@ -20,27 +20,14 @@ public class RandomGraphGenerator {
 	
 	
 	public static void main(String[] args) throws IOException, TransformerException, ParserConfigurationException{
-		String name= "grafoRandom1"; 
+		String name= "grafoProvaBuono"; 
 		int nodes = 100;
 		double p = 0.05;//probability to have an edge
-		MyGraph g = GenerateRandomGraph(nodes, name, 1, 1, 1, 1);//nodes ,fileName, minGood, maxGood, minBad, maxBad
+		MyGraph g = GenerateRandomGraph(nodes, name, 5, 10, 0, 0);//nodes ,fileName, minGood, maxGood, minBad, maxBad
 		GexfWriter.write(g, name);
 		System.out.println("Create a graph ("+name+") with "+g.getNodes().size()+ " nodes and "+g.getEdges().size()+" edges");
 		CreateInfoFile(g, "info_"+name,false);
 		System.out.println("Create a file (info_"+name+")");
-		
-		StEnumerator enumerator = new StEnumerator(g);
-		int i=1;
-		ArrayList<MyGraph> trees = new ArrayList<MyGraph>();
-		while(enumerator.next() !=null && i<=3){
-			trees.add(enumerator.next());
-			System.out.println(i);
-			++i;
-		}
-		System.out.println("TREES ("+trees.size()+")");
-		for(MyGraph t : trees){
-			System.out.println(t.toString());
-		}
 		
 	}
 	

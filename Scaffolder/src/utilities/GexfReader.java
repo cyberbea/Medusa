@@ -198,11 +198,11 @@ public class GexfReader {
 			String id = current.getAttribute("id");
 			String source = current.getAttribute("source");
 			String target = current.getAttribute("target");
-			Double weight = Double.parseDouble(current.getAttribute("weight"));
 			MyNode ns = graph.nodeFromId(source);
 			MyNode nt = graph.nodeFromId(target);
 			MyEdge e = new MyEdge(id, ns, nt);
-			if(weight == null){
+			String weightString = current.getAttribute("weight");//cerca se nel nodo c'e' l'attributo weight
+			if(weightString == null || weightString.equals("") ){//altrimenti lo cerca nel sotto albero degli attributi
 			NodeList edgeAttributes = ((Element) current.getElementsByTagName(
 					"attvalues").item(0)).getElementsByTagName("attvalue");
 			double s = 0;
@@ -237,6 +237,7 @@ public class GexfReader {
 
 				}
 			} else{
+				Double weight = Double.parseDouble(weightString);
 				e.setWeight(weight);
 			}
 

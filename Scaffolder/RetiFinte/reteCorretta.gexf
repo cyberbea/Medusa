@@ -3,7 +3,7 @@
   <graph>
     <attributes class="edge" mode="static">
       <attribute id="0" title="weight" type="integer"/>
-      <attribute id="0" title="length" type="integer"/>
+      <attribute id="1" title="length" type="integer"/>
     </attributes>
     <attributes class="node" mode="static"/>
     <nodes>
