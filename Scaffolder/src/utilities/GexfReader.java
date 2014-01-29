@@ -171,13 +171,19 @@ public class GexfReader {
 		HashMap<String, String> attributeMap = new HashMap<String, String>();
 		Element graphNode = (Element) doc.getElementsByTagName("graph").item(0);
 		// Legge l'indice degli attributi.
+		NodeList attributeList = graphNode.getElementsByTagName(
+				"attributes");
+		if(attributeList.getLength()!=0){
 		NodeList attributes = ((Element) graphNode.getElementsByTagName(
 				"attributes").item(0)).getElementsByTagName("attribute");
+		
 		for (int i = 0; i < attributes.getLength(); ++i) {
 			Element attribute = (Element) attributes.item(i);
 			attributeMap.put(attribute.getAttribute("title"),
 					attribute.getAttribute("id"));
+		}	
 		}
+		
 		// Legge i nodi.
 		Element nodesElement = (Element) graphNode
 				.getElementsByTagName("nodes").item(0);
