@@ -676,9 +676,9 @@ public class Scaffolder {
 		//---------------------------------------
 		
 		ArrayList<String> paths = cover.subPaths();
-		GexfWriter.write(cover, gexfFileName + "_COVER");
+		GexfWriter.write(cover, gexfFileName + "_COVER_HS");
 		
-		File outputFile = new File(gexfFileName + "_RESULTS");
+		File outputFile = new File(gexfFileName + "_RESULTS_HS");
 		PrintWriter writerOutput = new PrintWriter(new FileWriter(outputFile));
 		writerOutput.write("Network: " + gexfFileName + "\n");
 		writerOutput.write("Info File: " + orderFileName + "\n");

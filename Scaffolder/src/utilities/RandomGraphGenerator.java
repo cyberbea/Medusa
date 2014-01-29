@@ -20,10 +20,10 @@ public class RandomGraphGenerator {
 	
 	
 	public static void main(String[] args) throws IOException, TransformerException, ParserConfigurationException{
-		String name= "grafoProvaBuono"; 
+		String name= "reteBuona.gexf"; 
 		int nodes = 100;
-		double p = 0.05;//probability to have an edge
-		MyGraph g = GenerateRandomGraph(nodes, name, 5, 10, 0, 0);//nodes ,fileName, minGood, maxGood, minBad, maxBad
+		double p = 0.1;//probability to have an edge
+		MyGraph g = GenerateRandomGraph(nodes, name, 10, 20, 0, 14);//nodes ,fileName, minGood, maxGood, minBad, maxBad
 		GexfWriter.write(g, name);
 		System.out.println("Create a graph ("+name+") with "+g.getNodes().size()+ " nodes and "+g.getEdges().size()+" edges");
 		CreateInfoFile(g, "info_"+name,false);
