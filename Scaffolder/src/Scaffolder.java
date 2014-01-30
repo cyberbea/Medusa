@@ -58,6 +58,12 @@ public class Scaffolder {
 				.withDescription("Save the console output on a file")
 				.create("output");
 		opts.addOption(output);
+		
+		Option info = OptionBuilder.withArgName("<file>").hasArgs(1)
+				.withValueSeparator()
+				.withDescription("The file containing the contigs in correct order and their lenght")
+				.create("info");
+		opts.addOption(info);
 
 		Option scaffolder = OptionBuilder
 				.withArgName(
@@ -78,6 +84,12 @@ public class Scaffolder {
 						"The whole process: Graph--> HS ---> MINIMAL HS AS COVER")
 				.create("scaffHS");
 		opts.addOption(scaffolderHS);
+		
+		Option eva = OptionBuilder.withArgName("<file>").hasArgs(1)
+				.withValueSeparator()
+				.withDescription("Evaluate the network looking at the labels")
+				.create("eva");
+		opts.addOption(eva);
 		
 		Option multiple = OptionBuilder
 				.withArgName(
@@ -172,6 +184,11 @@ public class Scaffolder {
 			else if (cl.hasOption("scaffHS")) {
 				scaffolderHS(cl);
 			}
+			else if (cl.hasOption("eva")) {
+				eva(cl);
+			}
+			
+		
 
 		} catch (UnrecognizedOptionException uoe) {
 			HelpFormatter f = new HelpFormatter();
@@ -547,13 +564,17 @@ public class Scaffolder {
 			throws ParserConfigurationException, SAXException, IOException,
 			TransformerException {
 		String gexfFileName = cl.getOptionValues("scaff")[0];
-		double sigma = Double.parseDouble(cl.getOptionValues("scaff")[1]);
-		double omega = Double.parseDouble(cl.getOptionValues("scaff")[2]);
-
 		String orderFileName = null;
 
-		if (cl.getOptionValues("scaff").length > 3) {
-			orderFileName = cl.getOptionValues("scaff")[3];
+		double sigma=0;
+		double omega=0;
+		
+		if (cl.getOptionValues("scaff").length > 1) {
+			 sigma = Double.parseDouble(cl.getOptionValues("scaff")[1]);
+			 omega = Double.parseDouble(cl.getOptionValues("scaff")[2]);	
+		}
+		if(cl.getOptionValue("info")!= null){
+			orderFileName = cl.getOptionValue("info");
 		}
 		String StFileName = gexfFileName + "_ST";
 		MyGraph grafo = GexfReader.read(gexfFileName, sigma, omega);
@@ -579,15 +600,15 @@ public class Scaffolder {
 			System.out.println(e.toStringVerbose());
 		}
 		//
-		GexfWriter.write(grafo, gexfFileName+"_LABELLED");
+		GexfWriter.write(grafo, gexfFileName+"_LABELLED.gexf");
 		MyGraph maxST = Kruskal.maxST(grafo);
 		GexfWriter.write(maxST, StFileName);
 
 		MyGraph cover = maxST.computeCover();
-		GexfWriter.write(cover, gexfFileName + "_COVER");
+		GexfWriter.write(cover, gexfFileName + "_COVER.gexf");
 		ArrayList<String> paths = cover.subPaths();
 
-		File outputFile = new File(gexfFileName + "_RESULTS");
+		File outputFile = new File(gexfFileName + "_RESULTS.txt");
 		PrintWriter writerOutput = new PrintWriter(new FileWriter(outputFile));
 		writerOutput.write("Network: " + gexfFileName + "\n");
 		writerOutput.write("Nodes: " + grafo.getNodes().size() + "\n");
@@ -629,14 +650,21 @@ public class Scaffolder {
 			throws ParserConfigurationException, SAXException, IOException,
 			TransformerException {
 		String gexfFileName = cl.getOptionValues("scaffHS")[0];
-		double sigma = Double.parseDouble(cl.getOptionValues("scaffHS")[1]);
-		double omega = Double.parseDouble(cl.getOptionValues("scaffHS")[2]);
+		
 
 		String orderFileName = null;
 
-		if (cl.getOptionValues("scaffHS").length > 3) {
-			orderFileName = cl.getOptionValues("scaffHS")[3];
+		double sigma=0;
+		double omega=0;
+		
+		if (cl.getOptionValues("scaffHS").length > 1) {
+			 sigma = Double.parseDouble(cl.getOptionValues("scaffHS")[1]);
+			 omega = Double.parseDouble(cl.getOptionValues("scaffHS")[2]);	
 		}
+		if(cl.getOptionValue("info")!= null){
+			orderFileName = cl.getOptionValue("info");
+		}
+		
 		MyGraph grafo = GexfReader.read(gexfFileName, sigma, omega);
 
 		if (orderFileName != null) {
@@ -651,7 +679,8 @@ public class Scaffolder {
 		//	System.out.println(e.toStringVerbose());
 		//}
 		//
-		GexfWriter.write(grafo, gexfFileName+"_LABELLED");
+		GexfWriter.write(grafo, gexfFileName+"_LABELLED.gexf");
+		//System.out.println("Network Properities: "+grafo.getNodes().size()+" Nodes; "+grafo.getEdges().size()+ " Edges.");
 		GraphHSPadapter structure = new GraphHSPadapter(grafo);
 		HashSet<Element> minimalHS = structure.getHs().findMinimalHs();
 		MyGraph cover = structure.createGraphFromSet(minimalHS);	
@@ -663,12 +692,11 @@ public class Scaffolder {
 		}
 		//
 		//debug stampa il gefo restante
-		System.out.println("ARCHI RESTANTI:");
-		for(MyEdge e : cover.getEdges()){
-			System.out.println(e.toStringVerbose());
-		}
+		//System.out.println("ARCHI RESTANTI:");
+		//for(MyEdge e : cover.getEdges()){
+		//	System.out.println(e.toStringVerbose());
+		//}
 		System.out.println("SIZE IN:"+cover.getEdges().size());
-		
 		cover.removeCiclicChains();
 		System.out.println("SIZE AFTER CLEANING:"+cover.getEdges().size());
 		
@@ -676,14 +704,30 @@ public class Scaffolder {
 		//---------------------------------------
 		
 		ArrayList<String> paths = cover.subPaths();
-		GexfWriter.write(cover, gexfFileName + "_COVER_HS");
+		GexfWriter.write(cover, gexfFileName + "_COVER_HS.gexf");
 		
-		File outputFile = new File(gexfFileName + "_RESULTS_HS");
+		File outputFile = new File(gexfFileName + "_RESULTS_HS.txt");
 		PrintWriter writerOutput = new PrintWriter(new FileWriter(outputFile));
 		writerOutput.write("Network: " + gexfFileName + "\n");
 		writerOutput.write("Info File: " + orderFileName + "\n");
 		//writerOutput.write("Synteny factor: " + sigma + "\n"); ??????
 		//writerOutput.write("Homology factor: " + omega + "\n");?????
+		
+		//---------------------Network evaluation
+		writerOutput.println("NETWORK:\n");
+		Evaluation networkEva = evaluator(grafo);
+		int goodPCRN = networkEva.getGood();
+		int placedNodesN = grafo.notSingletons();
+		int nullLabelsedgesN = networkEva.getNullLabel();
+		String breakpointsN = String.valueOf(networkEva.getErrors());
+		writerOutput.println("#nodes: " + grafo.getNodes().size()
+				+ "( singletons: " + (grafo.getNodes().size() - placedNodesN)
+				+ ")");
+		writerOutput.println("#edges: " + grafo.getEdges().size() + "\n"
+				+ "\nGood PCR: " + goodPCRN + "\n" + "Breakpoints: "
+				+ breakpointsN + "\n" + "Nulli: " + nullLabelsedgesN);
+		//-----------------------Cover evaluation
+		writerOutput.println("COVER:\n");
 		Evaluation evaluation = evaluator(cover);
 		double cost = evaluation.getCost();
 		int goodPCR = evaluation.getGood();
@@ -708,6 +752,29 @@ public class Scaffolder {
 		}
 		writerOutput.flush();
 		System.out.println("File saved: "+outputFile);
+	}
+	
+	private void eva(CommandLine cl) throws IOException, ParserConfigurationException, SAXException{
+		String gexfFileName = cl.getOptionValue("eva");
+		MyGraph grafo = GexfReader.read(gexfFileName, 0, 0);
+		evaluator(grafo);
+		File outputFile = new File(gexfFileName + "_EVALUATION.txt");
+		PrintWriter writerOutput = new PrintWriter(new FileWriter(outputFile));
+		writerOutput.write("Network: " + gexfFileName + "\n");
+		Evaluation evaluation = evaluator(grafo);
+		int goodPCR = evaluation.getGood();
+		int placedNodes = grafo.notSingletons();
+		int nullLabelsedges = evaluation.getNullLabel();
+		String breakpoints = String.valueOf(evaluation.getErrors());
+		writerOutput.println("#nodes: " + grafo.getNodes().size()
+				+ "( singletons: " + (grafo.getNodes().size() - placedNodes)
+				+ ")");
+		writerOutput.println("#edges: " + grafo.getEdges().size() + "\n"
+				+ "\nGood PCR: " + goodPCR + "\n" + "Breakpoints: "
+				+ breakpoints + "\n" + "Nulli: " + nullLabelsedges);
+		writerOutput.flush();
+		System.out.println("File saved: "+outputFile);
+		
 	}
 
 }
