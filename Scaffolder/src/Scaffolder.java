@@ -714,7 +714,7 @@ public class Scaffolder {
 		//writerOutput.write("Homology factor: " + omega + "\n");?????
 		
 		//---------------------Network evaluation
-		writerOutput.println("NETWORK:\n");
+		writerOutput.println("\n--------------NETWORK---------------\n");
 		Evaluation networkEva = evaluator(grafo);
 		int goodPCRN = networkEva.getGood();
 		int placedNodesN = grafo.notSingletons();
@@ -727,7 +727,7 @@ public class Scaffolder {
 				+ "\nGood PCR: " + goodPCRN + "\n" + "Breakpoints: "
 				+ breakpointsN + "\n" + "Nulli: " + nullLabelsedgesN);
 		//-----------------------Cover evaluation
-		writerOutput.println("COVER:\n");
+		writerOutput.println("\n--------------SCAFFOLDS---------------\n");
 		Evaluation evaluation = evaluator(cover);
 		double cost = evaluation.getCost();
 		int goodPCR = evaluation.getGood();
@@ -737,11 +737,14 @@ public class Scaffolder {
 		int finalSingletons = cover.getNodes().size() - cover.notSingletons();
 		int numberOfScaffolds = paths.size() + finalSingletons;
 		String breakpoints = String.valueOf(evaluation.getErrors());
-		writerOutput.println("#nodes: " + grafo.getNodes().size()
+		writerOutput.println("#nodes: " + cover.getNodes().size()
 				+ "( singletons: " + (grafo.getNodes().size() - placedNodes)
 				+ ")");
-		writerOutput.println("#edges: " + grafo.getEdges().size() + "\n"
+		
+		writerOutput.println("#edges: " + cover.getEdges().size() + "\n"
 				+ "\nGood PCR: " + goodPCR + "\n" + "Breakpoints: "
+				+ breakpoints + "\n" + "Nulli: " + nullLabelsedges);
+		System.out.println("Summary= \nGood PCR: " + goodPCR + "\n" + "Breakpoints: "
 				+ breakpoints + "\n" + "Nulli: " + nullLabelsedges);
 		writerOutput.println("#scaffolds: " + numberOfScaffolds
 				+ "(singletons= " + finalSingletons + ")");
@@ -773,8 +776,6 @@ public class Scaffolder {
 				+ "\nGood PCR: " + goodPCR + "\n" + "Breakpoints: "
 				+ breakpoints + "\n" + "Nulli: " + nullLabelsedges);
 		writerOutput.flush();
-		System.out.println("File saved: "+outputFile);
-		
+		System.out.println("File saved: "+outputFile);	
 	}
-
 }

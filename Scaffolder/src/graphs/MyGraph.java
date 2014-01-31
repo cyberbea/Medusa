@@ -353,13 +353,13 @@ public class MyGraph {
 				n.setLabel("label"+String.valueOf(j));
 				j++;
 				//just debug--------
-				//System.out.println(n.getId()+"--->"+n.getLabel());
+				System.out.println(n.getId()+"--->"+n.getLabel());
 				//-------------
 			} else {
 				n.setLabel(nodeInfo[0]);
 				n.setContiglength(Integer.valueOf(nodeInfo[1]));
 				//just debug--------
-				//System.out.println(n.getId()+"--->"+nodeInfo[0]);
+				System.out.println(n.getId()+"--->"+nodeInfo[0]);
 				//-------------
 			}
 
