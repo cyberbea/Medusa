@@ -345,6 +345,7 @@ public class MyGraph {
 	}
 
 	public void setInfo(HashMap<String, String[]> info) {
+		System.out.println("TRADUZIONE LABEL");//DEBUG
 		int j=0;
 		for (MyNode n : nodes) {
 			String[] nodeInfo = info.get(n.getId());

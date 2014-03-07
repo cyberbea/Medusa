@@ -8,9 +8,11 @@ import hs.HSP.Element;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -247,6 +249,7 @@ public class Scaffolder {
 		int nullLabelsedges = evaluation.getNullLabel();
 		int numberOfScaffolds = paths.size();
 		int totalLength = computeLenght(paths);
+		
 		String breakpoints = String.valueOf(evaluation.getErrors());// badPCR(paths));
 		output.println("#nodes: " + maxST.getNodes().size()
 				+ "( not singletons: " + placedNodes + ")");
@@ -255,10 +258,70 @@ public class Scaffolder {
 				+ "\n" + "Nulli: " + nullLabelsedges);
 		output.println("#scaffolds: " + numberOfScaffolds);
 		output.println("Total length: " + totalLength);
+
 		for (String a : paths) {
 			output.println(a);
 		}
 		output.flush();
+	}
+
+	private Double computeN50(ArrayList<String> paths) {
+		HashMap<Integer,Integer> lenghtsMap = new HashMap<Integer, Integer>();
+		String current;
+		for (int i = 0; i < paths.size(); i++) {
+			current = paths.get(i);
+			String[] currentSplit = current.split("@");
+			int le = Integer.parseInt(currentSplit[1].replaceFirst("@", ""));
+		if(lenghtsMap.get(le)!=null){
+				int n = lenghtsMap.get(le);
+				lenghtsMap.put(le, n+1);
+			}else{
+				lenghtsMap.put(le, 1);
+			}
+		}
+		
+		ArrayList<Integer> a = new ArrayList<Integer>();//cosi e'il minore per cui sommando tutti i maggiori uguali si copre meta luneghezza
+			for(int i: lenghtsMap.keySet()){
+			int v = lenghtsMap.get(i);
+				for(int m=0;m<=v;m++){
+					a.add(i);
+				}
+			}
+			Collections.sort(a);
+			Collections.reverse(a);
+			System.out.println("VETTORE LUNGHEZZE:"+a.toString());
+			int sum=0;
+			for(int i : a){
+				sum = sum+i;
+			}
+			int index=0;
+			int partialSum = a.get(0);
+			double n50;
+			while(partialSum <= (sum/2)){
+				index++;
+				partialSum=partialSum +a.get(index);
+			}
+			n50 = a.get(index);
+		//	Double n50= median(a);
+	//ArrayList<Integer> a = new ArrayList<Integer>();//cosi e' la mediana della distribuzione delle lunghezze
+	//	for(int i: lenghtsMap.keySet()){
+	//		int v = lenghtsMap.get(i);
+	//		for(int m=0;m<=v;m++){
+	//			a.add(i);
+	//		}
+	//	}
+	//	Collections.sort(a);
+	//	Double n50= median(a);
+		return n50;
+	}
+	
+	public static double median(ArrayList<Integer> m) {
+	    int middle = m.size()/2;
+	    if (m.size()%2 == 1) {
+	        return m.get(middle);
+	    } else {
+	        return (m.get(middle-1) + m.get(middle) / 2.0);
+	    }
 	}
 
 	private int computeLenght(ArrayList<String> paths) {
@@ -649,6 +712,9 @@ public class Scaffolder {
 	private void scaffolderHS(CommandLine cl)
 			throws ParserConfigurationException, SAXException, IOException,
 			TransformerException {
+		  	String command = "./script.sh";
+		    Process newProcess = Runtime.getRuntime().exec(command);
+		    
 		String gexfFileName = cl.getOptionValues("scaffHS")[0];
 		
 
@@ -734,6 +800,7 @@ public class Scaffolder {
 		int placedNodes = grafo.notSingletons();
 		int nullLabelsedges = evaluation.getNullLabel();
 		int totalLength = computeLenght(paths);
+		Double n50 = computeN50(paths);
 		int finalSingletons = cover.getNodes().size() - cover.notSingletons();
 		int numberOfScaffolds = paths.size() + finalSingletons;
 		String breakpoints = String.valueOf(evaluation.getErrors());
@@ -750,6 +817,8 @@ public class Scaffolder {
 				+ "(singletons= " + finalSingletons + ")");
 		writerOutput.println("Total length: " + totalLength);
 		writerOutput.println("Total weight: " + cost);
+		writerOutput.println("N50: " + n50);
+		System.out.println("N50: " + n50);
 		for (String a : paths) {
 			writerOutput.println(a);
 		}
@@ -776,6 +845,6 @@ public class Scaffolder {
 				+ "\nGood PCR: " + goodPCR + "\n" + "Breakpoints: "
 				+ breakpoints + "\n" + "Nulli: " + nullLabelsedges);
 		writerOutput.flush();
-		System.out.println("File saved: "+outputFile);	
+		System.out.println("File saved: "+outputFile);
 	}
 }
