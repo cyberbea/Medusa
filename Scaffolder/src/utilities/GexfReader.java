@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -25,11 +26,11 @@ public class GexfReader {
 
 	}
 
-	static public MyGraph read(String fileName)
+	static public MyGraph read(InputStream input)
 			throws ParserConfigurationException, SAXException, IOException {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
-		Document doc = builder.parse(new File(fileName));
+		Document doc = builder.parse(input);
 		MyGraph graph = new MyGraph();
 		HashMap<String, String> attributeMap = new HashMap<String, String>();
 		Element graphNode = (Element) doc.getElementsByTagName("graph").item(0);
@@ -161,12 +162,12 @@ public class GexfReader {
 
 	}
 
-	public static MyGraph read(String fileName, double sigma, double omega)
+	public static MyGraph read(InputStream input, double sigma, double omega)
 			throws ParserConfigurationException, SAXException, IOException {
 
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
-		Document doc = builder.parse(new File(fileName));
+		Document doc = builder.parse(input);
 		MyGraph graph = new MyGraph();
 		HashMap<String, String> attributeMap = new HashMap<String, String>();
 		Element graphNode = (Element) doc.getElementsByTagName("graph").item(0);

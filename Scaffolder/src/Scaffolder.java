@@ -5,6 +5,7 @@ import graphs.spanningTree.Kruskal;
 import graphs.spanningTree.StEnumerator;
 import hs.HSP.Element;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -213,7 +214,8 @@ public class Scaffolder {
 			orderFileName = cl.getOptionValues("st")[4];
 		}
 		String outputFileName = cl.getOptionValue("output");
-		MyGraph grafo = GexfReader.read(gexfFileName, sigma, omega);
+		Process process = new ProcessBuilder("cat",gexfFileName).start();
+		MyGraph grafo = GexfReader.read(process.getInputStream(),sigma,omega);
 		// todo leggere weight se c'e'??
 		if (deduplicate) {
 			grafo.deduplicateEdge();
@@ -240,8 +242,8 @@ public class Scaffolder {
 		} else {
 			output = new PrintWriter(System.out, true);
 		}
-
-		MyGraph maxST = GexfReader.read(gexfST);
+		Process process = new ProcessBuilder("cat",gexfST).start();
+		MyGraph maxST = GexfReader.read(process.getInputStream());
 		ArrayList<String> paths = maxST.subPaths();
 		Evaluation evaluation = evaluator(maxST);
 		int goodPCR = evaluation.getGood();// goodPCR(paths);
@@ -425,7 +427,9 @@ public class Scaffolder {
 			output = new PrintWriter(System.out, true);
 			output.println("FILE DI INPUT: " + gexfST);
 		}
-		MyGraph maxST = GexfReader.read(gexfST);
+		
+		Process process = new ProcessBuilder("cat",gexfST).start();
+		MyGraph maxST = GexfReader.read(process.getInputStream());
 
 		MyGraph cover = maxST.computeCover();
 		ArrayList<String> paths = cover.subPaths();
@@ -537,7 +541,8 @@ public class Scaffolder {
 		if (cl.getOptionValues("enum").length > 5) {
 			orderFileName = cl.getOptionValues("enum")[5];
 		}
-		MyGraph grafo = GexfReader.read(gexfGraph, sigma, omega);
+		Process process = new ProcessBuilder("cat",gexfGraph).start();
+		MyGraph grafo = GexfReader.read(process.getInputStream(), sigma, omega);
 		// todo leggere weight se c'e'??
 		if (deduplicate) {
 			grafo.deduplicateEdge();
@@ -574,7 +579,8 @@ public class Scaffolder {
 	private void amplifier(CommandLine cl) throws ParserConfigurationException,
 			SAXException, IOException, TransformerException {
 		String gexfGraph = cl.getOptionValues("ampl")[0];
-		MyGraph amplifiedGraph = GexfReader.read(gexfGraph);
+		Process process = new ProcessBuilder("cat",gexfGraph).start();
+		MyGraph amplifiedGraph = GexfReader.read(process.getInputStream());
 
 		double amplificationFactor = Double
 				.valueOf(cl.getOptionValues("ampl")[1]);
@@ -640,8 +646,10 @@ public class Scaffolder {
 			orderFileName = cl.getOptionValue("info");
 		}
 		String StFileName = gexfFileName + "_ST";
-		MyGraph grafo = GexfReader.read(gexfFileName, sigma, omega);
 
+		Process process = new ProcessBuilder("cat",gexfFileName).start();
+		MyGraph grafo = GexfReader.read(process.getInputStream(), sigma, omega);
+		
 		// is the deduplication of the edges still necessary??
 		// boolean deduplicate = false;
 		// if (cl.getOptionValues("scaff").length > 3) {
@@ -712,8 +720,6 @@ public class Scaffolder {
 	private void scaffolderHS(CommandLine cl)
 			throws ParserConfigurationException, SAXException, IOException,
 			TransformerException {
-		  	String command = "./script.sh";
-		    Process newProcess = Runtime.getRuntime().exec(command);
 		    
 		String gexfFileName = cl.getOptionValues("scaffHS")[0];
 		
@@ -730,8 +736,8 @@ public class Scaffolder {
 		if(cl.getOptionValue("info")!= null){
 			orderFileName = cl.getOptionValue("info");
 		}
-		
-		MyGraph grafo = GexfReader.read(gexfFileName, sigma, omega);
+		Process process = new ProcessBuilder("/Users/beatrice/git/Medusa/Scaffolder/catLento",gexfFileName).start();
+		MyGraph grafo = GexfReader.read(new BufferedInputStream(process.getInputStream()), sigma, omega);
 
 		if (orderFileName != null) {
 			HashMap<String, String[]> info = GexfReader
@@ -828,7 +834,9 @@ public class Scaffolder {
 	
 	private void eva(CommandLine cl) throws IOException, ParserConfigurationException, SAXException{
 		String gexfFileName = cl.getOptionValue("eva");
-		MyGraph grafo = GexfReader.read(gexfFileName, 0, 0);
+		Process process = new ProcessBuilder("cat",gexfFileName).start();
+		MyGraph grafo = GexfReader.read(process.getInputStream(), 0, 0);
+		
 		evaluator(grafo);
 		File outputFile = new File(gexfFileName + "_EVALUATION.txt");
 		PrintWriter writerOutput = new PrintWriter(new FileWriter(outputFile));
