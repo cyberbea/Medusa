@@ -720,6 +720,66 @@ public class MyGraph {
 		return leaves;
 	}
 
+	public ArrayList<String> scaffolds() {
+		ArrayList<String> scaffolds = new ArrayList<String>();
+		MyGraph copy = new MyGraph(this);
+		HashMap<MyNode, Integer> originalDegrees = new HashMap<MyNode, Integer>();
+		//----legge i singoletti e aggiorna la mappa dei gradi---//
+		for (MyNode n : copy.nodes) {	
+			originalDegrees.put(n, n.getDegree());
+			if(n.getDegree()==0){
+				scaffolds.add(n.getId());//TODO ID--->SEQ
+			}
+		}
+		//--legge i veri scaffolds---//
+		while (copy.nodes.size() >= 2) {
+			copy.removeSingletons();
+			MyNode root = null;
+			for (MyNode r : copy.nodes) {
+				if (r.getDegree() == 1) {// cerca una foglia di copy da cui
+											// partire.
+					root = r;
+					break;
+				}
+			}
+			if(root==null){
+			System.out.println("non c'e' una root in "+ copy.toStringVerbose());
+			}
+			String p = copy.scaffoldSeq(root, originalDegrees);
+			scaffolds.add(p);	
+			}
+		
+		return scaffolds;
+	}
+
+	private String scaffoldSeq(MyNode root,
+			HashMap<MyNode, Integer> originalDegrees) {
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append(root.getLabel());//TODO label--->seq
+		MyNode current = root.getAdj().get(0);
+		MyEdge start = this.getEdgeByST(root, current);
+		for(int i=1;i <= start.getLenght();i++){//aggiunge N tra un contiguo e l'altro.
+			sb.append("N");
+		}
+		this.removeEdge(start);
+		this.removeNode(root);
+		while (originalDegrees.get(current) == 2) {
+			sb.append(current.getLabel());//TODO label--->seq
+			MyNode next = current.getAdj().get(0);
+			MyEdge e = this.getEdgeByST(current, next);
+			for(int i=1;i <= e.getLenght();i++){//aggiunge N tra un contiguo e l'altro.
+				sb.append("N");
+			}
+			this.removeEdge(e);
+			this.removeNode(current);
+			current = next;
+		}
+		sb.append(current.getLabel());//TODO label--->seq
+		String p = sb.toString();
+		return p;
+	}
+
 	/*
 	 * 
 	 * 

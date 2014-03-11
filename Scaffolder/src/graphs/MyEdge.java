@@ -10,7 +10,7 @@ public class MyEdge implements Comparable<MyEdge> {
 	public MyEdge(String id, MyNode source, MyNode target) {
 		this.setId(id);
 		this.weight = 0;
-		this.lenght=0;
+		this.lenght=1;
 		this.source = source;
 		this.target = target;
 	}

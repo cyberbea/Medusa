@@ -291,7 +291,6 @@ public class Scaffolder {
 			}
 			Collections.sort(a);
 			Collections.reverse(a);
-			System.out.println("VETTORE LUNGHEZZE:"+a.toString());
 			int sum=0;
 			for(int i : a){
 				sum = sum+i;
@@ -738,13 +737,14 @@ public class Scaffolder {
 		}
 		Process process = new ProcessBuilder("/Users/beatrice/git/Medusa/Scaffolder/catLento",gexfFileName).start();
 		MyGraph grafo = GexfReader.read(new BufferedInputStream(process.getInputStream()), sigma, omega);
-
+		
 		if (orderFileName != null) {
 			HashMap<String, String[]> info = GexfReader
 					.readContigInfo(orderFileName);
 			grafo.setInfo(info);
 		}
-		grafo.removeSingletons();
+		
+		//grafo.removeSingletons();//TODO come mai toglievo i singoletti? Cosa succede ora che li lascio?
 		//DEBUG
 		//System.out.println("PESI: ");
 		//for(MyEdge e : grafo.getEdges()){
@@ -776,9 +776,9 @@ public class Scaffolder {
 		//---------------------------------------
 		
 		ArrayList<String> paths = cover.subPaths();
-		GexfWriter.write(cover, gexfFileName + "_COVER_HS.gexf");
+		//GexfWriter.write(cover, gexfFileName + "_COVER_HS.gexf");
 		
-		File outputFile = new File(gexfFileName + "_RESULTS_HS.txt");
+		File outputFile = new File(gexfFileName + "_SUMMARY");
 		PrintWriter writerOutput = new PrintWriter(new FileWriter(outputFile));
 		writerOutput.write("Network: " + gexfFileName + "\n");
 		writerOutput.write("Info File: " + orderFileName + "\n");
@@ -830,6 +830,19 @@ public class Scaffolder {
 		}
 		writerOutput.flush();
 		System.out.println("File saved: "+outputFile);
+		//------ create SCAFFOLDS file ---------
+		ArrayList<String> scaffolds = cover.scaffolds(); //TODO far leggere al metodo scaffold le sequenze
+		File outputFile2 = new File(gexfFileName + "_SCAFFOLDS");
+		PrintWriter writerOutput2 = new PrintWriter(new FileWriter(outputFile2));
+		int i =1;
+		for (String a : scaffolds) {
+			writerOutput2.println(">Scaffold_"+i);
+			writerOutput2.println(a);
+			i++;
+		}
+		writerOutput2.flush();
+		System.out.println("File saved: "+outputFile2);
+		
 	}
 	
 	private void eva(CommandLine cl) throws IOException, ParserConfigurationException, SAXException{
