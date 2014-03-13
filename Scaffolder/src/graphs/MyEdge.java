@@ -5,7 +5,7 @@ public class MyEdge implements Comparable<MyEdge> {
 	private MyNode source;
 	private MyNode target;
 	private double weight;
-	private int lenght;
+	private double lenght;
 
 	public MyEdge(String id, MyNode source, MyNode target) {
 		this.setId(id);
@@ -98,12 +98,12 @@ public class MyEdge implements Comparable<MyEdge> {
 		return true;
 	}
 
-	public int getLenght() {
+	public double getLenght() {
 		return lenght;
 	}
 
-	public void setLenght(int lenght) {
-		this.lenght = lenght;
+	public void setLenght(double d) {
+		this.lenght = d;
 	}
 
 

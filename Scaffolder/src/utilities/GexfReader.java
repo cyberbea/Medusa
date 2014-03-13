@@ -164,14 +164,14 @@ public class GexfReader {
 
 	public static MyGraph read(InputStream input, double sigma, double omega)
 			throws ParserConfigurationException, SAXException, IOException {
-
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		Document doc = builder.parse(input);
 		MyGraph graph = new MyGraph();
-		HashMap<String, String> attributeMap = new HashMap<String, String>();
+		HashMap<String, String> attributeMap = new HashMap<String, String>();//attributi archi
+		HashMap<String, String> attributeMap2 = new HashMap<String, String>();//attributi nodi
 		Element graphNode = (Element) doc.getElementsByTagName("graph").item(0);
-		// Legge l'indice degli attributi.
+		// Legge l'indice degli attributi.//ne deve leggere due gruppi 
 		NodeList attributeList = graphNode.getElementsByTagName(
 				"attributes");
 		if(attributeList.getLength()!=0){
@@ -182,7 +182,15 @@ public class GexfReader {
 			Element attribute = (Element) attributes.item(i);
 			attributeMap.put(attribute.getAttribute("title"),
 					attribute.getAttribute("id"));
-		}	
+		}
+		NodeList attributesN = ((Element) graphNode.getElementsByTagName(
+				"attributes").item(1)).getElementsByTagName("attribute");
+		for (int i = 0; i < attributesN.getLength(); ++i) {
+			Element attribute = (Element) attributesN.item(i);
+			
+			attributeMap2.put(attribute.getAttribute("title"),
+					attribute.getAttribute("id"));
+		}
 		}
 		
 		// Legge i nodi.
@@ -194,8 +202,30 @@ public class GexfReader {
 			String id = current.getAttribute("id");
 			String label = current.getAttribute("label");
 			MyNode n = new MyNode(id, label);
+			
+			String nodelenghtString = current.getAttribute("lenght");//cerca se nel nodo c'e' l'attributo 
+			if(nodelenghtString == null || nodelenghtString.equals("") ){
+				//altrimenti lo cerca nel sotto albero degli attributi e pone la lenght come la media della distanza
+			NodeList nodeAttributes = ((Element) current.getElementsByTagName(
+					"attvalues").item(0)).getElementsByTagName("attvalue");
+			for (int j = 0; j < nodeAttributes.getLength(); ++j) {
+				Element ea = (Element) nodeAttributes.item(j);
+				if (ea.getAttribute("for") != null
+						&& ea.getAttribute("for").equals(
+								attributeMap2.get("length"))) {
+					n.setContiglength(Integer.parseInt(ea.getAttribute("value")));
+				} else {
+					System.out.println("ERROR: missing attribute lenght");
+			}}
+			} else{
+				int l = Integer.parseInt(nodelenghtString);
+				n.setContiglength(l);
+			}
 			graph.addNode(n);
 		}
+		
+
+		
 		// Legge gli archi.
 		Element edgesElement = (Element) graphNode
 				.getElementsByTagName("edges").item(0);
@@ -211,10 +241,7 @@ public class GexfReader {
 			String weightString = current.getAttribute("weight");//cerca se nel nodo c'e' l'attributo weight
 			if(weightString == null || weightString.equals("") ){//altrimenti lo cerca nel sotto albero degli attributi
 			NodeList edgeAttributes = ((Element) current.getElementsByTagName(
-					"attvalues").item(0)).getElementsByTagName("attvalue");
-			double s = 0;
-			double h = 0;
-			boolean findW = false;
+					"attvalues").item(0)).getElementsByTagName("attvalue");;
 			for (int j = 0; j < edgeAttributes.getLength(); ++j) {
 				Element ea = (Element) edgeAttributes.item(j);
 				// se esiste l'attributo weight usa quello.
@@ -222,32 +249,35 @@ public class GexfReader {
 						&& ea.getAttribute("for").equals(
 								attributeMap.get("weight"))) {
 					e.setWeight(Double.parseDouble(ea.getAttribute("value")));
-					findW = true;
-				} else {// altrimenti calcola il peso combinando synteny e
-						// homology con coefficienti sigma e omega
-					if (ea.getAttribute("for") != null
-							&& ea.getAttribute("for").equals(
-									attributeMap.get("synteny")) & !findW) {
-						s = Double.parseDouble(ea.getAttribute("value"));
-						double w = e.getWeight();
-						e.setWeight((sigma * s) + w);
-					}
-					if (ea.getAttribute("for") != null
-							&& ea.getAttribute("for").equals(
-									attributeMap.get("homology")) & !findW) {
-						h = Double.parseDouble(ea.getAttribute("value"));
-						double w = e.getWeight();
-						e.setWeight((omega * h) + w);
-					}	
-			}
-			
-
-				}
+				} else {
+					System.out.println("ERROR: missing attribute weight");
+			}}
 			} else{
 				Double weight = Double.parseDouble(weightString);
 				e.setWeight(weight);
 			}
+			
+			String distanceString = current.getAttribute("distance");//cerca se nel nodo c'e' l'attributo distance
+			if(distanceString == null || distanceString.equals("") ){
+				//altrimenti lo cerca nel sotto albero degli attributi e pone la lenght come la media della distanza
+			NodeList edgeAttributes = ((Element) current.getElementsByTagName(
+					"attvalues").item(0)).getElementsByTagName("attvalue");
+			for (int j = 0; j < edgeAttributes.getLength(); ++j) {
+				Element ea = (Element) edgeAttributes.item(j);
+				// se esiste l'attributo weight usa quello.
+				if (ea.getAttribute("for") != null
+						&& ea.getAttribute("for").equals(
+								attributeMap.get("distance"))) {
+					e.setLenght(Integer.parseInt(ea.getAttribute("value"))/e.getWeight());
+				} else {
+					System.out.println("ERROR: missing attribute distance");
+			}}
+			} else{
+				double distance = Double.parseDouble(distanceString);
+				e.setLenght(distance/e.getWeight());
+			}
 
+			//System.out.println("P="+e.getWeight()+"L="+e.getLenght());//debug
 			graph.addEdge(e);
 		}
 		return graph;

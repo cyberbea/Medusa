@@ -9,7 +9,6 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -78,15 +77,15 @@ public class Scaffolder {
 				.create("scaff");
 		opts.addOption(scaffolder);
 		
-		Option scaffolderHS = OptionBuilder
+		Option input = OptionBuilder
 				.withArgName(
-						"<originalTree> <syntenyFactor> <homologyFactor> <deduplicate> <infoFile>")
-				.hasArgs(5)
+						"<originalTree>")
+				.hasArgs(1)
 				.withValueSeparator()
 				.withDescription(
-						"The whole process: Graph--> HS ---> MINIMAL HS AS COVER")
-				.create("scaffHS");
-		opts.addOption(scaffolderHS);
+						" Graph--> HS ---> MINIMAL HS AS COVER--->scaffolds")
+				.create("i");
+		opts.addOption(input);
 		
 		Option eva = OptionBuilder.withArgName("<file>").hasArgs(1)
 				.withValueSeparator()
@@ -184,7 +183,7 @@ public class Scaffolder {
 			} else if (cl.hasOption("scaff")) {
 				scaffolder(cl);
 			}
-			else if (cl.hasOption("scaffHS")) {
+			else if (cl.hasOption("i")) {
 				scaffolderHS(cl);
 			}
 			else if (cl.hasOption("eva")) {
@@ -720,23 +719,14 @@ public class Scaffolder {
 			throws ParserConfigurationException, SAXException, IOException,
 			TransformerException {
 		    
-		String gexfFileName = cl.getOptionValues("scaffHS")[0];
-		
-
+		String gexfFileName = cl.getOptionValues("i")[0];
 		String orderFileName = null;
 
-		double sigma=0;
-		double omega=0;
-		
-		if (cl.getOptionValues("scaffHS").length > 1) {
-			 sigma = Double.parseDouble(cl.getOptionValues("scaffHS")[1]);
-			 omega = Double.parseDouble(cl.getOptionValues("scaffHS")[2]);	
-		}
 		if(cl.getOptionValue("info")!= null){
 			orderFileName = cl.getOptionValue("info");
 		}
 		Process process = new ProcessBuilder("/Users/beatrice/git/Medusa/Scaffolder/catLento",gexfFileName).start();
-		MyGraph grafo = GexfReader.read(new BufferedInputStream(process.getInputStream()), sigma, omega);
+		MyGraph grafo = GexfReader.read(new BufferedInputStream(process.getInputStream()));
 		
 		if (orderFileName != null) {
 			HashMap<String, String[]> info = GexfReader
@@ -751,7 +741,7 @@ public class Scaffolder {
 		//	System.out.println(e.toStringVerbose());
 		//}
 		//
-		GexfWriter.write(grafo, gexfFileName+"_LABELLED.gexf");
+		//GexfWriter.write(grafo, gexfFileName+"_LABELLED.gexf");
 		//System.out.println("Network Properities: "+grafo.getNodes().size()+" Nodes; "+grafo.getEdges().size()+ " Edges.");
 		GraphHSPadapter structure = new GraphHSPadapter(grafo);
 		HashSet<Element> minimalHS = structure.getHs().findMinimalHs();
@@ -817,7 +807,7 @@ public class Scaffolder {
 		writerOutput.println("#edges: " + cover.getEdges().size() + "\n"
 				+ "\nGood PCR: " + goodPCR + "\n" + "Breakpoints: "
 				+ breakpoints + "\n" + "Nulli: " + nullLabelsedges);
-		System.out.println("Summary= \nGood PCR: " + goodPCR + "\n" + "Breakpoints: "
+		System.out.println("------------------------------ \nGood PCR: " + goodPCR + "\n" + "Breakpoints: "
 				+ breakpoints + "\n" + "Nulli: " + nullLabelsedges);
 		writerOutput.println("#scaffolds: " + numberOfScaffolds
 				+ "(singletons= " + finalSingletons + ")");

@@ -345,7 +345,7 @@ public class MyGraph {
 	}
 
 	public void setInfo(HashMap<String, String[]> info) {
-		System.out.println("TRADUZIONE LABEL");//DEBUG
+		//System.out.println("TRADUZIONE LABEL");//DEBUG
 		int j=0;
 		for (MyNode n : nodes) {
 			String[] nodeInfo = info.get(n.getId());
@@ -354,13 +354,13 @@ public class MyGraph {
 				n.setLabel("label"+String.valueOf(j));
 				j++;
 				//just debug--------
-				System.out.println(n.getId()+"--->"+n.getLabel());
+				//System.out.println(n.getId()+"--->"+n.getLabel());
 				//-------------
 			} else {
 				n.setLabel(nodeInfo[0]);
 				n.setContiglength(Integer.valueOf(nodeInfo[1]));
 				//just debug--------
-				System.out.println(n.getId()+"--->"+nodeInfo[0]);
+				//System.out.println(n.getId()+"--->"+nodeInfo[0]);
 				//-------------
 			}
 
@@ -743,7 +743,7 @@ public class MyGraph {
 				}
 			}
 			if(root==null){
-			System.out.println("non c'e' una root in "+ copy.toStringVerbose());
+			System.out.println("ERROR: no root "+ copy.toStringVerbose());
 			}
 			String p = copy.scaffoldSeq(root, originalDegrees);
 			scaffolds.add(p);	
