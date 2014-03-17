@@ -734,6 +734,10 @@ public class Scaffolder {
 		while(errors.readLine() != null ){
 			System.out.println(errors.readLine());
 		}
+		//BufferedReader stout = new BufferedReader(new InputStreamReader(process.getInputStream()));
+		//		while(stout.readLine() != null ){
+		//			System.out.println(stout.readLine());
+		//		}
 		if(process.waitFor()!=0){
 			System.out.println("Error: network constrution failed.");
 		}
@@ -748,7 +752,8 @@ public class Scaffolder {
 		System.out.print("Cleaning the network...");
 		GraphHSPadapter structure = new GraphHSPadapter(grafo);
 		HashSet<Element> minimalHS = structure.getHs().findMinimalHs();
-		MyGraph cover = structure.createGraphFromSet(minimalHS);	
+		MyGraph cover = structure.createGraphFromSet(minimalHS);
+		cover.removeRings();
 		System.out.print("done\n");
 		System.out.println("------------------------------");
 		ArrayList<String> paths = cover.subPaths();
