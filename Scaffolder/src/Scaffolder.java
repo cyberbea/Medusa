@@ -739,7 +739,8 @@ public class Scaffolder {
 		//			System.out.println(stout.readLine());
 		//		}
 		if(process.waitFor()!=0){
-			System.out.println("Error: network constrution failed.");
+			
+			throw new RuntimeException("Error: network constrution failed.");
 		}
 		MyGraph grafo = GexfReader.read("network");
 		if (orderFileName != null) {

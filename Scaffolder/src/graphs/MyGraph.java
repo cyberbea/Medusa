@@ -201,6 +201,9 @@ public class MyGraph {
 		}
 		while (copy.nodes.size() >= 2) {
 			copy.removeSingletons();
+			if(copy.nodes.size() <= 1){
+				throw new RuntimeException("Nella cover c'erano solo singoletti"+ copy.toStringVerbose());//TODO
+			}
 			MyNode root = null;
 			for (MyNode r : copy.nodes) {
 				if (r.getDegree() == 1) {// cerca una foglia di copy da cui
@@ -210,7 +213,7 @@ public class MyGraph {
 				}
 			}
 			if(root==null){
-			System.out.println("non c'e' una root in "+ copy.toStringVerbose());
+			throw new RuntimeException("non c'e' una root in "+ copy.toStringVerbose());//TODO
 			}
 			String p = copy.clearPrintSB(root, originalDegrees);
 			subPaths.add(p);	
@@ -236,7 +239,7 @@ public class MyGraph {
 	}
 	
 	/*Serve per eliminare da una serie di paths quelli ciclici rimuovendo l'arco piu' leggero */
-	public void removeCiclicChains() {
+	public void removeRings() {
 		ArrayList<MyEdge> toRemove = new ArrayList<MyEdge>();
 		ArrayList<MyNode> toVisit = new ArrayList<MyNode>(this.nodes);
 		while(!toVisit.isEmpty()){
