@@ -5,9 +5,7 @@ import graphs.spanningTree.Kruskal;
 import graphs.spanningTree.StEnumerator;
 import hs.HSP.Element;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -728,62 +726,37 @@ public class Scaffolder {
 		if(cl.getOptionValue("info")!= null){
 			orderFileName = cl.getOptionValue("info");
 		}
+		System.out.println("Input file:"+ input);
+		System.out.println("------------------------------");
+		System.out.print("Building the network...");
 		Process process = new ProcessBuilder("medusa_scripts/main_script.sh",input).start();
 		BufferedReader errors = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 		while(errors.readLine() != null ){
 			System.out.println(errors.readLine());
 		}
 		if(process.waitFor()!=0){
-			System.out.println("Error: network constrution failed");
+			System.out.println("Error: network constrution failed.");
 		}
 		MyGraph grafo = GexfReader.read("network");
-		
 		if (orderFileName != null) {
 			HashMap<String, String[]> info = GexfReader
 					.readContigInfo(orderFileName);
 			grafo.setInfo(info);
 		}
-		
-		//grafo.removeSingletons();//TODO come mai toglievo i singoletti? Cosa succede ora che li lascio?
-		//DEBUG
-		//System.out.println("PESI: ");
-		//for(MyEdge e : grafo.getEdges()){
-		//	System.out.println(e.toStringVerbose());
-		//}
-		//
-		//GexfWriter.write(grafo, gexfFileName+"_LABELLED.gexf");
-		//System.out.println("Network Properities: "+grafo.getNodes().size()+" Nodes; "+grafo.getEdges().size()+ " Edges.");
+		System.out.print("done\n");
+		System.out.println("------------------------------");
+		System.out.print("Cleaning the network...");
 		GraphHSPadapter structure = new GraphHSPadapter(grafo);
 		HashSet<Element> minimalHS = structure.getHs().findMinimalHs();
 		MyGraph cover = structure.createGraphFromSet(minimalHS);	
-		//debug
-		for(MyNode n : cover.getNodes()){
-			if(n.getDegree()>2){
-				System.out.println("Error: "+n.toStringVErbose());
-			}
-		}
-		//
-		//debug stampa il gefo restante
-		//System.out.println("ARCHI RESTANTI:");
-		//for(MyEdge e : cover.getEdges()){
-		//	System.out.println(e.toStringVerbose());
-		//}
-		System.out.println("SIZE IN:"+cover.getEdges().size());
-		cover.removeCiclicChains();
-		System.out.println("SIZE AFTER CLEANING:"+cover.getEdges().size());
-		
-	
-		//---------------------------------------
-		
+		System.out.print("done\n");
+		System.out.println("------------------------------");
 		ArrayList<String> paths = cover.subPaths();
 		//GexfWriter.write(cover, gexfFileName + "_COVER_HS.gexf");
-		
 		File outputFile = new File(input + "_SUMMARY");
 		PrintWriter writerOutput = new PrintWriter(new FileWriter(outputFile));
 		writerOutput.write("Network: " + input + "\n");
 		writerOutput.write("Info File: " + orderFileName + "\n");
-		//writerOutput.write("Synteny factor: " + sigma + "\n"); ??????
-		//writerOutput.write("Homology factor: " + omega + "\n");?????
 		
 		//---------------------Network evaluation
 		writerOutput.println("\n--------------NETWORK---------------\n");
@@ -809,6 +782,7 @@ public class Scaffolder {
 		Double n50 = computeN50(paths);
 		int finalSingletons = cover.getNodes().size() - cover.notSingletons();
 		int numberOfScaffolds = paths.size() + finalSingletons;
+		System.out.println("Final number of scaffolds: "+ numberOfScaffolds);
 		String breakpoints = String.valueOf(evaluation.getErrors());
 		writerOutput.println("#nodes: " + cover.getNodes().size()
 				+ "( singletons: " + (grafo.getNodes().size() - placedNodes)
@@ -817,7 +791,8 @@ public class Scaffolder {
 		writerOutput.println("#edges: " + cover.getEdges().size() + "\n"
 				+ "\nGood PCR: " + goodPCR + "\n" + "Breakpoints: "
 				+ breakpoints + "\n" + "Nulli: " + nullLabelsedges);
-		System.out.println("------------------------------ \nGood PCR: " + goodPCR + "\n" + "Breakpoints: "
+		System.out.println("Initial number of contigs: "+ grafo.getNodes().size());
+		System.out.println("Good connections: " + goodPCR + "\n" + "Wrong connections: "
 				+ breakpoints + "\n" + "Nulli: " + nullLabelsedges);
 		writerOutput.println("#scaffolds: " + numberOfScaffolds
 				+ "(singletons= " + finalSingletons + ")");
@@ -831,7 +806,7 @@ public class Scaffolder {
 		writerOutput.flush();
 		System.out.println("File saved: "+outputFile);
 		//------ create SCAFFOLDS file ---------
-		ArrayList<String> scaffolds = cover.scaffolds(); //TODO far leggere al metodo scaffold le sequenze
+		ArrayList<String> scaffolds = cover.readScaffolds(input); 
 		File outputFile2 = new File(input + "_SCAFFOLDS");
 		PrintWriter writerOutput2 = new PrintWriter(new FileWriter(outputFile2));
 		int i =1;

@@ -35,11 +35,18 @@ public class GexfReader {
 		MyGraph graph = new MyGraph();
 		HashMap<String, String> attributeMap = new HashMap<String, String>();
 		Element graphNode = (Element) doc.getElementsByTagName("graph").item(0);
-		// Legge l'indice degli attributi.
-		NodeList attributes = ((Element) graphNode.getElementsByTagName(
+		// Legge due liste di attributi.
+		NodeList attributesEdge = ((Element) graphNode.getElementsByTagName(
 				"attributes").item(0)).getElementsByTagName("attribute");
-		for (int i = 0; i < attributes.getLength(); ++i) {
-			Element attribute = (Element) attributes.item(i);
+		for (int i = 0; i < attributesEdge.getLength(); ++i) {
+			Element attribute = (Element) attributesEdge.item(i);
+			attributeMap.put(attribute.getAttribute("title"),
+					attribute.getAttribute("id"));
+		}
+		NodeList attributesNode = ((Element) graphNode.getElementsByTagName(
+				"attributes").item(1)).getElementsByTagName("attribute");
+		for (int i = 0; i < attributesNode.getLength(); ++i) {
+			Element attribute = (Element) attributesNode.item(i);
 			attributeMap.put(attribute.getAttribute("title"),
 					attribute.getAttribute("id"));
 		}
@@ -79,19 +86,29 @@ public class GexfReader {
 			String id = current.getAttribute("id");
 			String source = current.getAttribute("source");
 			String target = current.getAttribute("target");
+			String weight = current.getAttribute("weight");	
 			MyNode ns = graph.nodeFromId(source);
 			MyNode nt = graph.nodeFromId(target);
 			MyEdge e = new MyEdge(id, ns, nt);
+			
 			NodeList edgeAttributes = ((Element) current.getElementsByTagName(
 					"attvalues").item(0)).getElementsByTagName("attvalue");
 			for (int j = 0; j < edgeAttributes.getLength(); ++j) {
 				Element ea = (Element) edgeAttributes.item(j);
-				// se esiste l'attributo weight usa quello.
-				if (ea.getAttribute("for") != null
+				
+				if(weight!=null){
+					e.setWeight(Double.parseDouble(weight));//se weight e' direttamente nell'arco
+				}else if (ea.getAttribute("for") != null//altrimenti lo cerca negli attributi
 						&& ea.getAttribute("for").equals(
 								attributeMap.get("weight"))) {
 					e.setWeight(Double.parseDouble(ea.getAttribute("value")));
 
+				}
+				if (ea.getAttribute("for") != null
+						&& ea.getAttribute("for").equals(
+								attributeMap.get("distance"))) {
+					e.setLenght(Double.parseDouble(ea.getAttribute("value")));
+					
 				}
 			}
 

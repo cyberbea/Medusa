@@ -105,6 +105,4 @@ public class MyEdge implements Comparable<MyEdge> {
 	public void setLenght(double d) {
 		this.lenght = d;
 	}
-
-
 }

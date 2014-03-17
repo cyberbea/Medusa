@@ -1,5 +1,9 @@
 package graphs;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -47,6 +51,7 @@ public class MyGraph {
 					.getId()), this.nodeFromId(e.getTarget().getId()));
 			this.addEdge(e1);
 			e1.setWeight(e.getWeight());
+			e1.setLenght(e.getLenght());
 		}
 	}
 
@@ -720,7 +725,8 @@ public class MyGraph {
 		return leaves;
 	}
 
-	public ArrayList<String> scaffolds() {
+	public ArrayList<String> readScaffolds(String input) throws IOException {
+		HashMap<String, String> sequences = parseSequences(input);
 		ArrayList<String> scaffolds = new ArrayList<String>();
 		MyGraph copy = new MyGraph(this);
 		HashMap<MyNode, Integer> originalDegrees = new HashMap<MyNode, Integer>();
@@ -728,7 +734,7 @@ public class MyGraph {
 		for (MyNode n : copy.nodes) {	
 			originalDegrees.put(n, n.getDegree());
 			if(n.getDegree()==0){
-				scaffolds.add(n.getId());//TODO ID--->SEQ
+				scaffolds.add(sequences.get(">"+n.getId()));
 			}
 		}
 		//--legge i veri scaffolds---//
@@ -745,97 +751,64 @@ public class MyGraph {
 			if(root==null){
 			System.out.println("ERROR: no root "+ copy.toStringVerbose());
 			}
-			String p = copy.scaffoldSeq(root, originalDegrees);
+			String p = copy.scaffoldSeq(root, originalDegrees, sequences);
 			scaffolds.add(p);	
 			}
 		
 		return scaffolds;
 	}
 
+	private HashMap<String, String> parseSequences(String input) throws IOException {
+		HashMap<String, String> sequences = new HashMap<String, String>();
+		File f = new File(input);
+		FileReader fr = new FileReader(f);
+		BufferedReader br = new BufferedReader(fr);
+		String currentLine = br.readLine();
+		while(currentLine !=null){
+			if(currentLine.contains(">")){
+				String[] s = currentLine.split(" ");
+				String id = s[0];
+				String seq = br.readLine();
+				sequences.put(id, seq);
+				currentLine = br.readLine();
+				
+			}else{
+			currentLine = br.readLine();	
+			}
+			
+		}
+		return sequences;
+	}
+
 	private String scaffoldSeq(MyNode root,
-			HashMap<MyNode, Integer> originalDegrees) {
+			HashMap<MyNode, Integer> originalDegrees, HashMap<String, String> sequences) {
 		StringBuilder sb = new StringBuilder();
 		
-		sb.append(root.getLabel());//TODO label--->seq
+		sb.append(sequences.get(">"+root.getId()));
 		MyNode current = root.getAdj().get(0);
 		MyEdge start = this.getEdgeByST(root, current);
-		for(int i=1;i <= start.getLenght();i++){//aggiunge N tra un contiguo e l'altro.
+		//(start.getLenght()%start.getWeight()) MEDIA delle distanze
+		for(int i=1;i <= 100;i++){//aggiunge N tra un contiguo e l'altro.
 			sb.append("N");
 		}
 		this.removeEdge(start);
 		this.removeNode(root);
 		while (originalDegrees.get(current) == 2) {
-			sb.append(current.getLabel());//TODO label--->seq
+			sb.append(sequences.get(">"+current.getId()));
 			MyNode next = current.getAdj().get(0);
 			MyEdge e = this.getEdgeByST(current, next);
-			for(int i=1;i <= e.getLenght();i++){//aggiunge N tra un contiguo e l'altro.
+			//(e.getLenght()%e.getWeight()) MEDIA delle distanze
+			for(int i=1;i <= 100;i++){//aggiunge N tra un contiguo e l'altro.
 				sb.append("N");
 			}
 			this.removeEdge(e);
 			this.removeNode(current);
 			current = next;
 		}
-		sb.append(current.getLabel());//TODO label--->seq
+		sb.append(sequences.get(">"+current.getId()));
 		String p = sb.toString();
 		return p;
 	}
-
-	/*
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * public void labelsAsOrder(HashMap<String,String> order){ for(MyNode n :
-	 * nodes){ String newLabel = order.get(n.getId()); n.setLabel(newLabel); }
-	 * 
-	 * }
-	 * 
-	 * 
-	 * 
-	 * public ArrayList<ArrayList<String>> enumeratePaths(){ MyNode root = null;
-	 * 
-	 * for(MyNode r : nodes){ if(r.getDegree()==1){//cerca una foglia. root=r;
-	 * break; } } ArrayList<ArrayList<String>> paths
-	 * =computePaths(root,root.getAdj().get(0)); return paths; } public
-	 * ArrayList<ArrayList<String>> computePaths(MyNode root, MyNode next){
-	 * ArrayList<ArrayList<String>> ps = new ArrayList<ArrayList<String>>();
-	 * 
-	 * if(next.getDegree()==1){ ArrayList<String> p = new ArrayList<String>();
-	 * p.add(root.getLabel()); p.add(next.getLabel()); ps.add(p); }else{
-	 * ArrayList<MyNode> follow = new ArrayList<MyNode>(next.getAdj());
-	 * follow.remove(root); for(MyNode f : follow){ for(ArrayList<String> a :
-	 * computePaths(next,f)){ ArrayList<String> a1 = new ArrayList<String>(a);
-	 * a1.add(0, root.getLabel()); ps.add(a1); } } }
-	 * 
-	 * return ps; }
-	 * 
-	 * 
-	 *  questa stampa gli label. Mettere gli id // TODO
-	private String clearPrintSB2(MyNode root,
-			HashMap<MyNode, Integer> originalDegrees) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(root.getLabel() + "-");
-		MyNode current = root.getAdj().get(0);
-		MyEdge start = this.getEdgeByST(root, current);
-		this.removeEdge(start);
-		this.removeNode(root);
-		while (originalDegrees.get(current) == 2) {
-			sb.append(current.getLabel() + "-");
-			MyNode next = current.getAdj().get(0);
-			MyEdge e = this.getEdgeByST(current, next);
-			this.removeEdge(e);
-			this.removeNode(current);
-			current = next;
-		}
-		sb.append(current.getLabel());// l'ultimo lo lascia
-		String p = sb.toString();
-		return p;
-	}
-	 * 
-	 */
 
 
 }
