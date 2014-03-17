@@ -6,9 +6,12 @@ import graphs.spanningTree.StEnumerator;
 import hs.HSP.Element;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -37,14 +40,14 @@ public class Scaffolder {
 	public static void main(String[] args)
 			throws org.apache.commons.cli.ParseException, ParseException,
 			ParserConfigurationException, SAXException, IOException,
-			TransformerException {
+			TransformerException, InterruptedException {
 		new Scaffolder(args);
 	}
 
 	public Scaffolder(String[] args)
 			throws org.apache.commons.cli.ParseException, ParseException,
 			ParserConfigurationException, SAXException, IOException,
-			TransformerException {
+			TransformerException, InterruptedException {
 		runOnTerminal(args);
 	}
 
@@ -52,7 +55,7 @@ public class Scaffolder {
 	private void runOnTerminal(String[] args)
 			throws org.apache.commons.cli.ParseException, ParseException,
 			ParserConfigurationException, SAXException, IOException,
-			TransformerException {
+			TransformerException, InterruptedException {
 		Options opts = new Options();
 
 		Option output = OptionBuilder.withArgName("<file>").hasArgs(1)
@@ -214,7 +217,7 @@ public class Scaffolder {
 		}
 		String outputFileName = cl.getOptionValue("output");
 		Process process = new ProcessBuilder("cat",gexfFileName).start();
-		MyGraph grafo = GexfReader.read(process.getInputStream(),sigma,omega);
+		MyGraph grafo = GexfReader.read(process.getInputStream());
 		// todo leggere weight se c'e'??
 		if (deduplicate) {
 			grafo.deduplicateEdge();
@@ -540,7 +543,7 @@ public class Scaffolder {
 			orderFileName = cl.getOptionValues("enum")[5];
 		}
 		Process process = new ProcessBuilder("cat",gexfGraph).start();
-		MyGraph grafo = GexfReader.read(process.getInputStream(), sigma, omega);
+		MyGraph grafo = GexfReader.read(process.getInputStream());
 		// todo leggere weight se c'e'??
 		if (deduplicate) {
 			grafo.deduplicateEdge();
@@ -646,7 +649,7 @@ public class Scaffolder {
 		String StFileName = gexfFileName + "_ST";
 
 		Process process = new ProcessBuilder("cat",gexfFileName).start();
-		MyGraph grafo = GexfReader.read(process.getInputStream(), sigma, omega);
+		MyGraph grafo = GexfReader.read(process.getInputStream());
 		
 		// is the deduplication of the edges still necessary??
 		// boolean deduplicate = false;
@@ -717,16 +720,23 @@ public class Scaffolder {
 	
 	private void scaffolderHS(CommandLine cl)
 			throws ParserConfigurationException, SAXException, IOException,
-			TransformerException {
+			TransformerException, InterruptedException {
 		    
-		String gexfFileName = cl.getOptionValues("i")[0];
+		String input = cl.getOptionValues("i")[0];
 		String orderFileName = null;
 
 		if(cl.getOptionValue("info")!= null){
 			orderFileName = cl.getOptionValue("info");
 		}
-		Process process = new ProcessBuilder("/Users/beatrice/git/Medusa/Scaffolder/catLento",gexfFileName).start();
-		MyGraph grafo = GexfReader.read(new BufferedInputStream(process.getInputStream()));
+		Process process = new ProcessBuilder("medusa_scripts/main_script.sh",input).start();
+		BufferedReader errors = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+		while(errors.readLine() != null ){
+			System.out.println(errors.readLine());
+		}
+		if(process.waitFor()!=0){
+			System.out.println("Error: network constrution failed");
+		}
+		MyGraph grafo = GexfReader.read("network");
 		
 		if (orderFileName != null) {
 			HashMap<String, String[]> info = GexfReader
@@ -768,9 +778,9 @@ public class Scaffolder {
 		ArrayList<String> paths = cover.subPaths();
 		//GexfWriter.write(cover, gexfFileName + "_COVER_HS.gexf");
 		
-		File outputFile = new File(gexfFileName + "_SUMMARY");
+		File outputFile = new File(input + "_SUMMARY");
 		PrintWriter writerOutput = new PrintWriter(new FileWriter(outputFile));
-		writerOutput.write("Network: " + gexfFileName + "\n");
+		writerOutput.write("Network: " + input + "\n");
 		writerOutput.write("Info File: " + orderFileName + "\n");
 		//writerOutput.write("Synteny factor: " + sigma + "\n"); ??????
 		//writerOutput.write("Homology factor: " + omega + "\n");?????
@@ -822,7 +832,7 @@ public class Scaffolder {
 		System.out.println("File saved: "+outputFile);
 		//------ create SCAFFOLDS file ---------
 		ArrayList<String> scaffolds = cover.scaffolds(); //TODO far leggere al metodo scaffold le sequenze
-		File outputFile2 = new File(gexfFileName + "_SCAFFOLDS");
+		File outputFile2 = new File(input + "_SCAFFOLDS");
 		PrintWriter writerOutput2 = new PrintWriter(new FileWriter(outputFile2));
 		int i =1;
 		for (String a : scaffolds) {
@@ -838,7 +848,7 @@ public class Scaffolder {
 	private void eva(CommandLine cl) throws IOException, ParserConfigurationException, SAXException{
 		String gexfFileName = cl.getOptionValue("eva");
 		Process process = new ProcessBuilder("cat",gexfFileName).start();
-		MyGraph grafo = GexfReader.read(process.getInputStream(), 0, 0);
+		MyGraph grafo = GexfReader.read(process.getInputStream());
 		
 		evaluator(grafo);
 		File outputFile = new File(gexfFileName + "_EVALUATION.txt");
