@@ -8,6 +8,7 @@ import hs.HSP.Element;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -728,21 +729,51 @@ public class Scaffolder {
 		}
 		System.out.println("Input file:"+ input);
 		System.out.println("------------------------------");
-		System.out.print("Building the network...");
-		Process process = new ProcessBuilder("medusa_scripts/main_script.sh",input).start();
+		System.out.print("Running MUMmer...");
+		Process process = new ProcessBuilder("medusa_scripts/mmrBatch.sh",input).start();
 		BufferedReader errors = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-		while(errors.readLine() != null ){
-			System.out.println(errors.readLine());
+		String line;
+		while( (line =errors.readLine() )!= null ){
+			System.out.println(line);
 		}
-		//BufferedReader stout = new BufferedReader(new InputStreamReader(process.getInputStream()));
-		//		while(stout.readLine() != null ){
-		//			System.out.println(stout.readLine());
-		//		}
 		if(process.waitFor()!=0){
-			
-			throw new RuntimeException("Error: network constrution failed.");
+			throw new RuntimeException("Error running MUMmer.");
+		}
+		System.out.print("done\n");
+		System.out.println("------------------------------");
+		System.out.print("Building the network...");
+		process = new ProcessBuilder("python", "medusa_scripts/netcon_mummer.py", ".", input, "network").start();
+		errors = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+		while( (line =errors.readLine() )!= null ){
+			System.out.println(line);
+		}
+		if(process.waitFor()!=0){
+			throw new RuntimeException("Error: Network construction failed.");
 		}
 		MyGraph grafo = GexfReader.read("network");
+		//cancella i file coords and delta e il file network
+		File network = new File("network");
+		network.delete();
+		File dir = new File(".");
+		for( String address  : dir.list(new FilenameFilter() {
+	        public boolean accept(File dir, String name) {
+	            return name.toLowerCase().endsWith(".coords");
+	        }})){
+			File f = new File(address);
+			//System.out.println(f.toString());
+			f.delete();
+		}
+		for( String address  : dir.list(new FilenameFilter() {
+	        public boolean accept(File dir, String name) {
+	            return name.toLowerCase().endsWith(".delta");
+	        }})){
+			File f = new File(address);
+			//System.out.println(f.toString());
+			f.delete();
+		}
+		
+		
+		
 		if (orderFileName != null) {
 			HashMap<String, String[]> info = GexfReader
 					.readContigInfo(orderFileName);
