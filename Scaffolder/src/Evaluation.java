@@ -3,11 +3,13 @@ public class Evaluation {
 	private int good;
 	private int errors;
 	private int nullLabel;
+	private int orientationConflicts;
 
 	Evaluation() {
 		good =0;
 		errors= 0;
 		nullLabel=0;
+		setOrientationConflicts(0);
 	}
 
 	public int getErrors() {
@@ -40,6 +42,14 @@ public class Evaluation {
 
 	public void setCost(double cost) {
 		this.cost = cost;
+	}
+
+	public int getOrientationConflicts() {
+		return orientationConflicts;
+	}
+
+	public void setOrientationConflicts(int orientationConflicts) {
+		this.orientationConflicts = orientationConflicts;
 	}
 
 }

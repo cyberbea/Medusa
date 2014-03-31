@@ -6,6 +6,7 @@ public class MyEdge implements Comparable<MyEdge> {
 	private MyNode target;
 	private double weight;
 	private double lenght;
+	public int[] orientations;
 
 	public MyEdge(String id, MyNode source, MyNode target) {
 		this.setId(id);
@@ -13,6 +14,17 @@ public class MyEdge implements Comparable<MyEdge> {
 		this.lenght=1;
 		this.source = source;
 		this.target = target;
+		this.orientations= new int[2];
+		orientations[0]=1;
+		orientations[1]=1;
+	}
+
+	public int[] getOrientations() {
+		return orientations;
+	}
+
+	public void setOrientations(int[] orientations) {
+		this.orientations = orientations;
 	}
 
 	public String toStringVerbose() {

@@ -7,6 +7,8 @@ public class MyNode {
 	private String label;
 	private ArrayList<MyNode> adj;
 	private int contiglength;
+	private int orientation;
+
 
 	public void setContiglength(int contiglength) {
 		this.contiglength = contiglength;
@@ -33,6 +35,7 @@ public class MyNode {
 		this.id = id;
 		this.label = label;
 		this.contiglength = 1;
+		this.orientation=100;
 	}
 
 	@Override
@@ -95,6 +98,14 @@ public class MyNode {
 			adj.add(adNode);
 		}
 
+	}
+
+	public int getOrientation() {
+		return orientation;
+	}
+
+	public void setOrientation(int orientation) {
+		this.orientation = orientation;
 	}
 
 	

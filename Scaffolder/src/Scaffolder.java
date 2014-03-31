@@ -343,6 +343,7 @@ public class Scaffolder {
 		int good = 0;
 		int bad = 0;
 		int nullLabel = 0;
+		int conflicts=0;
 		for (MyEdge e : st.getEdges()) {
 
 			String ls = e.getSource().getLabel();
@@ -406,11 +407,16 @@ public class Scaffolder {
 			} else {
 				nullLabel++;
 			}
+			if(e.getTarget().getOrientation()==0){
+				conflicts++;
+			}
+				
 		}
 		evaluation.setCost(st.cost());
 		evaluation.setErrors(bad);
 		evaluation.setGood(good);
 		evaluation.setNullLabel(nullLabel);
+		evaluation.setOrientationConflicts(conflicts);
 		return evaluation;
 
 	}
@@ -786,6 +792,7 @@ public class Scaffolder {
 		HashSet<Element> minimalHS = structure.getHs().findMinimalHs();
 		MyGraph cover = structure.createGraphFromSet(minimalHS);
 		cover.removeRings();
+		cover.setOrinetation();
 		System.out.print("done\n");
 		System.out.println("------------------------------");
 		ArrayList<String> paths = cover.subPaths();
@@ -815,6 +822,7 @@ public class Scaffolder {
 		int goodPCR = evaluation.getGood();
 		int placedNodes = grafo.notSingletons();
 		int nullLabelsedges = evaluation.getNullLabel();
+		int conflicts = evaluation.getOrientationConflicts();
 		int totalLength = computeLenght(paths);
 		Double n50 = computeN50(paths);
 		int finalSingletons = cover.getNodes().size() - cover.notSingletons();
@@ -830,7 +838,7 @@ public class Scaffolder {
 				+ breakpoints + "\n" + "Nulli: " + nullLabelsedges);
 		System.out.println("Initial number of contigs: "+ grafo.getNodes().size());
 		System.out.println("Good connections: " + goodPCR + "\n" + "Wrong connections: "
-				+ breakpoints + "\n" + "Nulli: " + nullLabelsedges);
+				+ breakpoints + "\n" + "Nulli: " + nullLabelsedges+ "\n" + "Orientation conflicts: " + conflicts);
 		writerOutput.println("#scaffolds: " + numberOfScaffolds
 				+ "(singletons= " + finalSingletons + ")");
 		writerOutput.println("Total length: " + totalLength);

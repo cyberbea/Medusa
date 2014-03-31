@@ -787,7 +787,11 @@ public class MyGraph {
 			HashMap<MyNode, Integer> originalDegrees, HashMap<String, String> sequences) {
 		StringBuilder sb = new StringBuilder();
 		
-		sb.append(sequences.get(">"+root.getId()));
+		String rootSeq = sequences.get(">"+root.getId());
+		if(root.getOrientation()==-1){
+			reverseComplement(rootSeq);
+		}
+		sb.append(rootSeq);
 		MyNode current = root.getAdj().get(0);
 		MyEdge start = this.getEdgeByST(root, current);
 		//(start.getLenght()%start.getWeight()) MEDIA delle distanze
@@ -797,7 +801,11 @@ public class MyGraph {
 		this.removeEdge(start);
 		this.removeNode(root);
 		while (originalDegrees.get(current) == 2) {
-			sb.append(sequences.get(">"+current.getId()));
+			String currentSeq = sequences.get(">"+current.getId());
+			if(current.getOrientation()==-1){
+				reverseComplement(currentSeq);
+			}
+			sb.append(currentSeq);
 			MyNode next = current.getAdj().get(0);
 			MyEdge e = this.getEdgeByST(current, next);
 			//(e.getLenght()%e.getWeight()) MEDIA delle distanze
@@ -807,10 +815,55 @@ public class MyGraph {
 			this.removeEdge(e);
 			this.removeNode(current);
 			current = next;
+		}	
+		String currentSeq = sequences.get(">"+current.getId());
+		if(current.getOrientation()==-1){
+			reverseComplement(currentSeq);
 		}
-		sb.append(sequences.get(">"+current.getId()));
+		sb.append(currentSeq);
 		String p = sb.toString();
 		return p;
+	}
+
+	public static String reverseComplement(String currentSeq) {
+		System.out.println("Ho fatto un reverse and complement");//TODO debug
+		String s = currentSeq.replace("A", "a");
+		s=s.replace("G", "g");
+		s=s.replace("T", "A");
+		s=s.replace("C", "G");
+		s=s.replace("g", "C");
+		s=s.replace("a", "T");
+		return s;
+		
+		
+	}
+
+	public void setOrinetation() {
+		for(MyEdge e : edges){
+			MyNode source = e.getSource();
+			MyNode target = e.getTarget();
+			int sourceO = source.getOrientation();
+			int targetO = target.getOrientation();
+			int sourceProposal = e.getOrientations()[0];
+			int targetProposal = e.getOrientations()[1];
+			if(sourceO==100){
+				source.setOrientation(sourceProposal);
+			}else{
+				if(sourceO!=sourceProposal){
+					source.setOrientation(0);
+				}
+			}
+			if(targetO==100){
+				target.setOrientation(targetProposal);
+			}
+			else{
+				if(targetO!=targetProposal){
+					target.setOrientation(0);
+				}
+			}
+			
+		}
+		
 	}
 
 
