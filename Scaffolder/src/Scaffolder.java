@@ -837,7 +837,7 @@ public class Scaffolder {
 				+ "\nGood PCR: " + goodPCR + "\n" + "Breakpoints: "
 				+ breakpoints + "\n" + "Nulli: " + nullLabelsedges);
 		System.out.println("Initial number of contigs: "+ grafo.getNodes().size());
-		System.out.println("Good connections: " + goodPCR + "\n" + "Wrong connections: "
+		System.out.println("Total connections: "+cover.getEdges().size()+"\n"+"Good connections: " + goodPCR + "\n" + "Wrong connections: "
 				+ breakpoints + "\n" + "Nulli: " + nullLabelsedges+ "\n" + "Orientation conflicts: " + conflicts);
 		writerOutput.println("#scaffolds: " + numberOfScaffolds
 				+ "(singletons= " + finalSingletons + ")");
