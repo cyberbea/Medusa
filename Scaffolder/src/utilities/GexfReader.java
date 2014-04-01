@@ -110,6 +110,18 @@ public class GexfReader {
 					e.setLenght(Double.parseDouble(ea.getAttribute("value")));
 					
 				}
+				
+				if (ea.getAttribute("for") != null
+						&& ea.getAttribute("for").equals(
+								attributeMap.get("orientation"))) {
+					String[] o1 =ea.getAttribute("value").split(" ");//TODO
+					String[] o2 =o1[0].split("_");//nota: sceglie sempre il primo per adesso
+					int[] orientations= new int[2];
+					orientations[0]=Integer.parseInt(o2[0]);
+					orientations[1]=Integer.parseInt(o2[1]);
+					e.setOrientations(orientations);
+					
+				}
 			}
 
 			graph.addEdge(e);

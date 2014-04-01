@@ -52,6 +52,7 @@ public class MyGraph {
 			this.addEdge(e1);
 			e1.setWeight(e.getWeight());
 			e1.setLenght(e.getLenght());
+			e1.setOrientations(e.getOrientations());
 		}
 	}
 

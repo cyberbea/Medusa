@@ -4,12 +4,16 @@ public class Evaluation {
 	private int errors;
 	private int nullLabel;
 	private int orientationConflicts;
+	private int conflictsGood;
+	private int conflictsBad;
 
 	Evaluation() {
 		good =0;
 		errors= 0;
 		nullLabel=0;
 		setOrientationConflicts(0);
+		setConflictsBad(0);
+		setConflictsGood(0);
 	}
 
 	public int getErrors() {
@@ -50,6 +54,22 @@ public class Evaluation {
 
 	public void setOrientationConflicts(int orientationConflicts) {
 		this.orientationConflicts = orientationConflicts;
+	}
+
+	public int getConflictsBad() {
+		return conflictsBad;
+	}
+
+	public void setConflictsBad(int conflictsBad) {
+		this.conflictsBad = conflictsBad;
+	}
+
+	public int getConflictsGood() {
+		return conflictsGood;
+	}
+
+	public void setConflictsGood(int conflictsGood) {
+		this.conflictsGood = conflictsGood;
 	}
 
 }

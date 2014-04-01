@@ -344,6 +344,8 @@ public class Scaffolder {
 		int bad = 0;
 		int nullLabel = 0;
 		int conflicts=0;
+		int conflictsGood=0;
+		int conflictsBad=0;
 		for (MyEdge e : st.getEdges()) {
 
 			String ls = e.getSource().getLabel();
@@ -400,23 +402,31 @@ public class Scaffolder {
 				}
 				if (found == true) {
 					good++;
+					if(e.getTarget().getOrientation()==0){
+						conflictsGood++;
+						conflicts++;
+					}	
+					
 				} else {
 					bad++;
+					if(e.getTarget().getOrientation()==0){
+						conflictsBad++;
+						conflicts++;
+					}
 				}
 
 			} else {
 				nullLabel++;
 			}
-			if(e.getTarget().getOrientation()==0){
-				conflicts++;
-			}
-				
+							
 		}
 		evaluation.setCost(st.cost());
 		evaluation.setErrors(bad);
 		evaluation.setGood(good);
 		evaluation.setNullLabel(nullLabel);
 		evaluation.setOrientationConflicts(conflicts);
+		evaluation.setConflictsBad(conflictsBad);
+		evaluation.setConflictsGood(conflictsGood);
 		return evaluation;
 
 	}
@@ -839,6 +849,8 @@ public class Scaffolder {
 		System.out.println("Initial number of contigs: "+ grafo.getNodes().size());
 		System.out.println("Total connections: "+cover.getEdges().size()+"\n"+"Good connections: " + goodPCR + "\n" + "Wrong connections: "
 				+ breakpoints + "\n" + "Nulli: " + nullLabelsedges+ "\n" + "Orientation conflicts: " + conflicts);
+		System.out.println("Conflicts Good= "+ evaluation.getConflictsGood());
+		System.out.println("Conflicts Bad= "+ evaluation.getConflictsBad());
 		writerOutput.println("#scaffolds: " + numberOfScaffolds
 				+ "(singletons= " + finalSingletons + ")");
 		writerOutput.println("Total length: " + totalLength);
