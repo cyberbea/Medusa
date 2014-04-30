@@ -834,7 +834,8 @@ public class MyGraph {
 		s=s.replace("C", "G");
 		s=s.replace("g", "C");
 		s=s.replace("a", "T");
-		return s;
+		String rev = new StringBuffer(s).reverse().toString();
+		return rev;
 		
 		
 	}

@@ -6,6 +6,7 @@ public class Evaluation {
 	private int orientationConflicts;
 	private int conflictsGood;
 	private int conflictsBad;
+	private int incorrectScaffolds;
 
 	Evaluation() {
 		good =0;
@@ -14,7 +15,17 @@ public class Evaluation {
 		setOrientationConflicts(0);
 		setConflictsBad(0);
 		setConflictsGood(0);
+		setIncorrectScaffolds(0);
 	}
+	public int getIncorrectScaffolds() {
+		return incorrectScaffolds;
+	}
+
+	public void setIncorrectScaffolds(int incorrectScaffolds) {
+		this.incorrectScaffolds = incorrectScaffolds;
+	}
+
+
 
 	public int getErrors() {
 		return errors;

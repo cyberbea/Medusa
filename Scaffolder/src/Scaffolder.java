@@ -62,10 +62,13 @@ public class Scaffolder {
 				.withDescription("Save the console output on a file")
 				.create("output");
 		opts.addOption(output);
-		
-		Option info = OptionBuilder.withArgName("<file>").hasArgs(1)
+
+		Option info = OptionBuilder
+				.withArgName("<file>")
+				.hasArgs(1)
 				.withValueSeparator()
-				.withDescription("The file containing the contigs in correct order and their lenght")
+				.withDescription(
+						"The file containing the contigs in correct order and their lenght")
 				.create("info");
 		opts.addOption(info);
 
@@ -78,23 +81,30 @@ public class Scaffolder {
 						"The whole process: Graph--> ST ---> COVER. He produces three more files: _ST, _COVER, _RESULTS")
 				.create("scaff");
 		opts.addOption(scaffolder);
-		
+
 		Option input = OptionBuilder
-				.withArgName(
-						"<originalTree>")
+				.withArgName("<originalTree>")
 				.hasArgs(1)
 				.withValueSeparator()
 				.withDescription(
 						" Graph--> HS ---> MINIMAL HS AS COVER--->scaffolds")
 				.create("i");
 		opts.addOption(input);
-		
+		Option random = OptionBuilder
+				.withArgName("<numberOfRounds>")
+				.hasArgs(1)
+				.withValueSeparator()
+				.withDescription(
+						"How many cover you want to generate.")
+				.create("random");
+		opts.addOption(random);
+
 		Option eva = OptionBuilder.withArgName("<file>").hasArgs(1)
 				.withValueSeparator()
 				.withDescription("Evaluate the network looking at the labels")
 				.create("eva");
 		opts.addOption(eva);
-		
+
 		Option multiple = OptionBuilder
 				.withArgName(
 						"<originalTree> <syntenyFactor> <homologyFactor> <numberTrees> <deduplicate> <infoFile>")
@@ -184,15 +194,11 @@ public class Scaffolder {
 				amplifier(cl);
 			} else if (cl.hasOption("scaff")) {
 				scaffolder(cl);
-			}
-			else if (cl.hasOption("i")) {
+			} else if (cl.hasOption("i")) {
 				scaffolderHS(cl);
-			}
-			else if (cl.hasOption("eva")) {
+			} else if (cl.hasOption("eva")) {
 				eva(cl);
-			}
-			
-		
+			} 
 
 		} catch (UnrecognizedOptionException uoe) {
 			HelpFormatter f = new HelpFormatter();
@@ -215,7 +221,7 @@ public class Scaffolder {
 			orderFileName = cl.getOptionValues("st")[4];
 		}
 		String outputFileName = cl.getOptionValue("output");
-		Process process = new ProcessBuilder("cat",gexfFileName).start();
+		Process process = new ProcessBuilder("cat", gexfFileName).start();
 		MyGraph grafo = GexfReader.read(process.getInputStream());
 		// todo leggere weight se c'e'??
 		if (deduplicate) {
@@ -243,7 +249,7 @@ public class Scaffolder {
 		} else {
 			output = new PrintWriter(System.out, true);
 		}
-		Process process = new ProcessBuilder("cat",gexfST).start();
+		Process process = new ProcessBuilder("cat", gexfST).start();
 		MyGraph maxST = GexfReader.read(process.getInputStream());
 		ArrayList<String> paths = maxST.subPaths();
 		Evaluation evaluation = evaluator(maxST);
@@ -252,7 +258,7 @@ public class Scaffolder {
 		int nullLabelsedges = evaluation.getNullLabel();
 		int numberOfScaffolds = paths.size();
 		int totalLength = computeLenght(paths);
-		
+
 		String breakpoints = String.valueOf(evaluation.getErrors());// badPCR(paths));
 		output.println("#nodes: " + maxST.getNodes().size()
 				+ "( not singletons: " + placedNodes + ")");
@@ -269,61 +275,65 @@ public class Scaffolder {
 	}
 
 	private Double computeN50(ArrayList<String> paths) {
-		HashMap<Integer,Integer> lenghtsMap = new HashMap<Integer, Integer>();
+		HashMap<Integer, Integer> lenghtsMap = new HashMap<Integer, Integer>();
 		String current;
 		for (int i = 0; i < paths.size(); i++) {
 			current = paths.get(i);
 			String[] currentSplit = current.split("@");
 			int le = Integer.parseInt(currentSplit[1].replaceFirst("@", ""));
-		if(lenghtsMap.get(le)!=null){
+			if (lenghtsMap.get(le) != null) {
 				int n = lenghtsMap.get(le);
-				lenghtsMap.put(le, n+1);
-			}else{
+				lenghtsMap.put(le, n + 1);
+			} else {
 				lenghtsMap.put(le, 1);
 			}
 		}
-		
-		ArrayList<Integer> a = new ArrayList<Integer>();//cosi e'il minore per cui sommando tutti i maggiori uguali si copre meta luneghezza
-			for(int i: lenghtsMap.keySet()){
+
+		ArrayList<Integer> a = new ArrayList<Integer>();// cosi e'il minore per
+														// cui sommando tutti i
+														// maggiori uguali si
+														// copre meta luneghezza
+		for (int i : lenghtsMap.keySet()) {
 			int v = lenghtsMap.get(i);
-				for(int m=0;m<=v;m++){
-					a.add(i);
-				}
+			for (int m = 0; m <= v; m++) {
+				a.add(i);
 			}
-			Collections.sort(a);
-			Collections.reverse(a);
-			int sum=0;
-			for(int i : a){
-				sum = sum+i;
-			}
-			int index=0;
-			int partialSum = a.get(0);
-			double n50;
-			while(partialSum <= (sum/2)){
-				index++;
-				partialSum=partialSum +a.get(index);
-			}
-			n50 = a.get(index);
-		//	Double n50= median(a);
-	//ArrayList<Integer> a = new ArrayList<Integer>();//cosi e' la mediana della distribuzione delle lunghezze
-	//	for(int i: lenghtsMap.keySet()){
-	//		int v = lenghtsMap.get(i);
-	//		for(int m=0;m<=v;m++){
-	//			a.add(i);
-	//		}
-	//	}
-	//	Collections.sort(a);
-	//	Double n50= median(a);
+		}
+		Collections.sort(a);
+		Collections.reverse(a);
+		int sum = 0;
+		for (int i : a) {
+			sum = sum + i;
+		}
+		int index = 0;
+		int partialSum = a.get(0);
+		double n50;
+		while (partialSum <= (sum / 2)) {
+			index++;
+			partialSum = partialSum + a.get(index);
+		}
+		n50 = a.get(index);
+		// Double n50= median(a);
+		// ArrayList<Integer> a = new ArrayList<Integer>();//cosi e' la mediana
+		// della distribuzione delle lunghezze
+		// for(int i: lenghtsMap.keySet()){
+		// int v = lenghtsMap.get(i);
+		// for(int m=0;m<=v;m++){
+		// a.add(i);
+		// }
+		// }
+		// Collections.sort(a);
+		// Double n50= median(a);
 		return n50;
 	}
-	
+
 	public static double median(ArrayList<Integer> m) {
-	    int middle = m.size()/2;
-	    if (m.size()%2 == 1) {
-	        return m.get(middle);
-	    } else {
-	        return (m.get(middle-1) + m.get(middle) / 2.0);
-	    }
+		int middle = m.size() / 2;
+		if (m.size() % 2 == 1) {
+			return m.get(middle);
+		} else {
+			return (m.get(middle - 1) + m.get(middle) / 2.0);
+		}
 	}
 
 	private int computeLenght(ArrayList<String> paths) {
@@ -343,15 +353,15 @@ public class Scaffolder {
 		int good = 0;
 		int bad = 0;
 		int nullLabel = 0;
-		int conflicts=0;
-		int conflictsGood=0;
-		int conflictsBad=0;
+		int conflicts = 0;
+		int conflictsGood = 0;
+		int conflictsBad = 0;
 		for (MyEdge e : st.getEdges()) {
 
 			String ls = e.getSource().getLabel();
 			String lt = e.getTarget().getLabel();
 
-				if (!ls.contains("label") && !lt.contains("label")) {
+			if (!ls.contains("label") && !lt.contains("label")) {
 				boolean found = false;
 				if (ls.contains("or")) {
 					String[] lss = ls.split("or");
@@ -402,14 +412,14 @@ public class Scaffolder {
 				}
 				if (found == true) {
 					good++;
-					if(e.getTarget().getOrientation()==0){
+					if (e.getTarget().getOrientation() == 0) {
 						conflictsGood++;
 						conflicts++;
-					}	
-					
+					}
+
 				} else {
 					bad++;
-					if(e.getTarget().getOrientation()==0){
+					if (e.getTarget().getOrientation() == 0) {
 						conflictsBad++;
 						conflicts++;
 					}
@@ -418,7 +428,7 @@ public class Scaffolder {
 			} else {
 				nullLabel++;
 			}
-							
+
 		}
 		evaluation.setCost(st.cost());
 		evaluation.setErrors(bad);
@@ -427,6 +437,111 @@ public class Scaffolder {
 		evaluation.setOrientationConflicts(conflicts);
 		evaluation.setConflictsBad(conflictsBad);
 		evaluation.setConflictsGood(conflictsGood);
+		return evaluation;
+
+	}
+
+	private Evaluation evaluator2(ArrayList<String> paths) {
+		// questo prende gli scaffolds come stringhe e guarda anche quanti sono
+		// sbagliati
+		// nota che non puo' leggere l'orientamento!!
+		Evaluation evaluation = new Evaluation();
+		int good = 0;
+		int bad = 0;
+		int nullLabel = 0;
+		int conflicts = 0;
+		int conflictsGood = 0;
+		int conflictsBad = 0;
+		int incorrectScaffolds = 0;
+		for (String p : paths) {
+			boolean incorrect = false;
+			String[] path = p.split("-");
+			path[path.length - 1] = null;// elimina la lunghezza scritta in
+											// fondo;
+			int i = 0;
+			int j = 1;
+			while (j < path.length - 1) {
+				String first = path[i];
+				String second = path[j];
+				if (!first.contains("label") && !second.contains("label")) {
+
+					if (first.contains("or")) {
+						String[] lss = first.split("or");
+						if (second.contains("or")) {
+							// entrambe
+							String[] lts = second.split("or");
+							for (String s : lss) {
+								for (String l : lts) {
+									int v1 = Integer.parseInt(s);
+									int v2 = Integer.parseInt(l);
+									int diff = Math.abs(v1 - v2);
+									if (diff == 1) {
+										good++;
+									} else {
+										bad++;
+										incorrect = true;
+									}
+
+								}
+							}
+						} else {
+							// solo la prima
+							for (String s : lss) {
+								int v1 = Integer.parseInt(s);
+								int v2 = Integer.parseInt(second);
+								int diff = Math.abs(v1 - v2);
+								if (diff == 1) {
+									good++;
+								} else {
+									bad++;
+									incorrect = true;
+								}
+							}
+						}
+					} else if (second.contains("or")) {
+						// solo la seconda
+						String[] l2ss = second.split("or");
+						for (String l : l2ss) {
+							int v1 = Integer.parseInt(first);
+							int v2 = Integer.parseInt(l);
+							int diff = Math.abs(v1 - v2);
+							if (diff == 1) {
+								good++;
+							} else {
+								bad++;
+								incorrect = true;
+							}
+
+						}
+					} else {
+						// nessuna
+						int v1 = Integer.parseInt(first);
+						int v2 = Integer.parseInt(second);
+						int diff = Math.abs(v1 - v2);
+						if (diff == 1) {
+							good++;
+						} else {
+							bad++;
+							incorrect = true;
+						}
+					}
+					i++;
+					j++;
+				}
+
+			}
+			if(incorrect==true){
+				incorrectScaffolds++;
+			}
+		}
+			evaluation.setErrors(bad);
+			evaluation.setGood(good);
+			evaluation.setNullLabel(nullLabel);
+			evaluation.setOrientationConflicts(conflicts);
+			evaluation.setConflictsBad(conflictsBad);
+			evaluation.setConflictsGood(conflictsGood);
+			evaluation.setIncorrectScaffolds(incorrectScaffolds);
+
 		return evaluation;
 
 	}
@@ -443,8 +558,8 @@ public class Scaffolder {
 			output = new PrintWriter(System.out, true);
 			output.println("FILE DI INPUT: " + gexfST);
 		}
-		
-		Process process = new ProcessBuilder("cat",gexfST).start();
+
+		Process process = new ProcessBuilder("cat", gexfST).start();
 		MyGraph maxST = GexfReader.read(process.getInputStream());
 
 		MyGraph cover = maxST.computeCover();
@@ -557,7 +672,7 @@ public class Scaffolder {
 		if (cl.getOptionValues("enum").length > 5) {
 			orderFileName = cl.getOptionValues("enum")[5];
 		}
-		Process process = new ProcessBuilder("cat",gexfGraph).start();
+		Process process = new ProcessBuilder("cat", gexfGraph).start();
 		MyGraph grafo = GexfReader.read(process.getInputStream());
 		// todo leggere weight se c'e'??
 		if (deduplicate) {
@@ -595,7 +710,7 @@ public class Scaffolder {
 	private void amplifier(CommandLine cl) throws ParserConfigurationException,
 			SAXException, IOException, TransformerException {
 		String gexfGraph = cl.getOptionValues("ampl")[0];
-		Process process = new ProcessBuilder("cat",gexfGraph).start();
+		Process process = new ProcessBuilder("cat", gexfGraph).start();
 		MyGraph amplifiedGraph = GexfReader.read(process.getInputStream());
 
 		double amplificationFactor = Double
@@ -651,21 +766,21 @@ public class Scaffolder {
 		String gexfFileName = cl.getOptionValues("scaff")[0];
 		String orderFileName = null;
 
-		double sigma=0;
-		double omega=0;
-		
+		double sigma = 0;
+		double omega = 0;
+
 		if (cl.getOptionValues("scaff").length > 1) {
-			 sigma = Double.parseDouble(cl.getOptionValues("scaff")[1]);
-			 omega = Double.parseDouble(cl.getOptionValues("scaff")[2]);	
+			sigma = Double.parseDouble(cl.getOptionValues("scaff")[1]);
+			omega = Double.parseDouble(cl.getOptionValues("scaff")[2]);
 		}
-		if(cl.getOptionValue("info")!= null){
+		if (cl.getOptionValue("info") != null) {
 			orderFileName = cl.getOptionValue("info");
 		}
 		String StFileName = gexfFileName + "_ST";
 
-		Process process = new ProcessBuilder("cat",gexfFileName).start();
+		Process process = new ProcessBuilder("cat", gexfFileName).start();
 		MyGraph grafo = GexfReader.read(process.getInputStream());
-		
+
 		// is the deduplication of the edges still necessary??
 		// boolean deduplicate = false;
 		// if (cl.getOptionValues("scaff").length > 3) {
@@ -681,13 +796,13 @@ public class Scaffolder {
 			grafo.setInfo(info);
 		}
 		grafo.removeSingletons();
-		//DEBUG
+		// DEBUG
 		System.out.println("PESI: ");
-		for(MyEdge e : grafo.getEdges()){
+		for (MyEdge e : grafo.getEdges()) {
 			System.out.println(e.toStringVerbose());
 		}
 		//
-		GexfWriter.write(grafo, gexfFileName+"_LABELLED.gexf");
+		GexfWriter.write(grafo, gexfFileName + "_LABELLED.gexf");
 		MyGraph maxST = Kruskal.maxST(grafo);
 		GexfWriter.write(maxST, StFileName);
 
@@ -727,69 +842,70 @@ public class Scaffolder {
 			writerOutput.println(a);
 		}
 		writerOutput.flush();
-		System.out.println("File saved: "+outputFile);
+		System.out.println("File saved: " + outputFile);
 
 	}
-	
-	
-	
+
 	private void scaffolderHS(CommandLine cl)
 			throws ParserConfigurationException, SAXException, IOException,
 			TransformerException, InterruptedException {
-		    
+
 		String input = cl.getOptionValues("i")[0];
 		String orderFileName = null;
+		int rounds=1;
 
-		if(cl.getOptionValue("info")!= null){
+		if (cl.getOptionValue("info") != null) {
 			orderFileName = cl.getOptionValue("info");
 		}
-		System.out.println("Input file:"+ input);
+		if (cl.getOptionValue("random") != null) {
+			 rounds = Integer.parseInt(cl.getOptionValue("random"));
+		}
+		System.out.println("Input file:" + input);
 		System.out.println("------------------------------");
-		System.out.print("Running MUMmer...");
-		Process process = new ProcessBuilder("medusa_scripts/mmrBatch.sh",input).start();
-		BufferedReader errors = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-		String line;
-		while( (line =errors.readLine() )!= null ){
-			System.out.println(line);
-		}
-		if(process.waitFor()!=0){
-			throw new RuntimeException("Error running MUMmer.");
-		}
-		System.out.print("done\n");
-		System.out.println("------------------------------");
-		System.out.print("Building the network...");
-		process = new ProcessBuilder("python", "medusa_scripts/netcon_mummer.py", ".", input, "network").start();
-		errors = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-		while( (line =errors.readLine() )!= null ){
-			System.out.println(line);
-		}
-		if(process.waitFor()!=0){
-			throw new RuntimeException("Error: Network construction failed.");
-		}
+
+		
+		   System.out.print("Running MUMmer..."); Process process = new
+		 
+		  ProcessBuilder("medusa_scripts/mmrBatch.sh",input).start();
+		  BufferedReader errors = new BufferedReader(new
+		  InputStreamReader(process.getErrorStream())); String line; while(
+		  (line =errors.readLine() )!= null ){ System.out.println(line); }
+		  if(process.waitFor()!=0){ throw new
+		  RuntimeException("Error running MUMmer."); }
+		  System.out.print("done\n");
+		  System.out.println("------------------------------");
+		  System.out.print("Building the network..."); process = new
+		  ProcessBuilder("python", "medusa_scripts/netcon_mummer.py", ".",
+		  input, "network").start(); errors = new BufferedReader(new
+		  InputStreamReader(process.getErrorStream())); while( (line
+		  =errors.readLine() )!= null ){ System.out.println(line); }
+		  if(process.waitFor()!=0){ throw new
+		  RuntimeException("Error: Network construction failed."); }
+		  
 		MyGraph grafo = GexfReader.read("network");
-		//cancella i file coords and delta e il file network
-		File network = new File("network");
-		network.delete();
+		// cancella i file coords and delta e il file network
+		// File network = new File("network");//TODO debug
+		// network.delete();
 		File dir = new File(".");
-		for( String address  : dir.list(new FilenameFilter() {
-	        public boolean accept(File dir, String name) {
-	            return name.toLowerCase().endsWith(".coords");
-	        }})){
+		for (String address : dir.list(new FilenameFilter() {
+			public boolean accept(File dir, String name) {
+				return name.toLowerCase().endsWith(".coords");
+			}
+		})) {
 			File f = new File(address);
-			//System.out.println(f.toString());
+			// System.out.println(f.toString());
 			f.delete();
 		}
-		for( String address  : dir.list(new FilenameFilter() {
-	        public boolean accept(File dir, String name) {
-	            return name.toLowerCase().endsWith(".delta");
-	        }})){
+		for (String address : dir.list(new FilenameFilter() {
+			public boolean accept(File dir, String name) {
+				return name.toLowerCase().endsWith(".delta");
+			}
+		})) {
 			File f = new File(address);
-			//System.out.println(f.toString());
+			// System.out.println(f.toString());
 			f.delete();
 		}
-		
-		
-		
+
 		if (orderFileName != null) {
 			HashMap<String, String[]> info = GexfReader
 					.readContigInfo(orderFileName);
@@ -799,20 +915,38 @@ public class Scaffolder {
 		System.out.println("------------------------------");
 		System.out.print("Cleaning the network...");
 		GraphHSPadapter structure = new GraphHSPadapter(grafo);
+		
 		HashSet<Element> minimalHS = structure.getHs().findMinimalHs();
 		MyGraph cover = structure.createGraphFromSet(minimalHS);
+		if(rounds>1){
+		System.out.println("\nRunning "+rounds +" rounds...");
+		System.out.println("First cover size: "+cover.getEdges().size());
+		for(int i=1;i<= rounds;i++){
+		minimalHS = structure.getHs().findMinimalHs();
+		MyGraph candidateCover = structure.createGraphFromSet(minimalHS);
+		System.out.println("Candidate cover size: "+candidateCover.getEdges().size());
+		if(candidateCover.getEdges().size()>cover.getEdges().size()){
+			cover=candidateCover;
+		}
+		}
+		System.out.println("Best cover size: "+cover.getEdges().size());
+		}
+		
+		
+		
+		
 		cover.removeRings();
 		cover.setOrinetation();
 		System.out.print("done\n");
 		System.out.println("------------------------------");
 		ArrayList<String> paths = cover.subPaths();
-		//GexfWriter.write(cover, gexfFileName + "_COVER_HS.gexf");
+		// GexfWriter.write(cover, gexfFileName + "_COVER_HS.gexf");
 		File outputFile = new File(input + "_SUMMARY");
 		PrintWriter writerOutput = new PrintWriter(new FileWriter(outputFile));
 		writerOutput.write("Network: " + input + "\n");
 		writerOutput.write("Info File: " + orderFileName + "\n");
-		
-		//---------------------Network evaluation
+
+		// ---------------------Network evaluation
 		writerOutput.println("\n--------------NETWORK---------------\n");
 		Evaluation networkEva = evaluator(grafo);
 		int goodPCRN = networkEva.getGood();
@@ -825,7 +959,7 @@ public class Scaffolder {
 		writerOutput.println("#edges: " + grafo.getEdges().size() + "\n"
 				+ "\nGood PCR: " + goodPCRN + "\n" + "Breakpoints: "
 				+ breakpointsN + "\n" + "Nulli: " + nullLabelsedgesN);
-		//-----------------------Cover evaluation
+		// -----------------------Cover evaluation
 		writerOutput.println("\n--------------SCAFFOLDS---------------\n");
 		Evaluation evaluation = evaluator(cover);
 		double cost = evaluation.getCost();
@@ -837,51 +971,63 @@ public class Scaffolder {
 		Double n50 = computeN50(paths);
 		int finalSingletons = cover.getNodes().size() - cover.notSingletons();
 		int numberOfScaffolds = paths.size() + finalSingletons;
-		System.out.println("Final number of scaffolds: "+ numberOfScaffolds);
+		System.out.println("Final number of scaffolds: " + numberOfScaffolds);
 		String breakpoints = String.valueOf(evaluation.getErrors());
 		writerOutput.println("#nodes: " + cover.getNodes().size()
 				+ "( singletons: " + (grafo.getNodes().size() - placedNodes)
 				+ ")");
-		
+
 		writerOutput.println("#edges: " + cover.getEdges().size() + "\n"
 				+ "\nGood PCR: " + goodPCR + "\n" + "Breakpoints: "
 				+ breakpoints + "\n" + "Nulli: " + nullLabelsedges);
-		System.out.println("Initial number of contigs: "+ grafo.getNodes().size());
-		System.out.println("Total connections: "+cover.getEdges().size()+"\n"+"Good connections: " + goodPCR + "\n" + "Wrong connections: "
-				+ breakpoints + "\n" + "Nulli: " + nullLabelsedges+ "\n" + "Orientation conflicts: " + conflicts);
-		System.out.println("Conflicts Good= "+ evaluation.getConflictsGood());
-		System.out.println("Conflicts Bad= "+ evaluation.getConflictsBad());
+		System.out.println("Initial number of contigs: "
+				+ grafo.getNodes().size());
+		System.out.println("Total connections: " + cover.getEdges().size()
+				+ "\n" + "Good connections: " + goodPCR + "\n"
+				+ "Wrong connections: " + breakpoints + "\n" + "Nulli: "
+				+ nullLabelsedges + "\n" + "Orientation conflicts: "
+				+ conflicts);
+		System.out.println("Conflicts Good= " + evaluation.getConflictsGood());
+		System.out.println("Conflicts Bad= " + evaluation.getConflictsBad());
 		writerOutput.println("#scaffolds: " + numberOfScaffolds
 				+ "(singletons= " + finalSingletons + ")");
+		writerOutput.println("Orientation conflicts: " + conflicts);
+		writerOutput
+				.println("Conflicts Good= " + evaluation.getConflictsGood());
+		writerOutput.println("Conflicts Bad= " + evaluation.getConflictsBad());
 		writerOutput.println("Total length: " + totalLength);
 		writerOutput.println("Total weight: " + cost);
 		writerOutput.println("N50: " + n50);
 		System.out.println("N50: " + n50);
+		Evaluation evaluationPaths = evaluator2(paths);
+		writerOutput.println("#incorrectScaffolds: "
+				+ evaluationPaths.getIncorrectScaffolds()+ "among "+ paths.size()+" multi-contig scaffolds.");
 		for (String a : paths) {
 			writerOutput.println(a);
 		}
 		writerOutput.flush();
-		System.out.println("File saved: "+outputFile);
-		//------ create SCAFFOLDS file ---------
-		ArrayList<String> scaffolds = cover.readScaffolds(input); 
+		System.out.println("File saved: " + outputFile);
+		// ------ create SCAFFOLDS file ---------
+		ArrayList<String> scaffolds = cover.readScaffolds(input);
 		File outputFile2 = new File(input + "_SCAFFOLDS");
 		PrintWriter writerOutput2 = new PrintWriter(new FileWriter(outputFile2));
-		int i =1;
+		int i = 1;
 		for (String a : scaffolds) {
-			writerOutput2.println(">Scaffold_"+i);
+			writerOutput2.println(">Scaffold_" + i);
 			writerOutput2.println(a);
 			i++;
 		}
 		writerOutput2.flush();
-		System.out.println("File saved: "+outputFile2);
-		
-	}
+		System.out.println("File saved: " + outputFile2);
 	
-	private void eva(CommandLine cl) throws IOException, ParserConfigurationException, SAXException{
+	}
+
+	private void eva(CommandLine cl) throws IOException,
+			ParserConfigurationException, SAXException {
 		String gexfFileName = cl.getOptionValue("eva");
-		Process process = new ProcessBuilder("cat",gexfFileName).start();
+		Process process = new ProcessBuilder("cat", gexfFileName).start();
 		MyGraph grafo = GexfReader.read(process.getInputStream());
-		
+
 		evaluator(grafo);
 		File outputFile = new File(gexfFileName + "_EVALUATION.txt");
 		PrintWriter writerOutput = new PrintWriter(new FileWriter(outputFile));
@@ -898,6 +1044,6 @@ public class Scaffolder {
 				+ "\nGood PCR: " + goodPCR + "\n" + "Breakpoints: "
 				+ breakpoints + "\n" + "Nulli: " + nullLabelsedges);
 		writerOutput.flush();
-		System.out.println("File saved: "+outputFile);
+		System.out.println("File saved: " + outputFile);
 	}
 }
