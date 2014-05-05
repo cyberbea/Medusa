@@ -862,8 +862,8 @@ public class Scaffolder {
 		}
 		System.out.println("Input file:" + input);
 		System.out.println("------------------------------");
-		/*
 		
+		/*
 		   System.out.print("Running MUMmer..."); Process process = new
 		 
 		  ProcessBuilder("medusa_scripts/mmrBatch.sh",input).start();
@@ -985,7 +985,7 @@ public class Scaffolder {
 		System.out.println("Total connections: " + cover.getEdges().size()
 				+ "\n" + "Good connections: " + goodPCR + "\n"
 				+ "Wrong connections: " + breakpoints + "\n" + "Nulli: "
-				+ nullLabelsedges + "\n");
+				+ nullLabelsedges);
 	//	System.out.println("Conflicts Good= " + evaluation.getConflictsGood());
 	//	System.out.println("Conflicts Bad= " + evaluation.getConflictsBad());
 		writerOutput.println("#scaffolds: " + numberOfScaffolds
