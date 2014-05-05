@@ -353,9 +353,9 @@ public class Scaffolder {
 		int good = 0;
 		int bad = 0;
 		int nullLabel = 0;
-		int conflicts = 0;
-		int conflictsGood = 0;
-		int conflictsBad = 0;
+	//	int conflicts = 0;
+	//	int conflictsGood = 0;
+	//	int conflictsBad = 0;
 		for (MyEdge e : st.getEdges()) {
 
 			String ls = e.getSource().getLabel();
@@ -412,17 +412,17 @@ public class Scaffolder {
 				}
 				if (found == true) {
 					good++;
-					if (e.getTarget().getOrientation() == 0) {
-						conflictsGood++;
-						conflicts++;
-					}
+			//		if (e.getTarget().getOrientation() == 0) {
+			//			conflictsGood++;
+			//			conflicts++;
+			//		}
 
 				} else {
 					bad++;
-					if (e.getTarget().getOrientation() == 0) {
-						conflictsBad++;
-						conflicts++;
-					}
+		//			if (e.getTarget().getOrientation() == 0) {
+			//			conflictsBad++;
+				//		conflicts++;
+				//	}
 				}
 
 			} else {
@@ -434,9 +434,9 @@ public class Scaffolder {
 		evaluation.setErrors(bad);
 		evaluation.setGood(good);
 		evaluation.setNullLabel(nullLabel);
-		evaluation.setOrientationConflicts(conflicts);
-		evaluation.setConflictsBad(conflictsBad);
-		evaluation.setConflictsGood(conflictsGood);
+	//	evaluation.setOrientationConflicts(conflicts);
+	//	evaluation.setConflictsBad(conflictsBad);
+	//	evaluation.setConflictsGood(conflictsGood);
 		return evaluation;
 
 	}
@@ -862,7 +862,7 @@ public class Scaffolder {
 		}
 		System.out.println("Input file:" + input);
 		System.out.println("------------------------------");
-
+		/*
 		
 		   System.out.print("Running MUMmer..."); Process process = new
 		 
@@ -881,7 +881,7 @@ public class Scaffolder {
 		  =errors.readLine() )!= null ){ System.out.println(line); }
 		  if(process.waitFor()!=0){ throw new
 		  RuntimeException("Error: Network construction failed."); }
-		  
+		  */
 		MyGraph grafo = GexfReader.read("network");
 		// cancella i file coords and delta e il file network
 		// File network = new File("network");//TODO debug
@@ -940,7 +940,7 @@ public class Scaffolder {
 		System.out.print("done\n");
 		System.out.println("------------------------------");
 		ArrayList<String> paths = cover.subPaths();
-		// GexfWriter.write(cover, gexfFileName + "_COVER_HS.gexf");
+		 GexfWriter.write(cover, input + "_COVER.gexf");
 		File outputFile = new File(input + "_SUMMARY");
 		PrintWriter writerOutput = new PrintWriter(new FileWriter(outputFile));
 		writerOutput.write("Network: " + input + "\n");
@@ -966,7 +966,7 @@ public class Scaffolder {
 		int goodPCR = evaluation.getGood();
 		int placedNodes = grafo.notSingletons();
 		int nullLabelsedges = evaluation.getNullLabel();
-		int conflicts = evaluation.getOrientationConflicts();
+	//	int conflicts = evaluation.getOrientationConflicts();
 		int totalLength = computeLenght(paths);
 		Double n50 = computeN50(paths);
 		int finalSingletons = cover.getNodes().size() - cover.notSingletons();
@@ -985,13 +985,12 @@ public class Scaffolder {
 		System.out.println("Total connections: " + cover.getEdges().size()
 				+ "\n" + "Good connections: " + goodPCR + "\n"
 				+ "Wrong connections: " + breakpoints + "\n" + "Nulli: "
-				+ nullLabelsedges + "\n" + "Orientation conflicts: "
-				+ conflicts);
-		System.out.println("Conflicts Good= " + evaluation.getConflictsGood());
-		System.out.println("Conflicts Bad= " + evaluation.getConflictsBad());
+				+ nullLabelsedges + "\n");
+	//	System.out.println("Conflicts Good= " + evaluation.getConflictsGood());
+	//	System.out.println("Conflicts Bad= " + evaluation.getConflictsBad());
 		writerOutput.println("#scaffolds: " + numberOfScaffolds
 				+ "(singletons= " + finalSingletons + ")");
-		writerOutput.println("Orientation conflicts: " + conflicts);
+	//	writerOutput.println("Orientation conflicts: " + conflicts);
 		writerOutput
 				.println("Conflicts Good= " + evaluation.getConflictsGood());
 		writerOutput.println("Conflicts Bad= " + evaluation.getConflictsBad());

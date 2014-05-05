@@ -52,11 +52,16 @@ public class GexfWriter {
 		graphElement.appendChild(attributesElement);
 		attributesElement.setAttribute("class", "edge");
 		attributesElement.setAttribute("mode", "static");
-		Element weightElement = doc.createElement("attribute");
-		weightElement.setAttribute("id", "0");
-		weightElement.setAttribute("title", "weight");
-		weightElement.setAttribute("type", "integer");
-		attributesElement.appendChild(weightElement);
+		Element distanceElement = doc.createElement("attribute");
+		distanceElement.setAttribute("id", "1");
+		distanceElement.setAttribute("title", "distance");
+		distanceElement.setAttribute("type", "integer");
+		attributesElement.appendChild(distanceElement);
+		Element orientation_max = doc.createElement("attribute");
+		orientation_max.setAttribute("id", "2");
+		orientation_max.setAttribute("title", "orientation_max");
+		orientation_max.setAttribute("type", "string");
+		attributesElement.appendChild(orientation_max);
 		// dichiarazione attributi nodo
 		Element nodeAttributesElement = doc.createElement("attributes");
 		graphElement.appendChild(nodeAttributesElement);
@@ -66,7 +71,7 @@ public class GexfWriter {
 		lengthElement.setAttribute("id", "0");
 		lengthElement.setAttribute("title", "length");
 		lengthElement.setAttribute("type", "integer");
-		attributesElement.appendChild(lengthElement);
+		nodeAttributesElement.appendChild(lengthElement);
 		// nodes block
 		Element nodesBlock = doc.createElement("nodes");
 		graphElement.appendChild(nodesBlock);
@@ -77,14 +82,12 @@ public class GexfWriter {
 			nodesBlock.appendChild(node);
 			node.setAttribute("label", n.getLabel());
 			node.setAttribute("id", n.getId());
-			// nuovo pezzo*****
 			Element attvalues = doc.createElement("attvalues");
 			node.appendChild(attvalues);
 			Element attvalue = doc.createElement("attvalue");
 			attvalue.setAttribute("for", "0");
 			attvalue.setAttribute("value", String.valueOf(n.getContiglength()));
 			attvalues.appendChild(attvalue);
-			// fine nuovo pezzo*****
 		}
 
 		// edges block
@@ -101,8 +104,8 @@ public class GexfWriter {
 			Element attvalues = doc.createElement("attvalues");
 			edge.appendChild(attvalues);
 			Element attvalue = doc.createElement("attvalue");
-			attvalue.setAttribute("for", "0");
-			attvalue.setAttribute("value", String.valueOf(e.getWeight()));
+			attvalue.setAttribute("for", "2");
+			attvalue.setAttribute("value", String.valueOf(e.orientationString()));
 			attvalues.appendChild(attvalue);
 
 		}

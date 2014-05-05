@@ -12,9 +12,9 @@ public class Evaluation {
 		good =0;
 		errors= 0;
 		nullLabel=0;
-		setOrientationConflicts(0);
-		setConflictsBad(0);
-		setConflictsGood(0);
+	//	setOrientationConflicts(0);
+	//	setConflictsBad(0);
+	//	setConflictsGood(0);
 		setIncorrectScaffolds(0);
 	}
 	public int getIncorrectScaffolds() {

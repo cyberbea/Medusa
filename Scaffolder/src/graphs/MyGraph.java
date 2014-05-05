@@ -841,31 +841,7 @@ public class MyGraph {
 	}
 
 	public void setOrinetation() {
-		for(MyEdge e : edges){
-			MyNode source = e.getSource();
-			MyNode target = e.getTarget();
-			int sourceO = source.getOrientation();
-			int targetO = target.getOrientation();
-			int sourceProposal = e.getOrientations()[0];
-			int targetProposal = e.getOrientations()[1];
-			if(sourceO==100){
-				source.setOrientation(sourceProposal);
-			}else{
-				if(sourceO!=sourceProposal){
-					source.setOrientation(0);
-				}
-			}
-			if(targetO==100){
-				target.setOrientation(targetProposal);
-			}
-			else{
-				if(targetO!=targetProposal){
-					target.setOrientation(0);
-				}
-			}
-			
-		}
-		
+		//TODO scorrere le catene e decidere un orientamento.		
 	}
 
 

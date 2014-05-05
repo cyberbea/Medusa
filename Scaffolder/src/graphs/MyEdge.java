@@ -117,4 +117,13 @@ public class MyEdge implements Comparable<MyEdge> {
 	public void setLenght(double d) {
 		this.lenght = d;
 	}
+
+	public String orientationString() {
+		String sourceId = this.getSource().getId();
+		String targetId = this.getTarget().getId();
+		String oS=  String.valueOf(orientations[0]);
+		String oT=  String.valueOf(orientations[1]);
+		String s= sourceId+":"+oS+"_"+targetId+":"+oT;
+		return s;
+	}
 }
