@@ -860,25 +860,34 @@ public class Scaffolder {
 		System.out.println("Input file:" + input);
 		System.out.println("------------------------------");
 
-		/*
-		 * System.out.print("Running MUMmer..."); Process process = new
-		 * 
-		 * ProcessBuilder("medusa_scripts/mmrBatch.sh",input).start();
-		 * BufferedReader errors = new BufferedReader(new
-		 * InputStreamReader(process.getErrorStream())); String line; while(
-		 * (line =errors.readLine() )!= null ){ System.out.println(line); }
-		 * if(process.waitFor()!=0){ throw new
-		 * RuntimeException("Error running MUMmer."); }
-		 * System.out.print("done\n");
-		 * System.out.println("------------------------------");
-		 * System.out.print("Building the network..."); process = new
-		 * ProcessBuilder("python", "medusa_scripts/netcon_mummer.py", ".",
-		 * input, "network").start(); errors = new BufferedReader(new
-		 * InputStreamReader(process.getErrorStream())); while( (line
-		 * =errors.readLine() )!= null ){ System.out.println(line); }
-		 * if(process.waitFor()!=0){ throw new
-		 * RuntimeException("Error: Network construction failed."); }
-		 */
+		System.out.print("Running MUMmer...");
+		Process process = new
+
+		ProcessBuilder("medusa_scripts/mmrBatch.sh", input).start();
+		BufferedReader errors = new BufferedReader(new InputStreamReader(
+				process.getErrorStream()));
+		String line;
+		while ((line = errors.readLine()) != null) {
+			System.out.println(line);
+		}
+		if (process.waitFor() != 0) {
+			throw new RuntimeException("Error running MUMmer.");
+		}
+		System.out.print("done\n");
+		System.out.println("------------------------------");
+		System.out.print("Building the network...");
+		process = new ProcessBuilder("python",
+				"medusa_scripts/netcon_mummer.py", ".", input, "network")
+				.start();
+		errors = new BufferedReader(new InputStreamReader(
+				process.getErrorStream()));
+		while ((line = errors.readLine()) != null) {
+			System.out.println(line);
+		}
+		if (process.waitFor() != 0) {
+			throw new RuntimeException("Error: Network construction failed.");
+		}
+
 		MyGraph grafo = GexfReader.read("network");
 		// cancella i file coords and delta e il file network
 		// File network = new File("network");//TODO debug
@@ -911,19 +920,20 @@ public class Scaffolder {
 		System.out.print("done\n");
 		System.out.println("------------------------------");
 		System.out.print("Cleaning the network...\n");
-		
+
 		GraphHSPadapter structure = new GraphHSPadapter(grafo);
 		HashSet<Element> minimalHS = structure.getHs().findMinimalHs();
 		MyGraph cover = structure.createGraphFromSet(minimalHS);
-			cover.removeRings();
-			cover.cleanOrinetation();
+		cover.removeRings();
+		cover.cleanOrinetation();
 		if (rounds > 1) {
 			System.out.println("\nRunning " + rounds + " rounds...");
 			System.out.println("First cover size: " + cover.getEdges().size());
 			for (int i = 1; i <= rounds; i++) {
 				structure = new GraphHSPadapter(grafo);
 				minimalHS = structure.getHs().findMinimalHs();
-				MyGraph candidateCover = structure.createGraphFromSet(minimalHS);
+				MyGraph candidateCover = structure
+						.createGraphFromSet(minimalHS);
 				candidateCover.removeRings();
 				candidateCover.cleanOrinetation();
 				System.out.println("Candidate cover size: "
