@@ -913,7 +913,7 @@ public class Scaffolder {
 		}
 		System.out.print("done\n");
 		System.out.println("------------------------------");
-		System.out.print("Cleaning the network...");
+		System.out.print("Cleaning the network...\n");
 		GraphHSPadapter structure = new GraphHSPadapter(grafo);
 		
 		HashSet<Element> minimalHS = structure.getHs().findMinimalHs();
@@ -936,7 +936,7 @@ public class Scaffolder {
 		
 		
 		cover.removeRings();
-		cover.setOrinetation();
+		cover.cleanOrinetation();
 		System.out.print("done\n");
 		System.out.println("------------------------------");
 		ArrayList<String> paths = cover.subPaths();
@@ -966,7 +966,6 @@ public class Scaffolder {
 		int goodPCR = evaluation.getGood();
 		int placedNodes = grafo.notSingletons();
 		int nullLabelsedges = evaluation.getNullLabel();
-	//	int conflicts = evaluation.getOrientationConflicts();
 		int totalLength = computeLenght(paths);
 		Double n50 = computeN50(paths);
 		int finalSingletons = cover.getNodes().size() - cover.notSingletons();
@@ -986,11 +985,8 @@ public class Scaffolder {
 				+ "\n" + "Good connections: " + goodPCR + "\n"
 				+ "Wrong connections: " + breakpoints + "\n" + "Nulli: "
 				+ nullLabelsedges);
-	//	System.out.println("Conflicts Good= " + evaluation.getConflictsGood());
-	//	System.out.println("Conflicts Bad= " + evaluation.getConflictsBad());
 		writerOutput.println("#scaffolds: " + numberOfScaffolds
 				+ "(singletons= " + finalSingletons + ")");
-	//	writerOutput.println("Orientation conflicts: " + conflicts);
 		writerOutput
 				.println("Conflicts Good= " + evaluation.getConflictsGood());
 		writerOutput.println("Conflicts Bad= " + evaluation.getConflictsBad());
@@ -998,9 +994,9 @@ public class Scaffolder {
 		writerOutput.println("Total weight: " + cost);
 		writerOutput.println("N50: " + n50);
 		System.out.println("N50: " + n50);
-		Evaluation evaluationPaths = evaluator2(paths);
-		writerOutput.println("#incorrectScaffolds: "
-				+ evaluationPaths.getIncorrectScaffolds()+ "among "+ paths.size()+" multi-contig scaffolds.");
+		//Evaluation evaluationPaths = evaluator2(paths);
+		//writerOutput.println("#incorrectScaffolds: "
+			//	+ evaluationPaths.getIncorrectScaffolds()+ " among "+ paths.size()+" multi-contig scaffolds.");
 		for (String a : paths) {
 			writerOutput.println(a);
 		}
@@ -1018,6 +1014,10 @@ public class Scaffolder {
 		}
 		writerOutput2.flush();
 		System.out.println("File saved: " + outputFile2);
+		System.out.println("ORIENTATION: ");//TODO
+		for(MyEdge e : cover.getEdges()){
+			System.out.println(e.getSource().getLabel()+"("+e.getSource().getOrientation()+")--["+e.orientations[0]+","+e.orientations[1]+"]--("+e.getTarget().getOrientation()+")"+e.getTarget().getLabel());
+		}
 	
 	}
 
@@ -1044,5 +1044,8 @@ public class Scaffolder {
 				+ breakpoints + "\n" + "Nulli: " + nullLabelsedges);
 		writerOutput.flush();
 		System.out.println("File saved: " + outputFile);
+		
+		
+		
 	}
 }
