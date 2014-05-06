@@ -90,12 +90,9 @@ public class Scaffolder {
 						" Graph--> HS ---> MINIMAL HS AS COVER--->scaffolds")
 				.create("i");
 		opts.addOption(input);
-		Option random = OptionBuilder
-				.withArgName("<numberOfRounds>")
-				.hasArgs(1)
-				.withValueSeparator()
-				.withDescription(
-						"How many cover you want to generate.")
+		Option random = OptionBuilder.withArgName("<numberOfRounds>")
+				.hasArgs(1).withValueSeparator()
+				.withDescription("How many cover you want to generate.")
 				.create("random");
 		opts.addOption(random);
 
@@ -198,7 +195,7 @@ public class Scaffolder {
 				scaffolderHS(cl);
 			} else if (cl.hasOption("eva")) {
 				eva(cl);
-			} 
+			}
 
 		} catch (UnrecognizedOptionException uoe) {
 			HelpFormatter f = new HelpFormatter();
@@ -353,9 +350,9 @@ public class Scaffolder {
 		int good = 0;
 		int bad = 0;
 		int nullLabel = 0;
-	//	int conflicts = 0;
-	//	int conflictsGood = 0;
-	//	int conflictsBad = 0;
+		// int conflicts = 0;
+		// int conflictsGood = 0;
+		// int conflictsBad = 0;
 		for (MyEdge e : st.getEdges()) {
 
 			String ls = e.getSource().getLabel();
@@ -412,17 +409,17 @@ public class Scaffolder {
 				}
 				if (found == true) {
 					good++;
-			//		if (e.getTarget().getOrientation() == 0) {
-			//			conflictsGood++;
-			//			conflicts++;
-			//		}
+					// if (e.getTarget().getOrientation() == 0) {
+					// conflictsGood++;
+					// conflicts++;
+					// }
 
 				} else {
 					bad++;
-		//			if (e.getTarget().getOrientation() == 0) {
-			//			conflictsBad++;
-				//		conflicts++;
-				//	}
+					// if (e.getTarget().getOrientation() == 0) {
+					// conflictsBad++;
+					// conflicts++;
+					// }
 				}
 
 			} else {
@@ -434,9 +431,9 @@ public class Scaffolder {
 		evaluation.setErrors(bad);
 		evaluation.setGood(good);
 		evaluation.setNullLabel(nullLabel);
-	//	evaluation.setOrientationConflicts(conflicts);
-	//	evaluation.setConflictsBad(conflictsBad);
-	//	evaluation.setConflictsGood(conflictsGood);
+		// evaluation.setOrientationConflicts(conflicts);
+		// evaluation.setConflictsBad(conflictsBad);
+		// evaluation.setConflictsGood(conflictsGood);
 		return evaluation;
 
 	}
@@ -530,17 +527,17 @@ public class Scaffolder {
 				}
 
 			}
-			if(incorrect==true){
+			if (incorrect == true) {
 				incorrectScaffolds++;
 			}
 		}
-			evaluation.setErrors(bad);
-			evaluation.setGood(good);
-			evaluation.setNullLabel(nullLabel);
-			evaluation.setOrientationConflicts(conflicts);
-			evaluation.setConflictsBad(conflictsBad);
-			evaluation.setConflictsGood(conflictsGood);
-			evaluation.setIncorrectScaffolds(incorrectScaffolds);
+		evaluation.setErrors(bad);
+		evaluation.setGood(good);
+		evaluation.setNullLabel(nullLabel);
+		evaluation.setOrientationConflicts(conflicts);
+		evaluation.setConflictsBad(conflictsBad);
+		evaluation.setConflictsGood(conflictsGood);
+		evaluation.setIncorrectScaffolds(incorrectScaffolds);
 
 		return evaluation;
 
@@ -852,36 +849,36 @@ public class Scaffolder {
 
 		String input = cl.getOptionValues("i")[0];
 		String orderFileName = null;
-		int rounds=1;
+		int rounds = 1;
 
 		if (cl.getOptionValue("info") != null) {
 			orderFileName = cl.getOptionValue("info");
 		}
 		if (cl.getOptionValue("random") != null) {
-			 rounds = Integer.parseInt(cl.getOptionValue("random"));
+			rounds = Integer.parseInt(cl.getOptionValue("random"));
 		}
 		System.out.println("Input file:" + input);
 		System.out.println("------------------------------");
-		
+
 		/*
-		   System.out.print("Running MUMmer..."); Process process = new
-		 
-		  ProcessBuilder("medusa_scripts/mmrBatch.sh",input).start();
-		  BufferedReader errors = new BufferedReader(new
-		  InputStreamReader(process.getErrorStream())); String line; while(
-		  (line =errors.readLine() )!= null ){ System.out.println(line); }
-		  if(process.waitFor()!=0){ throw new
-		  RuntimeException("Error running MUMmer."); }
-		  System.out.print("done\n");
-		  System.out.println("------------------------------");
-		  System.out.print("Building the network..."); process = new
-		  ProcessBuilder("python", "medusa_scripts/netcon_mummer.py", ".",
-		  input, "network").start(); errors = new BufferedReader(new
-		  InputStreamReader(process.getErrorStream())); while( (line
-		  =errors.readLine() )!= null ){ System.out.println(line); }
-		  if(process.waitFor()!=0){ throw new
-		  RuntimeException("Error: Network construction failed."); }
-		  */
+		 * System.out.print("Running MUMmer..."); Process process = new
+		 * 
+		 * ProcessBuilder("medusa_scripts/mmrBatch.sh",input).start();
+		 * BufferedReader errors = new BufferedReader(new
+		 * InputStreamReader(process.getErrorStream())); String line; while(
+		 * (line =errors.readLine() )!= null ){ System.out.println(line); }
+		 * if(process.waitFor()!=0){ throw new
+		 * RuntimeException("Error running MUMmer."); }
+		 * System.out.print("done\n");
+		 * System.out.println("------------------------------");
+		 * System.out.print("Building the network..."); process = new
+		 * ProcessBuilder("python", "medusa_scripts/netcon_mummer.py", ".",
+		 * input, "network").start(); errors = new BufferedReader(new
+		 * InputStreamReader(process.getErrorStream())); while( (line
+		 * =errors.readLine() )!= null ){ System.out.println(line); }
+		 * if(process.waitFor()!=0){ throw new
+		 * RuntimeException("Error: Network construction failed."); }
+		 */
 		MyGraph grafo = GexfReader.read("network");
 		// cancella i file coords and delta e il file network
 		// File network = new File("network");//TODO debug
@@ -914,33 +911,33 @@ public class Scaffolder {
 		System.out.print("done\n");
 		System.out.println("------------------------------");
 		System.out.print("Cleaning the network...\n");
-		GraphHSPadapter structure = new GraphHSPadapter(grafo);
 		
+		GraphHSPadapter structure = new GraphHSPadapter(grafo);
 		HashSet<Element> minimalHS = structure.getHs().findMinimalHs();
 		MyGraph cover = structure.createGraphFromSet(minimalHS);
-		if(rounds>1){
-		System.out.println("\nRunning "+rounds +" rounds...");
-		System.out.println("First cover size: "+cover.getEdges().size());
-		for(int i=1;i<= rounds;i++){
-		minimalHS = structure.getHs().findMinimalHs();
-		MyGraph candidateCover = structure.createGraphFromSet(minimalHS);
-		System.out.println("Candidate cover size: "+candidateCover.getEdges().size());
-		if(candidateCover.getEdges().size()>cover.getEdges().size()){
-			cover=candidateCover;
+			cover.removeRings();
+			cover.cleanOrinetation();
+		if (rounds > 1) {
+			System.out.println("\nRunning " + rounds + " rounds...");
+			System.out.println("First cover size: " + cover.getEdges().size());
+			for (int i = 1; i <= rounds; i++) {
+				structure = new GraphHSPadapter(grafo);
+				minimalHS = structure.getHs().findMinimalHs();
+				MyGraph candidateCover = structure.createGraphFromSet(minimalHS);
+				candidateCover.removeRings();
+				candidateCover.cleanOrinetation();
+				System.out.println("Candidate cover size: "
+						+ candidateCover.getEdges().size());
+				if (candidateCover.getEdges().size() > cover.getEdges().size()) {
+					cover = candidateCover;
+				}
+			}
+			System.out.println("Best cover size: " + cover.getEdges().size());
 		}
-		}
-		System.out.println("Best cover size: "+cover.getEdges().size());
-		}
-		
-		
-		
-		
-		cover.removeRings();
-		cover.cleanOrinetation();
 		System.out.print("done\n");
 		System.out.println("------------------------------");
 		ArrayList<String> paths = cover.subPaths();
-		 GexfWriter.write(cover, input + "_COVER.gexf");
+		GexfWriter.write(cover, input + "_COVER.gexf");
 		File outputFile = new File(input + "_SUMMARY");
 		PrintWriter writerOutput = new PrintWriter(new FileWriter(outputFile));
 		writerOutput.write("Network: " + input + "\n");
@@ -994,9 +991,10 @@ public class Scaffolder {
 		writerOutput.println("Total weight: " + cost);
 		writerOutput.println("N50: " + n50);
 		System.out.println("N50: " + n50);
-		//Evaluation evaluationPaths = evaluator2(paths);
-		//writerOutput.println("#incorrectScaffolds: "
-			//	+ evaluationPaths.getIncorrectScaffolds()+ " among "+ paths.size()+" multi-contig scaffolds.");
+		// Evaluation evaluationPaths = evaluator2(paths);
+		// writerOutput.println("#incorrectScaffolds: "
+		// + evaluationPaths.getIncorrectScaffolds()+ " among "+
+		// paths.size()+" multi-contig scaffolds.");
 		for (String a : paths) {
 			writerOutput.println(a);
 		}
@@ -1014,11 +1012,28 @@ public class Scaffolder {
 		}
 		writerOutput2.flush();
 		System.out.println("File saved: " + outputFile2);
-		System.out.println("ORIENTATION: ");//TODO
-		for(MyEdge e : cover.getEdges()){
-			System.out.println(e.getSource().getLabel()+"("+e.getSource().getOrientation()+")--["+e.orientations[0]+","+e.orientations[1]+"]--("+e.getTarget().getOrientation()+")"+e.getTarget().getLabel());
+		// ------ create ORIENTATION file ---------//TODO
+		ArrayList<String> order = cover.readNodeOrder(input);
+		File outputFile3 = new File(input + "_ORDER");
+		PrintWriter writerOutput3 = new PrintWriter(new FileWriter(outputFile3));
+		i = 1;
+		for (String a : order) {
+			writerOutput3.println(">Scaffold_" + i);
+			writerOutput3.println(a);
+			i++;
 		}
-	
+		writerOutput3.flush();
+		System.out.println("File saved: " + outputFile3);
+
+		System.out.println("ORIENTATION: ");// TODO
+		for (MyEdge e : cover.getEdges()) {
+			System.out.println(e.getSource().getLabel() + "("
+					+ e.getSource().getOrientation() + ")--["
+					+ e.orientations[0] + "," + e.orientations[1] + "]--("
+					+ e.getTarget().getOrientation() + ")"
+					+ e.getTarget().getLabel());
+		}
+
 	}
 
 	private void eva(CommandLine cl) throws IOException,
@@ -1044,8 +1059,6 @@ public class Scaffolder {
 				+ breakpoints + "\n" + "Nulli: " + nullLabelsedges);
 		writerOutput.flush();
 		System.out.println("File saved: " + outputFile);
-		
-		
-		
+
 	}
 }

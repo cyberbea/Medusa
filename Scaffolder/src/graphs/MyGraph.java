@@ -45,6 +45,7 @@ public class MyGraph {
 			MyNode n1 = new MyNode(n.getId(), n.getLabel());
 			this.addNode(n1);
 			n1.setContiglength(n.getContiglength());
+			n1.setOrientation(n.getOrientation());
 		}
 		for (MyEdge e : g.getEdges()) {
 			MyEdge e1 = new MyEdge(e.getId(), this.nodeFromId(e.getSource()
@@ -786,7 +787,6 @@ public class MyGraph {
 	}
 
 	public static String reverseComplement(String currentSeq) {
-		System.out.println("Ho fatto un reverse and complement");// TODO debug
 		String s = currentSeq.replace("A", "a");
 		s = s.replace("G", "g");
 		s = s.replace("T", "A");
@@ -826,7 +826,6 @@ public class MyGraph {
 			}
 			MyEdge e = copy.outEdges(current).get(0);
 			MyNode next = current.getAdj().get(0);
-			//System.out.println(current);//TODO
 			if (current.equals(e.getSource())) {
 				int o0 = e.orientations[0];
 				int o1 = e.orientations[1];
@@ -837,7 +836,7 @@ public class MyGraph {
 				} else {
 					MyEdge eg = this.getEdgeByST(current, next);
 					toBeRemoved.add(eg);
-					System.out.println(eg.toStringVerbose() 
+					System.out.println(eg.toStringVerbose()
 									//+ "= {"//TODO
 									//+ e.getOrientations()[0] + ","
 									//+ e.getOrientations()[1] + "}//{"
@@ -881,6 +880,65 @@ public class MyGraph {
 			MyNode node = this.nodeFromId(n.getId());
 			node.setOrientation(n.getOrientation());
 		}
+	}
+
+	public ArrayList<String> readNodeOrder(String input) throws IOException {
+		ArrayList<String> scaffolds = new ArrayList<String>();
+		MyGraph copy = new MyGraph(this);
+		HashMap<MyNode, Integer> originalDegrees = new HashMap<MyNode, Integer>();
+		// ----legge i singoletti e aggiorna la mappa dei gradi---//
+		for (MyNode n : copy.nodes) {
+			originalDegrees.put(n, n.getDegree());
+			if (n.getDegree() == 0) {
+				scaffolds.add(n.getId());
+			}
+		}
+		// --legge i veri scaffolds---//
+		while (copy.nodes.size() >= 2) {
+			copy.removeSingletons();
+			MyNode root = null;
+			for (MyNode r : copy.nodes) {
+				if (r.getDegree() == 1) {// cerca una foglia di copy da cui
+											// partire.
+					root = r;
+					break;
+				}
+			}
+			if (root == null) {
+				System.out.println("ERROR: no root " + copy.toStringVerbose());
+			}
+			String p = copy.scaffoldString(root, originalDegrees);
+			scaffolds.add(p);
+		}
+
+		return scaffolds;
+	}
+
+	private String scaffoldString(MyNode root,
+			HashMap<MyNode, Integer> originalDegrees) {
+		StringBuilder sb = new StringBuilder();
+
+		String rootSeq=root.getId()+":"+root.getOrientation();
+		sb.append(rootSeq);
+		MyNode current = root.getAdj().get(0);
+		MyEdge start = this.getEdgeByST(root, current);
+		sb.append("_");
+		this.removeEdge(start);
+		this.removeNode(root);
+		while (originalDegrees.get(current) == 2) {
+			String currentSeq = current.getId()+":"+current.getOrientation();
+			sb.append(currentSeq);
+			MyNode next = current.getAdj().get(0);
+			MyEdge e = this.getEdgeByST(current, next);
+			sb.append("_");
+			this.removeEdge(e);
+			this.removeNode(current);
+			current = next;
+		}
+		String currentSeq = current.getId()+":"+current.getOrientation();
+		sb.append(currentSeq);
+		String p = sb.toString();
+		return p;
 	}
 
 }
